@@ -2,7 +2,8 @@
 
 # Description
 
-    SRDBS is a enterprise class data backup system. System can perform a fully automatic backup to several disaster recovery(DR) sites. This system requires minimum of there clouds to od its backup process.
+    SRDBS is a enterprise class data backup system. System can perform a fully automatic backup to several disaster 
+    recovery (DR) sites. This system requires minimum of there clouds to od its backup process.
 
 # Installation
 
@@ -12,10 +13,12 @@
    Go to the root directory of the project and type
 
    - in windows
-      > mvn clean assembly:assembly
+
+        > mvn clean assembly:assembly
 
    - in Linux
-      $ mvn clean assembly:assembly
+
+        $ mvn clean assembly:assembly
 
    - Run the server
         java -jar SRDBS-<version>-jar-with-dependencies.jar
