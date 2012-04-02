@@ -2,41 +2,45 @@ package org.srdbs.core;
 
 import org.srdbs.sftp.Sftp;
 import org.srdbs.web.Web;
+import org.apache.log4j.Logger;
+
+import java.util.Date;
 
 /**
  * Main class of the system
  *
- * @version 0.1
  * @author Thilina Piyasundara
+ * @version 0.1
  */
 public class Core {
+
+    private static Logger logger = Logger.getLogger("System");
 
     /**
      * This is the main method of the system.
      *
-     * @param args
+     * @param args Get the command line input
      */
     public static void main(String[] args) {
 
-        if ( args[0].isEmpty()){
+        if (args[0].isEmpty()) {
             System.exit(-1);
         }
-        String arg = args[0].toString();
+        String arg = args[0];
         System.out.println(arg);
-        if ( arg.matches("run")) {
+        if (arg.matches("run")) {
 
-            System.out.println("Hello World!");
+            Date date = new Date();
+            logger.info("System startup at : " + date.getTime());
 
-            Sftp ftp = new Sftp();
-            ftp.main();
-            Web wb = new Web();
+            Sftp.main();
             try {
-                wb.main();
+                Web.main();
             } catch (Exception e) {
-                System.out.println("Error occurred : " + e);
+                logger.error("Error occurred : " + e);
             }
         } else {
-            System.out.println("Exiting.");
+            logger.info("Exiting.");
             System.exit(0);
         }
 

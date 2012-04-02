@@ -6,20 +6,20 @@ import org.eclipse.jetty.webapp.WebAppContext;
 /**
  * This will create the web application.
  *
- * @version 0.1
  * @author Thilina Piyasundara
+ * @version 0.1
  */
 public class Web {
 
     /**
      * This is the main method of the web application
      *
-     * @throws Exception
+     * @throws Exception Will ignore exceptions
      */
     public static void main() throws Exception {
         Server server = new Server(8080);
 
-        System.out.println("Starting jetty.");
+        System.out.println("Starting jetty web server.\n");
         WebAppContext context = new WebAppContext();
         context.setDescriptor("./webapp/WEB-INF/web.xml");
         context.setResourceBase("./webapp");
