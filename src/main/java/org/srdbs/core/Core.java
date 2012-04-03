@@ -66,11 +66,25 @@ public class Core {
      * This method will restart the system.
      */
     protected static void restart() {
+
+        System.out.println("Restarting the core.");
+        try {
+            // This will create a new SRDBS process.
+            Process process = Runtime.getRuntime().exec("java -jar SRDBS-1.0-SNAPSHOT-jar-with-dependencies.jar start");
+            System.out.println("Create a new SRDBS Process");
+        } catch (Exception e) {
+            System.out.println("Error : " + e);
+        }
+        System.out.println("Exiting the initial process");
+        System.exit(0);
     }
 
     /**
      * This method will stop the system.
      */
     protected static void stop() {
+
+        System.out.println("Stopping the system.");
+        System.exit(0);
     }
 }

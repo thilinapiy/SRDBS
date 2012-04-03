@@ -12,6 +12,17 @@ public class Api {
      * This method will restart the core from the UI.
      */
     public static void restartCore() {
+
+        System.out.println("Running the restartCore method.");
         Core.restart();
+    }
+
+    /**
+     * This method will stop the core from the UI.
+     */
+    public static void stopCore() {
+
+        System.out.println("Running the stopCore method.");
+        Core.stop();
     }
 }
