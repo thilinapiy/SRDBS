@@ -1,8 +1,7 @@
 package org.srdbs.core;
 
-import org.srdbs.sftp.Sftp;
-import org.srdbs.web.Web;
 import org.apache.log4j.Logger;
+import org.srdbs.web.Web;
 
 import java.util.Date;
 
@@ -14,7 +13,7 @@ import java.util.Date;
  */
 public class Core {
 
-    private static Logger logger = Logger.getLogger("System");
+    public static Logger logger = Logger.getLogger("System");
 
     /**
      * This is the main method of the system.
@@ -23,26 +22,55 @@ public class Core {
      */
     public static void main(String[] args) {
 
-        if (args[0].isEmpty()) {
+
+        if (args.length == 0) {
+
+            System.out.println("Usage : start | stop | restart");
             System.exit(-1);
-        }
-        String arg = args[0];
-        System.out.println(arg);
-        if (arg.matches("run")) {
-
-            Date date = new Date();
-            logger.info("System startup at : " + date.getTime());
-
-            Sftp.main();
-            try {
-                Web.main();
-            } catch (Exception e) {
-                logger.error("Error occurred : " + e);
-            }
         } else {
-            logger.info("Exiting.");
-            System.exit(0);
-        }
 
+            String argument = args[0].toLowerCase().trim();
+            if (argument.matches("start")) {
+                System.out.println("Starting ...");
+                Core.start();
+            } else if (argument.matches("stop")) {
+                System.out.println("Stopping ...");
+                Core.stop();
+            } else if (argument.matches("restart")) {
+                System.out.println("Restarting ...");
+                Core.restart();
+            } else {
+                System.out.println("Usage : start | stop | restart");
+                System.exit(-1);
+            }
+        }
+    }
+
+
+    /**
+     * This method will start the system.
+     */
+    protected static void start() {
+
+        Date date = new Date();
+        logger.info("System startup at : " + date.getTime());
+
+        try {
+            Web.main();
+        } catch (Exception e) {
+            logger.error("Error occurred : " + e);
+        }
+    }
+
+    /**
+     * This method will restart the system.
+     */
+    protected static void restart() {
+    }
+
+    /**
+     * This method will stop the system.
+     */
+    protected static void stop() {
     }
 }
