@@ -19,7 +19,7 @@ public class Web {
     public static void main() throws Exception {
         Server server = new Server(8080);
 
-        System.out.println("Starting jetty web server.\n");
+        System.out.println("Starting web server.");
         WebAppContext context = new WebAppContext();
         context.setDescriptor("./webapp/WEB-INF/web.xml");
         context.setResourceBase("./webapp");
