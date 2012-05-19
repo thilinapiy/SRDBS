@@ -9,6 +9,10 @@
 
 ### Get source code
     git clone https://github.com/thilinapiy/SRDBS.git
+    
+    or
+    
+    Download a zip file of the code and unzip it.
 
 ### Go to the root directory of the project and type
 
