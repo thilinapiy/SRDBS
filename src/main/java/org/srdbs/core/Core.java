@@ -1,19 +1,23 @@
 package org.srdbs.core;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.srdbs.web.Web;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Date;
+import java.util.Properties;
 
 /**
  * Main class of the system
  *
  * @author Thilina Piyasundara
- * @version 0.1
+ * @version 0.2
  */
 public class Core {
 
-    public static Logger logger = Logger.getLogger("System");
+    public static Logger logger = Logger.getLogger("systemsLog");
 
     /**
      * This is the main method of the system.
@@ -22,9 +26,23 @@ public class Core {
      */
     public static void main(String[] args) {
 
+        Properties configFile = new Properties();
+        try {
+            PropertyConfigurator.configure("config/sysconfig");
+            configFile.load(new FileInputStream("config/sysconfig"));
+            Configs newConfig = new Configs();
+            newConfig.initConfigs(configFile);
+
+        } catch (Exception e) {
+            System.out.println("Cannot read the sysconfig file. \n"
+                    + "Please make sure that the \"sysconfig\" file exist. \n"
+                    + "Please restart the system. \n");
+            System.exit(-1);
+        }
 
         if (args.length == 0) {
 
+            System.out.println("Usage : start | stop | restart");
             System.out.println("Usage : start | stop | restart");
             System.exit(-1);
         } else {
@@ -32,15 +50,19 @@ public class Core {
             String argument = args[0].toLowerCase().trim();
             if (argument.matches("start")) {
                 System.out.println("Starting ...");
+                logger.info("Starting ...");
                 Core.start();
             } else if (argument.matches("stop")) {
                 System.out.println("Stopping ...");
+                logger.info("Stopping ...");
                 Core.stop();
             } else if (argument.matches("restart")) {
                 System.out.println("Restarting ...");
+                logger.info("Restarting ...");
                 Core.restart();
             } else {
                 System.out.println("Usage : start | stop | restart");
+                logger.info("Usage : start | stop | restart");
                 System.exit(-1);
             }
         }
@@ -65,26 +87,28 @@ public class Core {
     /**
      * This method will restart the system.
      */
-    protected static void restart() {
+    public static void restart() {
 
-        System.out.println("Restarting the core.");
+        logger.info("Restarting the core.");
         try {
             // This will create a new SRDBS process.
-            Process process = Runtime.getRuntime().exec("java -jar SRDBS-1.0-SNAPSHOT-jar-with-dependencies.jar start");
-            System.out.println("Create a new SRDBS Process");
+            File cwd = new File("");
+            String binary = cwd.getAbsolutePath() + "\\bin\\start.bat";
+            Process process = Runtime.getRuntime().exec(binary);
+            logger.info("Create a new SRDBS Process");
         } catch (Exception e) {
-            System.out.println("Error : " + e);
+            logger.error("Error : " + e);
         }
-        System.out.println("Exiting the initial process");
+        logger.info("Exiting the initial process");
         System.exit(0);
     }
 
     /**
      * This method will stop the system.
      */
-    protected static void stop() {
+    public static void stop() {
 
-        System.out.println("Stopping the system.");
+        logger.info("Stopping the system.");
         System.exit(0);
     }
 }

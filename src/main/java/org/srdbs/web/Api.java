@@ -1,4 +1,7 @@
-package org.srdbs.core;
+package org.srdbs.web;
+
+import org.apache.log4j.Logger;
+import org.srdbs.core.Core;
 
 /**
  * Api class of the core
@@ -8,12 +11,14 @@ package org.srdbs.core;
  */
 public class Api {
 
+    public static Logger logger = Logger.getLogger("systemsLog");
+
     /**
      * This method will restart the core from the UI.
      */
     public static void restartCore() {
 
-        System.out.println("Running the restartCore method.");
+        logger.info("Running the restartCore method.");
         Core.restart();
     }
 
@@ -22,7 +27,7 @@ public class Api {
      */
     public static void stopCore() {
 
-        System.out.println("Running the stopCore method.");
+        logger.info("Running the stopCore method.");
         Core.stop();
     }
 }

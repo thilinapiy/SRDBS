@@ -1,4 +1,3 @@
-
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -8,67 +7,90 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td {
-	background: transparent;
-	border: 0;
-	margin: 0;
-	padding: 0;
-	vertical-align: baseline;
+    background: transparent;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
 }
+
 body {
-	line-height: 1;
+    line-height: 1;
 }
+
 h1, h2, h3, h4, h5, h6 {
-	clear: both;
-	font-weight: normal;
+    clear: both;
+    font-weight: normal;
 }
+
 ol, ul {
-	list-style: none;
+    list-style: none;
 }
+
 blockquote {
-	quotes: none;
+    quotes: none;
 }
+
 blockquote:before, blockquote:after {
-	content: '';
-	content: none;
+    content: none;
 }
+
 del {
-	text-decoration: line-through;
+    text-decoration: line-through;
 }
+
 /* tables still need 'cellspacing="0"' in the markup */
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
+
 a img {
-	border: none;
+    border: none;
 }
 
 .wrapper {
-	width:940px;
-	margin:0 auto;
+    width: 940px;
+    margin: 0 auto;
 }
 
-.header{
-	background-image:url(images/bar.png);
-	background-repeat:repeat-x;
-	font-style:oblique;
-	color:#FFF;
-	height:150px;
+.header {
+    /* font-style:oblique;
+ color:#000;
+ height:100px;
+    */
+    background-image: url(images/bar.png);
+    background-repeat: repeat-x;
+    font-style: oblique;
+    color: #FFF;
+    height: 100px;
 }
 
-.body{
-	background-color:#CBCEDC;
+.navi {
+    color: #CCC;
+    height: 50px;
+}
+
+.navtab {
+    font-size: 24px;
+    color: #000099;
+    text-align: center;
+    height: 25px;
+}
+
+.body {
+    background-color: #CBCEDC;
 }
 
 .body .wrapper {
-	padding:50px 20px;
-	background-color:#FFF;
+    padding: 50px 20px;
+    background-color: #FFF;
 }
 
 .footer {
-	background-color:#000;
-	font-size:10px;
-	text-align:center;
-	color:#FFF;
-	padding:25px 0 25px 0;
+    background-color: #000;
+    font-size: 10px;
+    text-align: center;
+    color: #FFF;
+    padding: 25px 0 25px 0;
 }

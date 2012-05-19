@@ -1,7 +1,8 @@
-<%@ page import="org.srdbs.core.Api" %>
+<%@ page import="org.srdbs.web.Api" %>
 <%@ page import="org.srdbs.web.MyPrint" %>
 
 <%
+    //todo: session handling
     if (request.getParameter("restartbt") != null && request.getParameter("restartbt").equalsIgnoreCase("restart")) {
 
         System.out.println("Restart method called.");
@@ -27,6 +28,20 @@
 <div class="header">
     <div align="center">
         <img src="images/header.png" alt="SRDBS Logo">
+    </div>
+</div>
+<div class="navi">
+    <div class="wrapper">
+        <table width="943" height="31">
+            <tr>
+                <td class="navtab"><a href="./status.html">Status</a></td>
+                <td class="navtab"><a href="./config.html">Configuration</a></td>
+                <td class="navtab"><a href="./backup.html">Backup</a></td>
+                <td class="navtab"><a href="./restore.html">Restore</a></td>
+                <td class="navtab"><a href="./logs.html">Logs</a></td>
+                <td class="navtab"><a href="./contacts.html">Contacts</a></td>
+            </tr>
+        </table>
     </div>
 </div>
 <div class="body">
