@@ -22,11 +22,19 @@
 
 ### Run the server
         
-        java -jar SRDBS-<version>-jar-with-dependencies.jar
+        Maven will create a distributable zip file in the generated target folder.
+        Unzip the compressed file in to a secure location. Then go into that folder
+        and type,
+
+        > bin\start.bat
+        
+        or 
+        
+        $ bin/start
 
 ### To see the UI visit:
 
-        http://localhost:8080
+        https://localhost:8080
 
 ## Dependencies
 
