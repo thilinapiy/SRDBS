@@ -38,13 +38,13 @@
 
 ## Dependencies
 
-- __Oracle__ Java JDK 7
+- [__Oracle__ Java JDK 7] (http://www.oracle.com/technetwork/java/javase/downloads/java-se-jdk-7-download-432154.html)
 
-- Maven __3.0__
+- [Maven __3.0__] (http://maven.apache.org/download.html)
 
 ## Developers
 
-- Thilina Piyasundara
+- [Thilina Piyasundara] (http://thilina.org)
 
 - Chanaka Yapa
 
