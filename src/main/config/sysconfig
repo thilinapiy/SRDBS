@@ -11,32 +11,35 @@ logs.backuplogpath=testpath2
 logs.recoverylogpath=testpath3
 
 
-
-########################################################
+#################################################################
 # LOG4J Configurations
 # Define the root logger with appender file
 # log4j.rootLogger = DEBUG, SL, BL
 
 #################################################################
 # Define Systems Log
-log4j.logger.systemsLog=DEBUG,SL
+log4j.logger.systemsLog=DEBUG,SL,BSL
 #################################################################
-# Define the file appender
 log4j.appender.SL=org.apache.log4j.FileAppender
 log4j.appender.SL.File=logs/systems.log
-
-# Define the layout for file appender
 log4j.appender.SL.layout=org.apache.log4j.PatternLayout
-log4j.appender.SL.layout.conversionPattern=%m%n
+log4j.appender.SL.layout.conversionPattern=[ %-5p] %d - %m%n
+
+log4j.appender.BSL=org.apache.log4j.FileAppender
+log4j.appender.BSL.File=logs/backupofsystems.log
+log4j.appender.BSL.layout=org.apache.log4j.PatternLayout
+log4j.appender.BSL.layout.conversionPattern=[ %-5p] %d - %m%n
 
 #################################################################
-# Define Backup Log
-log4j.logger.backupLog=DEBUG,BL
+# Define backup log and backup of backup log
+log4j.logger.backupLog=DEBUG,BL,BBL
 #################################################################
-# Define the file appender
 log4j.appender.BL=org.apache.log4j.FileAppender
 log4j.appender.BL.File=logs/backups.log
-
-# Define the layout for file appender
 log4j.appender.BL.layout=org.apache.log4j.PatternLayout
-log4j.appender.BL.layout.conversionPattern=%m%n
+log4j.appender.BL.layout.conversionPattern=[ %-5p] %d - %m%n
+
+log4j.appender.BBL=org.apache.log4j.FileAppender
+log4j.appender.BBL.File=logs/backupofbackups.log
+log4j.appender.BBL.layout=org.apache.log4j.PatternLayout
+log4j.appender.BBL.layout.conversionPattern=[ %-5p] %d - %m%n
