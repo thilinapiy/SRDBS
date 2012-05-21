@@ -14,29 +14,42 @@ Installation
 		or
 
 		Download a zip file of the code and unzip it.
-		Go to the root directory of the project and type
+
+		Then go to the root directory of the project and type
 
 		in windows
-			> mvn clean assembly:assembly
+			> mvn clean package
 
 		in Linux
-			$ mvn clean assembly:assembly
+			$ mvn clean package
 
-Run the server
+    Install binary distribution
 
-	Maven will create a distributable zip file in the generated target folder.
-	Unzip the compressed file in to a secure location. Then go into that folder
-	and type,
-	
-	> bin\start.bat
-	
-	or
-	
-	$ bin/start
+        Unzip/untar the compressed file in to a secure location. Then set the path
+        variable as
 
-To see the UI visit:
+        in Windows
+            > SRDBS_HOME=<path to the installation>
+                 eg: SRDBS_HOME=C:\Users\Thilina\Desktop\SRDBS-1.0-SNAPSHOT
+            > set path=%SRDBS_HOME%\bin;%PATH%
 
-	https://localhost:8080
+        in Linux
+
+            $ export SRDBS_HOME=<path to the installation>
+                eg: export SRDBS_HOME=/home/thilina/SRDBS-1.0-SNAPSHOT
+            $ export PATH=$SRDBS_HOME/bin:$PATH
+
+    Run the server
+
+        > srdbsstart.bat
+
+        or
+
+        $ srdbsstart
+
+    To see the UI visit:
+
+	    https://localhost:8080
 
 Dependencies
 	Oracle Java JDK 7

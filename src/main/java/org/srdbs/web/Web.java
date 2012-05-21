@@ -20,13 +20,13 @@ public class Web {
     /**
      * This is the main method of the web application
      */
-    public static void main() {
+    public static void main(String homePath, String fs) {
 
 
         Server server = new Server();
-
+        String keystrokePath = homePath + fs + "config" + fs + "keystore";
         try {
-            File keyStoreFile = new File("config/keystore");
+            File keyStoreFile = new File(keystrokePath);
             if (keyStoreFile.exists()) {
                 SslSelectChannelConnector sslConnector = new SslSelectChannelConnector();
                 sslConnector.setPort(8080);
@@ -35,18 +35,22 @@ public class Web {
                 sslConnector.setKeyPassword("Thilina");
                 server.addConnector(sslConnector);
                 logger.info("Create SSL connection.");
+            } else {
+                logger.error("No \"keystroke\" file in : " + keystrokePath);
+                System.exit(-1);
             }
 
         } catch (Exception ex) {
 
             logger.error("Error creating SSL connection : " + ex);
+            System.exit(-1);
         }
 
         try {
 
             WebAppContext context = new WebAppContext();
-            context.setDescriptor("./webapp/WEB-INF/web.xml");
-            context.setResourceBase("./webapp");
+            context.setDescriptor(homePath + "/webapp/WEB-INF/web.xml");
+            context.setResourceBase(homePath + "/webapp");
             context.setContextPath("/");
             context.setParentLoaderPriority(true);
             server.setHandler(context);
@@ -54,7 +58,7 @@ public class Web {
             server.start();
             server.join();
         } catch (Exception ex) {
-            logger.info("Error on Jetty : " + ex);
+            logger.error("Error on Jetty : " + ex);
         }
     }
 }

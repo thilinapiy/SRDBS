@@ -4,9 +4,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.srdbs.web.Web;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.util.Date;
 import java.util.Properties;
 
 /**
@@ -16,6 +14,10 @@ import java.util.Properties;
  * @version 0.2
  */
 public class Core {
+
+    private static String homePath = null;
+    private static String fs = null;    // FileSeparator
+    private static String sysconfigPath = null;
 
     public static Logger logger = Logger.getLogger("systemsLog");
 
@@ -27,16 +29,36 @@ public class Core {
     public static void main(String[] args) {
 
         Properties configFile = new Properties();
+
         try {
-            PropertyConfigurator.configure("config/sysconfig");
-            configFile.load(new FileInputStream("config/sysconfig"));
+
+            fs = System.getProperty("file.separator");
+            homePath = System.getenv("SRDBS_HOME");
+            if (homePath == null) {
+                System.out.println("Set the environment variable \"SRDBS_HOME\" and rerun the system.");
+                System.exit(0);
+            } else {
+                sysconfigPath = homePath + fs + "config" + fs + "sysconfig";
+            }
+
+        } catch (Exception e) {
+
+            System.out.println("Set the environment variable \"SRDBS_HOME\" and rerun the system.");
+            System.exit(-1);
+        }
+
+        try {
+
+            PropertyConfigurator.configure(sysconfigPath);
+            configFile.load(new FileInputStream(sysconfigPath));
             Configs newConfig = new Configs();
             newConfig.initConfigs(configFile);
+            logger.info("Read the config file.");
 
         } catch (Exception e) {
             System.out.println("Cannot read the sysconfig file. \n"
-                    + "Please make sure that the \"sysconfig\" file exist. \n"
-                    + "Please restart the system. \n");
+                    + "Check the environment variable \"SRDBS_HOME\" and "
+                    + "the \"sysconfig\" file exist in " + sysconfigPath + ". \n");
             System.exit(-1);
         }
 
@@ -74,11 +96,9 @@ public class Core {
      */
     protected static void start() {
 
-        Date date = new Date();
-        logger.info("System startup at : " + date.getTime());
-
         try {
-            Web.main();
+            Web.main(homePath, fs);
+            logger.info("Start the system.");
         } catch (Exception e) {
             logger.error("Error occurred : " + e);
         }
@@ -91,10 +111,9 @@ public class Core {
 
         logger.info("Restarting the core.");
         try {
+
             // This will create a new SRDBS process.
-            File cwd = new File("");
-            String binary = cwd.getAbsolutePath() + "\\bin\\start.bat";
-            Process process = Runtime.getRuntime().exec(binary);
+            Process process = Runtime.getRuntime().exec(homePath + "\\bin\\srdbsstart.bat");
             logger.info("Create a new SRDBS Process");
         } catch (Exception e) {
             logger.error("Error : " + e);

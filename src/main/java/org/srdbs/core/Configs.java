@@ -24,6 +24,10 @@ public class Configs {
             String recoverLogPath = configFile.getProperty("logs.recoverylogpath");
             logger.info(sysLogPath);
             logger.info(backupLogPath);
+            logger.info(recoverLogPath);
+            // configFile.setProperty("logs.recoverylogpath", "----------------------");
+            // configFile.store(new FileOutputStream("config/sysconfig"),"Comment");
+            // logger.info("Write to the config file.");
 
         } catch (Exception e) {
 
