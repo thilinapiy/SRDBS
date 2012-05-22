@@ -29,7 +29,7 @@ Installation
         variable as
 
         in Windows
-            > SRDBS_HOME=<path to the installation>
+            > set SRDBS_HOME=<path to the installation>
                  eg: SRDBS_HOME=C:\Users\Thilina\Desktop\SRDBS-1.0-SNAPSHOT
             > set path=%SRDBS_HOME%\bin;%PATH%
 
