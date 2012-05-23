@@ -1,4 +1,5 @@
 <%@ page import="org.srdbs.sftp.Sftp" %>
+<%@ page import="org.srdbs.split.Join" %>
 
 <%
     String copyStatus1 = "";
@@ -10,19 +11,20 @@
     //todo: session handling
     if (request.getParameter("submit") != null && request.getParameter("submit").equalsIgnoreCase("submit")) {
         if (request.getParameter("path1").toString() != null) {
-            copyStatus1 = Sftp.copyFile(request.getParameter("path1").toString());
+            //copyStatus1 = Sftp.copyFile(request.getParameter("path1").toString());
+            copyStatus1 = Join.myJoin(request.getParameter("path1").toString());
         }
         if (request.getParameter("path2").toString() != null) {
-            copyStatus2 = Sftp.copyFile(request.getParameter("path2").toString());
+            //copyStatus2 = Sftp.copyFile(request.getParameter("path2").toString());
         }
         if (request.getParameter("path3").toString() != null) {
-            copyStatus3 = Sftp.copyFile(request.getParameter("path3").toString());
+            //copyStatus3 = Sftp.copyFile(request.getParameter("path3").toString());
         }
         if (request.getParameter("path4").toString() != null) {
-            copyStatus4 = Sftp.copyFile(request.getParameter("path4").toString());
+            //copyStatus4 = Sftp.copyFile(request.getParameter("path4").toString());
         }
         if (request.getParameter("path5").toString() != null) {
-            copyStatus5 = Sftp.copyFile(request.getParameter("path5").toString());
+            //copyStatus5 = Sftp.copyFile(request.getParameter("path5").toString());
         }
     }
 
