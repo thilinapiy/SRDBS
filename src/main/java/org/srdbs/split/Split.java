@@ -49,7 +49,7 @@ public class Split {
         try {
             fileinputstream = new FileInputStream(s);
         } catch (Exception exception) {
-            System.out.println("Error opening input file: " + exception);
+            logger.error("Error opening input file: " + exception);
             return 10;
         }
 
@@ -63,7 +63,7 @@ public class Split {
                             if (i < ainteger.length - 1)
                                 i++;
                         } catch (Exception exception1) {
-                            System.out.println("ex2: " + exception1);
+                            logger.error("ex2: " + exception1);
                         }
                     }
                     String s3 = s1 + createSuffix(++j);
@@ -71,7 +71,7 @@ public class Split {
                         File file = new File(s3);
                         fileoutputstream = new FileOutputStream(file);
                     } catch (Exception exception4) {
-                        System.out.println("Error opening output file: " + exception4);
+                        logger.error("Error opening output file: " + exception4);
                         return 10;
                     }
                 }
@@ -80,20 +80,20 @@ public class Split {
                 fileoutputstream.write(abyte0, 0, l);
             }
         } catch (Exception exception2) {
-            System.out.println("ex1: " + exception2);
+            logger.error("ex1: " + exception2);
         }
 
         try {
             fileinputstream.close();
             fileoutputstream.close();
         } catch (Exception exception3) {
-            System.out.println("ex4: " + exception3);
+            logger.error("ex4: " + exception3);
         }
         l1 = System.currentTimeMillis() - l2;
-        System.out.println("Done!\n\n");
-        System.out.println("bytes read: " + String.valueOf(i1) + " \nbytes written: " + String.valueOf(j1) + "\n");
-        System.out.println("parts created: " + j + "\n");
-        System.out.println("time used: " + String.valueOf(l1 / 1000L) + "." + String.valueOf(l1 % 1000L) + " sec.\n");
+        logger.info("Done!\n\n");
+        logger.info("bytes read: " + String.valueOf(i1) + " \nbytes written: " + String.valueOf(j1) + "\n");
+        logger.info("parts created: " + j + "\n");
+        logger.info("time used: " + String.valueOf(l1 / 1000L) + "." + String.valueOf(l1 % 1000L) + " sec.\n");
         return 0;
     }
 

@@ -62,6 +62,9 @@ public class Core {
             System.exit(-1);
         }
 
+        DbConnect dbc = new DbConnect();
+        dbc.connect();
+
         if (args.length == 0) {
 
             System.out.println("Usage : start | stop | restart");

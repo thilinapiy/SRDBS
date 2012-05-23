@@ -1,5 +1,7 @@
 package org.srdbs.split;
 
+import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,6 +14,8 @@ import java.io.FileOutputStream;
  * For more details visit : http://www.thilina.org
  */
 public class Join {
+
+    public static Logger logger = Logger.getLogger("systemsLog");
 
     public static String myJoin(String path) {
 
@@ -40,7 +44,7 @@ public class Join {
             file = new File(s1);
             fileoutputstream = new FileOutputStream(file);
         } catch (Exception exception) {
-            System.out.println("Error opening output: " + exception.toString());
+            logger.info("Error opening output: " + exception.toString());
             return 10;
         }
         try {
@@ -53,7 +57,7 @@ public class Join {
                         fileoutputstream.write(abyte0, 0, k);
                         i1 += k;
                     } catch (Exception exception3) {
-                        System.out.println("Error writing to output: " + exception3.toString());
+                        logger.error("Error writing to output: " + exception3.toString());
                         return 10;
                     }
                 }
@@ -74,9 +78,9 @@ public class Join {
             return 5;
         } else {
             long l3 = System.currentTimeMillis() - l2;
-            System.out.println("Done!\n\n");
-            System.out.println("bytes read: " + String.valueOf(l) + "\nbytes written: " + String.valueOf(i1) + "\n");
-            System.out.println("time used: " + String.valueOf(l3 / 1000L) + "." + String.valueOf(l3 % 1000L) + " sec.\n");
+            logger.info("Done!\n\n");
+            logger.info("bytes read: " + String.valueOf(l) + "\nbytes written: " + String.valueOf(i1) + "\n");
+            logger.info("time used: " + String.valueOf(l3 / 1000L) + "." + String.valueOf(l3 % 1000L) + " sec.\n");
             return 0;
         }
     }
