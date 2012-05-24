@@ -12,7 +12,12 @@
     if (request.getParameter("submit") != null && request.getParameter("submit").equalsIgnoreCase("submit")) {
         if (request.getParameter("path1").toString() != null) {
             //copyStatus1 = Sftp.copyFile(request.getParameter("path1").toString());
-            copyStatus1 = Join.myJoin(request.getParameter("path1").toString());
+            int result = Join.myJoin(request.getParameter("path1").toString(), request.getParameter("path1").toString());
+
+            if (result == 0)
+                copyStatus1 = "Success Full.";
+            else
+                copyStatus1 = "Error.";
         }
         if (request.getParameter("path2").toString() != null) {
             //copyStatus2 = Sftp.copyFile(request.getParameter("path2").toString());

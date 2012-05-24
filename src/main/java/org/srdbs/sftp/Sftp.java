@@ -1,9 +1,14 @@
 package org.srdbs.sftp;
 
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
@@ -19,22 +24,48 @@ public class Sftp {
     /**
      * This is a test method
      */
-    public static String copyFile(String path) {
+    public static int copyFile(String sourcePath, String destPath) {
 
         String msg = "";
-        File source = new File(path);
-        File desc = new File("E:\\copytest");
+        File source = new File(sourcePath);
+        File desc = new File(destPath);
         try {
             //FileUtils.copyFile(source,desc);
             FileUtils.copyDirectory(source, desc);
-            msg = "File copied from : " + path;
-            logger.info("File copied from : " + path);
+            logger.info("File copied from : " + sourcePath);
+            return 0;
         } catch (IOException e) {
             logger.error("Error in copy file : " + e);
-            msg = "Error in copy file : " + path;
+            return 10;
         }
-        return msg;
     }
 
 
+    public static int upload(String sftpIP, String sftpUser, String sftpPasswd, int sftpPort, String sftpCwd) {
+
+        Session session = null;
+        Channel channel = null;
+        ChannelSftp channelSftp = null;
+
+        try {
+            JSch jsch = new JSch();
+            session = jsch.getSession(sftpUser, sftpIP, sftpPort);
+            session.setPassword(sftpPasswd);
+            java.util.Properties config = new java.util.Properties();
+            config.put("StrictHostKeyChecking", "no");
+            session.setConfig(config);
+            session.connect();
+            channel = session.openChannel("sftp");
+            channel.connect();
+            channelSftp = (ChannelSftp) channel;
+            channelSftp.cd(sftpCwd);
+            File f = new File("file location");
+            channelSftp.put(new FileInputStream(f), f.getName());
+
+            return 0;
+        } catch (Exception ex) {
+            logger.error("Ftp upload error : " + ex);
+            return 10;
+        }
+    }
 }

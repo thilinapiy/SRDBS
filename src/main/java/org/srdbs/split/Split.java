@@ -16,18 +16,24 @@ public class Split {
 
     public static Logger logger = Logger.getLogger("systemsLog");
 
-    public static String mySplit(String path) {
+    public static int mySplit(String sourcePath, String destPath, int fileSize) {
 
         char c = '\u05A0';
         Integer ainteger[];
         ainteger = new Integer[1];
-        ainteger[0] = new Integer(1048576);
+        ainteger[0] = new Integer(fileSize);
 
-        int ret = split(path, path, ainteger);
-        if (ret == 0)
-            return "Split successful.";
-        else
-            return "Error.";
+        return split(sourcePath, destPath, ainteger);
+    }
+
+    public static int mySplit(String sourcePath, String destPath) {
+
+        char c = '\u05A0';
+        Integer ainteger[];
+        ainteger = new Integer[1];
+        ainteger[0] = new Integer(c);
+
+        return split(sourcePath, destPath, ainteger);
     }
 
     static int split(String s, String s1, Integer ainteger[]) {

@@ -17,14 +17,9 @@ public class Join {
 
     public static Logger logger = Logger.getLogger("systemsLog");
 
-    public static String myJoin(String path) {
+    public static int myJoin(String sourcePath, String destPath) {
 
-        int ret = join(path, path);
-
-        if (ret == 0)
-            return "Join successful.";
-        else
-            return "Error.";
+        return join(sourcePath, destPath);
     }
 
     public static int join(String s, String s1) {
