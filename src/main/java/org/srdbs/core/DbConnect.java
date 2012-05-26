@@ -18,15 +18,16 @@ public class DbConnect {
 
     public static Logger logger = Logger.getLogger("systemsLog");
 
+    String url = "jdbc:mysql://127.0.0.1:3306/";
+    String dbName = "SRDBSDB";
+    String driver = "com.mysql.jdbc.Driver";
+    String userName = "SRDBS";
+    String password = "password";
+
     public Connection connect() {
 
-        logger.info("MySQL Connect Example.");
         Connection conn = null;
-        String url = "jdbc:mysql://127.0.0.1:3306/";
-        String dbName = "SRDBSDB";
-        String driver = "com.mysql.jdbc.Driver";
-        String userName = "SRDBS";
-        String password = "password";
+
         try {
 
             Class.forName(driver).newInstance();
@@ -39,23 +40,38 @@ public class DbConnect {
         return conn;
     }
 
-    public int insertSetup(String key, String val) {
+    private int insertQuery(String query) {
 
         Statement statement = null;
         Connection con = connect();
-        int updateQuery = 0;
 
         try {
-
             statement = con.createStatement();
-            String query = "INSERT INTO sysconfig (sysname, sysvalue) VALUE ('" + key + "','" + val + "')";
-            updateQuery = statement.executeUpdate(query);
+            statement.executeUpdate(query);
             statement.close();
             con.close();
             logger.info("Disconnected from database");
         } catch (SQLException e) {
             logger.error("Error in sql statement. - " + e);
+            return 10;
         }
-        return updateQuery;
+
+        return 0;
+    }
+
+    private int selectQuery(String query) {
+        return 0;
+    }
+
+    public int insertSetup(String key, String val) {
+
+        String query = "INSERT INTO sysconfig (sysname, sysvalue) VALUE ('" + key + "','" + val + "')";
+        return insertQuery(query);
+    }
+
+    public int validateUser(String uname, String passwd) {
+
+
+        return 0;
     }
 }

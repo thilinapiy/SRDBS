@@ -1,5 +1,5 @@
 <%@ page import="org.srdbs.sftp.Sftp" %>
-<%@ page import="org.srdbs.split.Join" %>
+<%@ page import="org.srdbs.split.Split" %>
 
 <%
     String copyStatus1 = "";
@@ -11,8 +11,9 @@
     //todo: session handling
     if (request.getParameter("submit") != null && request.getParameter("submit").equalsIgnoreCase("submit")) {
         if (request.getParameter("path1").toString() != null) {
-            //copyStatus1 = Sftp.copyFile(request.getParameter("path1").toString());
-            int result = Join.myJoin(request.getParameter("path1").toString(), request.getParameter("path1").toString());
+            // copyStatus1 = Sftp.copyFile(request.getParameter("path1").toString());
+            int result = Split.mySplit(request.getParameter("path1"), request.getParameter("path1"), 1048576);
+            //  int result = Join.myJoin(request.getParameter("path1").toString(), request.getParameter("path1").toString());
 
             if (result == 0)
                 copyStatus1 = "Success Full.";

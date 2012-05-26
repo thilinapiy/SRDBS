@@ -94,13 +94,35 @@ public class Core {
     }
 
 
+    private static class MyThread1 implements Runnable {
+
+        public void run() {
+
+            System.out.println("Thread 1 started.");
+            RunBackup.runBackup("sadasd");
+        }
+    }
+
+    private static class MyThread2 implements Runnable {
+        public void run() {
+
+            System.out.println("Thread 2 Started.");
+            Web.main(homePath, fs);
+        }
+    }
+
     /**
      * This method will start the system.
      */
     protected static void start() {
 
         try {
-            Web.main(homePath, fs);
+            Thread t1 = new Thread(new MyThread1());
+            Thread t2 = new Thread(new MyThread2());
+            t1.start();
+            t2.start();
+
+
             logger.info("Start the system.");
         } catch (Exception e) {
             logger.error("Error occurred : " + e);

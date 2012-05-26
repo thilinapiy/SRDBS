@@ -100,7 +100,7 @@ public class Split {
         logger.info("bytes read: " + String.valueOf(i1) + " \nbytes written: " + String.valueOf(j1) + "\n");
         logger.info("parts created: " + j + "\n");
         logger.info("time used: " + String.valueOf(l1 / 1000L) + "." + String.valueOf(l1 % 1000L) + " sec.\n");
-        return 0;
+        return j;
     }
 
     static String createSuffix(int i) {

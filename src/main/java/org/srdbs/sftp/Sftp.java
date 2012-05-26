@@ -41,7 +41,7 @@ public class Sftp {
     }
 
 
-    public static int upload(String sftpIP, String sftpUser, String sftpPasswd, int sftpPort, String sftpCwd) {
+    public static int upload(String sftpIP, String sftpUser, String sftpPasswd, int sftpPort, String sftpCwd, String file) {
 
         Session session = null;
         Channel channel = null;
@@ -59,8 +59,9 @@ public class Sftp {
             channel.connect();
             channelSftp = (ChannelSftp) channel;
             channelSftp.cd(sftpCwd);
-            File f = new File("file location");
+            File f = new File(file);
             channelSftp.put(new FileInputStream(f), f.getName());
+            logger.info("Send the file.");
 
             return 0;
         } catch (Exception ex) {
