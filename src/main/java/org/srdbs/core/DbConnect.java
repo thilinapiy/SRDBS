@@ -18,20 +18,14 @@ public class DbConnect {
 
     public static Logger logger = Logger.getLogger("systemsLog");
 
-    String url = "jdbc:mysql://127.0.0.1:3306/";
-    String dbName = "SRDBSDB";
-    String driver = "com.mysql.jdbc.Driver";
-    String userName = "SRDBS";
-    String password = "password";
-
     public Connection connect() {
 
         Connection conn = null;
-
         try {
 
-            Class.forName(driver).newInstance();
-            conn = DriverManager.getConnection(url + dbName, userName, password);
+            Class.forName(Global.dbDriver).newInstance();
+            conn = DriverManager.getConnection(Global.dbURL
+                    + Global.dbName, Global.dbUserName, Global.dbPassword);
             logger.info("Connected to the database");
         } catch (Exception e) {
             logger.error(e);
@@ -70,7 +64,6 @@ public class DbConnect {
     }
 
     public int validateUser(String uname, String passwd) {
-
 
         return 0;
     }

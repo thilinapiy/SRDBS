@@ -2,7 +2,7 @@
 
 <%
     // Check for previous installations.
-    Setup.checkInstallation();
+    //Setup.checkInstallation();
     //Get
 %>
 

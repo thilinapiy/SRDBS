@@ -2,6 +2,7 @@
 <%@ page import="org.srdbs.web.MyPrint" %>
 
 <%
+    response.sendRedirect("/setup/");
     //todo: session handling
     if (request.getParameter("restartbt") != null && request.getParameter("restartbt").equalsIgnoreCase("restart")) {
 

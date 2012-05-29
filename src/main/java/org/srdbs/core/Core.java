@@ -1,11 +1,7 @@
 package org.srdbs.core;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.srdbs.web.Web;
-
-import java.io.FileInputStream;
-import java.util.Properties;
 
 /**
  * Main class of the system
@@ -15,30 +11,26 @@ import java.util.Properties;
  */
 public class Core {
 
-    private static String homePath = null;
-    private static String fs = null;    // FileSeparator
-    private static String sysconfigPath = null;
-
     public static Logger logger = Logger.getLogger("systemsLog");
 
     /**
-     * This is the main method of the system.
+     * This is the runWebDashboard method of the system.
      *
      * @param args Get the command line input
      */
     public static void main(String[] args) {
 
-        Properties configFile = new Properties();
-
         try {
-
-            fs = System.getProperty("file.separator");
-            homePath = System.getenv("SRDBS_HOME");
-            if (homePath == null) {
+            System.out.println("Starting the system.");
+            Global.fs = System.getProperty("file.separator");
+            Global.systemHome = System.getenv("SRDBS_HOME");
+            System.out.println("System SRDBS_HOME path is set to : " + Global.systemHome);
+            if (Global.systemHome == null) {
                 System.out.println("Set the environment variable \"SRDBS_HOME\" and rerun the system.");
                 System.exit(0);
             } else {
-                sysconfigPath = homePath + fs + "config" + fs + "sysconfig";
+                Global.sysconfigPath = Global.systemHome + Global.fs + "config" + Global.fs + "sysconfig.conf";
+                System.out.println("System main config file path is set to : " + Global.sysconfigPath);
             }
 
         } catch (Exception e) {
@@ -47,28 +39,15 @@ public class Core {
             System.exit(-1);
         }
 
-        try {
+        // initialize logs and system configurations.
+        System.out.println("Initializing main system configurations.");
+        new Configs().initConfigs();
 
-            PropertyConfigurator.configure(sysconfigPath);
-            configFile.load(new FileInputStream(sysconfigPath));
-            Configs newConfig = new Configs();
-            newConfig.initConfigs(configFile);
-            logger.info("Read the config file.");
-
-        } catch (Exception e) {
-            System.out.println("Cannot read the sysconfig file. \n"
-                    + "Check the environment variable \"SRDBS_HOME\" and "
-                    + "the \"sysconfig\" file exist in " + sysconfigPath + ". \n");
-            System.exit(-1);
-        }
-
-        DbConnect dbc = new DbConnect();
-        dbc.connect();
-
+        // Start, stop or restart the system.
         if (args.length == 0) {
 
             System.out.println("Usage : start | stop | restart");
-            System.out.println("Usage : start | stop | restart");
+            logger.info("Usage : start | stop | restart");
             System.exit(-1);
         } else {
 
@@ -98,16 +77,18 @@ public class Core {
 
         public void run() {
 
-            System.out.println("Thread 1 started.");
-            RunBackup.runBackup("sadasd");
+            System.out.println("Starting thread 1 (scheduler) started.");
+            logger.info("Starting thread 1 (scheduler) started.");
+            // RunBackup.runBackup("sadasd");
         }
     }
 
     private static class MyThread2 implements Runnable {
         public void run() {
 
-            System.out.println("Thread 2 Started.");
-            Web.main(homePath, fs);
+            System.out.println("Starting thread 2 (web dashboard) Started.");
+            logger.info("Starting thread 2 (web dashboard) Started.");
+            Web.runWebDashboard();
         }
     }
 
@@ -121,7 +102,6 @@ public class Core {
             Thread t2 = new Thread(new MyThread2());
             t1.start();
             t2.start();
-
 
             logger.info("Start the system.");
         } catch (Exception e) {
@@ -138,7 +118,7 @@ public class Core {
         try {
 
             // This will create a new SRDBS process.
-            Process process = Runtime.getRuntime().exec(homePath + "\\bin\\srdbsstart.bat");
+            Process process = Runtime.getRuntime().exec(Global.systemHome + "\\bin\\srdbsstart.bat");
             logger.info("Create a new SRDBS Process");
         } catch (Exception e) {
             logger.error("Error : " + e);

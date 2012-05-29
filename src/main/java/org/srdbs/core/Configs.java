@@ -1,7 +1,9 @@
 package org.srdbs.core;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
+import java.io.FileInputStream;
 import java.util.Properties;
 
 /**
@@ -15,25 +17,51 @@ public class Configs {
 
     public static Logger logger = Logger.getLogger("systemsLog");
 
-    public void initConfigs(Properties configFile) {
+    public void initConfigs() {
 
+        //initialize log4j settings.
         try {
 
-            String sysLogPath = configFile.getProperty("logs.systemslogpath");
-            String backupLogPath = configFile.getProperty("logs.backuplogpath");
-            String recoverLogPath = configFile.getProperty("logs.recoverylogpath");
-            logger.info(sysLogPath);
-            logger.info(backupLogPath);
-            logger.info(recoverLogPath);
-            // configFile.setProperty("logs.recoverylogpath", "----------------------");
-            // configFile.store(new FileOutputStream("config/sysconfig"),"Comment");
-            // logger.info("Write to the config file.");
+            PropertyConfigurator.configure(Global.sysconfigPath);
+            logger.info("Logs initialization done.");
 
         } catch (Exception e) {
+            System.out.println("Cannot read the sysconfig.conf file. \n"
+                    + "Check the environment variable \"SRDBS_HOME\" and "
+                    + "the \"sysconfig.conf\" file exist in " + Global.sysconfigPath + ". \n");
+            System.exit(-1);
+        }
 
-            logger.error("Cannot read the sysconfig file. \n"
-                    + "Please make sure that the \"sysconfig\" file exist. \n" +
-                    "Please restart the system. \n");
+        // initialize other system parameters
+        Properties prop = new Properties();
+        try {
+            prop.load(new FileInputStream(Global.sysconfigPath));
+            initSysParameters(prop);
+        } catch (Exception e) {
+            System.out.println("Error in system variable initialization. Check the config file : \n"
+                    + Global.sysconfigPath);
+            logger.error("Error in system variable initialization. Check the config file : \n"
+                    + Global.sysconfigPath);
+            System.exit(-1);
+        }
+
+    }
+
+    public void initSysParameters(Properties prop) {
+
+        Global.webPort = Integer.valueOf(prop.getProperty("web.port"));
+        System.out.println("Web dashboard port : " + Global.webPort);
+        logger.info("Web dashboard port : " + Global.webPort);
+    }
+
+    public void getConfigFromDb() {
+
+        try {
+            DbConnect dbc = new DbConnect();
+            dbc.connect();
+        } catch (Exception ex) {
+            System.out.println("Error in database connection : " + ex);
+            logger.error("Error in database connection : " + ex);
             System.exit(-1);
         }
     }
