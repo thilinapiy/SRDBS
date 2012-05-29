@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.srdbs.core.Global;
 
 import java.io.File;
 
@@ -18,18 +19,20 @@ public class Web {
     public static Logger logger = Logger.getLogger("systemsLog");
 
     /**
-     * This is the main method of the web application
+     * This is the runWebDashboard method of the web application
      */
-    public static void main(String homePath, String fs) {
-
+    public static void runWebDashboard() {
 
         Server server = new Server();
-        String keystrokePath = homePath + fs + "config" + fs + "keystore";
+        String keystrokePath = Global.systemHome + Global.fs + "config"
+                + Global.fs + "keystore";
+        logger.info("Initializing SSL certificates.");
+
         try {
             File keyStoreFile = new File(keystrokePath);
             if (keyStoreFile.exists()) {
                 SslSelectChannelConnector sslConnector = new SslSelectChannelConnector();
-                sslConnector.setPort(8080);
+                sslConnector.setPort(Global.webPort);
                 sslConnector.setKeystore(keyStoreFile.getPath());
                 sslConnector.setPassword("P@$$w0rd");
                 sslConnector.setKeyPassword("Thilina");
@@ -49,13 +52,18 @@ public class Web {
         try {
 
             WebAppContext context = new WebAppContext();
-            context.setDescriptor(homePath + "/webapp/WEB-INF/web.xml");
-            context.setResourceBase(homePath + "/webapp");
+            String webXmlpath = Global.systemHome + Global.fs +
+                    "webapp" + Global.fs + "WEB-INF" + Global.fs + "web.xml";
+            logger.info("Web XML path : " + webXmlpath);
+            context.setDescriptor(webXmlpath);
+            String webAppPath = Global.systemHome + Global.fs + "webapp";
+            context.setResourceBase(webAppPath);
             context.setContextPath("/");
             context.setParentLoaderPriority(true);
             server.setHandler(context);
 
             server.start();
+            logger.info("Start the web dashboard.");
             server.join();
         } catch (Exception ex) {
             logger.error("Error on Jetty : " + ex);
