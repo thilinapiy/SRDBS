@@ -39,6 +39,14 @@ Installation
                 eg: export SRDBS_HOME=/home/thilina/SRDBS-1.0-SNAPSHOT
             $ export PATH=$SRDBS_HOME/bin:$PATH
 
+    Create MySQL database
+
+            > Run the config/database.sql as a root user of the system.
+                (Change settings according to your MySQL server and security needs.)
+
+            > Change MySQL settings in config/sysconfig.conf file according to
+                your system.
+
     Run the server
 
         > srdbsstart.bat
@@ -56,6 +64,8 @@ Dependencies
 		(http://www.oracle.com/technetwork/java/javase/downloads/java-se-jdk-7-download-432154.html)
 	Maven 3.0
 		(http://maven.apache.org/download.html)
+	MySQL database
+	    (http://dev.mysql.com/downloads/)
 Developers
 
 	Thilina Piyasundara
