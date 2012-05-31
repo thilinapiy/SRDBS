@@ -1,7 +1,15 @@
 package org.srdbs.core;
 
 import org.apache.log4j.Logger;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.TriggerUtils;
+import org.quartz.Trigger;
+import org.quartz.impl.StdSchedulerFactory;
+import org.srdbs.scheduler.RunJob;
 import org.srdbs.web.Web;
+
+import java.util.Date;
 
 /**
  * Main class of the system
@@ -29,8 +37,10 @@ public class Core {
                 System.out.println("Set the environment variable \"SRDBS_HOME\" and rerun the system.");
                 System.exit(0);
             } else {
-                Global.sysconfigPath = Global.systemHome + Global.fs + "config" + Global.fs + "sysconfig.conf";
-                System.out.println("System main config file path is set to : " + Global.sysconfigPath);
+                Global.sysConfigPath = Global.systemHome + Global.fs + "config" + Global.fs + "sysconfig.conf";
+                Global.binConfigPath = Global.systemHome + Global.fs + "config" + Global.fs + "sysconfig.bin";
+                System.out.println("System main config file path is set to : " + Global.sysConfigPath);
+                System.out.println("System binary config file path is set to : " + Global.binConfigPath);
             }
 
         } catch (Exception e) {
@@ -57,11 +67,9 @@ public class Core {
                 logger.info("Starting ...");
                 Core.start();
             } else if (argument.matches("stop")) {
-                System.out.println("Stopping ...");
                 logger.info("Stopping ...");
                 Core.stop();
             } else if (argument.matches("restart")) {
-                System.out.println("Restarting ...");
                 logger.info("Restarting ...");
                 Core.restart();
             } else {
@@ -79,7 +87,32 @@ public class Core {
 
             System.out.println("Starting thread 1 (scheduler) started.");
             logger.info("Starting thread 1 (scheduler) started.");
-            // RunBackup.runBackup("sadasd");
+
+            try {
+                Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+                scheduler.start();
+                JobDetail job = new JobDetail("backup1", "BackupSchedule", RunJob.class);
+                Trigger trigger = TriggerUtils.makeHourlyTrigger();
+                trigger.setStartTime(new Date());
+                trigger.setName("myTrigger");
+                scheduler.scheduleJob(job, trigger);
+                while (true) {
+                    try {
+                        Thread.sleep(90L * 1000L);
+                    } catch (InterruptedException e) {
+                        logger.error("Thread interrupt.");
+                        scheduler.shutdown(true);
+                        logger.info("Shutdown the job.");
+                    }
+                }
+            } catch (Exception e) {
+                logger.error("Error creating the job : " + e);
+            }
+
+            /* RunBackup.runBackup("C:\\Users\\Thilina\\Desktop\\ISO\\",
+                     "E:\\copytest\\",
+                     524288);
+            */
         }
     }
 
@@ -114,6 +147,8 @@ public class Core {
      */
     public static void restart() {
 
+        new Configs().finalizeConfig();
+        logger.info("Finalizing the binary configurations file.");
         logger.info("Restarting the core.");
         try {
 
@@ -132,6 +167,8 @@ public class Core {
      */
     public static void stop() {
 
+        new Configs().finalizeConfig();
+        logger.info("Finalizing the binary configurations file.");
         logger.info("Stopping the system.");
         System.exit(0);
     }

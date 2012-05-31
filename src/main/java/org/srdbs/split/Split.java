@@ -26,16 +26,6 @@ public class Split {
         return split(sourcePath, destPath, ainteger);
     }
 
-    public static int mySplit(String sourcePath, String destPath) {
-
-        char c = '\u05A0';
-        Integer ainteger[];
-        ainteger = new Integer[1];
-        ainteger[0] = new Integer(c);
-
-        return split(sourcePath, destPath, ainteger);
-    }
-
     static int split(String s, String s1, Integer ainteger[]) {
         int i = 0;
         char c = '\u0400';
@@ -54,8 +44,9 @@ public class Split {
 
         try {
             fileinputstream = new FileInputStream(s);
-        } catch (Exception exception) {
-            logger.error("Error opening input file: " + exception);
+            logger.info("Reading file : " + s);
+        } catch (Exception e) {
+            logger.error("Error opening input file: " + e);
             return 10;
         }
 
@@ -92,14 +83,14 @@ public class Split {
         try {
             fileinputstream.close();
             fileoutputstream.close();
-        } catch (Exception exception3) {
-            logger.error("ex4: " + exception3);
+        } catch (Exception e) {
+            logger.error("ex4: " + e);
         }
         l1 = System.currentTimeMillis() - l2;
-        logger.info("Done!\n\n");
-        logger.info("bytes read: " + String.valueOf(i1) + " \nbytes written: " + String.valueOf(j1) + "\n");
-        logger.info("parts created: " + j + "\n");
-        logger.info("time used: " + String.valueOf(l1 / 1000L) + "." + String.valueOf(l1 % 1000L) + " sec.\n");
+        logger.info("Done!");
+        logger.info("bytes read: " + String.valueOf(i1) + " bytes written: " + String.valueOf(j1));
+        logger.info("parts created: " + j);
+        logger.info("time used: " + String.valueOf(l1 / 1000L) + "." + String.valueOf(l1 % 1000L) + " sec.");
         return j;
     }
 

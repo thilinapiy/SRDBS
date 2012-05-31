@@ -1,10 +1,14 @@
 package org.srdbs.core;
 
 import org.apache.log4j.Logger;
-import org.srdbs.sftp.Sftp;
-import org.srdbs.split.Split;
+import org.srdbs.split.FileData;
+import org.srdbs.split.MYSpFile;
+import org.srdbs.split.MyFile;
 
-import java.io.File;
+import java.util.List;
+
+import static org.srdbs.split.Split.mySplit;
+
 
 /**
  * Secure and Redundant Data Backup System.
@@ -17,62 +21,45 @@ public class RunBackup {
 
     public static Logger logger = Logger.getLogger("systemsLog");
 
-    public static int runBackup(String BackpID) {
+    public static int runBackup(String path, String dest, int packetVal) {
 
         logger.info("Running the backup log.");
 
-        int count = 1;
-        String path = "C:\\Users\\Thilina\\Desktop\\ISO\\";
-        String dest = "E:\\copytest\\";
-        String sFile = null;
-        String dFile = null;
-        String ftpFile = null;
-        int packetVal = 524288;
-        File[] filesInfolder;
+        DbConnect dbConnect = new DbConnect();
+        int noOfFiles = 0;
+        List<MyFile> listOfFiles = null;
 
-        filesInfolder = getFiles(path);
+        logger.info("Running the raid.");
 
-        for (int i = 0; i < filesInfolder.length; i++) {
-            if (filesInfolder[i].isFile()) {
-                String files = filesInfolder[i].getName();
-                sFile = path.concat(files);
-                dFile = dest.concat(files);
-                count++;
-                int asd = Split.mySplit(sFile, dFile, packetVal);
-                logger.info("Split the file : " + sFile);
-            }
+        listOfFiles = FileData.Read(path);
+
+        for (MyFile file : listOfFiles) {
+            int count = mySplit(path + Global.fs + file.getName(), dest
+                    + Global.fs + file.getName(), packetVal);
+            logger.info("Split Files in the file path of : "
+                    + path + Global.fs + file.getName()
+                    + " in to " + count + " parts.");
+            noOfFiles++;
         }
-        logger.info("Split " + count + " Files in the file path of : " + path);
+
+        try {
+            dbConnect.saveFiles(listOfFiles);
+            List<MYSpFile> dListOfFiles = FileData.ReadSPFile(dest);
+            dbConnect.saveSPFiles(dListOfFiles);
+
+        } catch (Exception e) {
+            logger.error("Database connection error : " + e);
+        }
+
+
+        logger.info("Split " + noOfFiles + " Files in the file path of : " + path);
         // reg details of the backup
         // read folder and get files to backup
         // split file by file
         // RAID
-        logger.info("Running the raid.");
+
         // ftp each part file
 
-        filesInfolder = getFiles(dest);
-        for (int i = 0; i < filesInfolder.length; i++) {
-            if (filesInfolder[i].isFile()) {
-                String files = filesInfolder[i].getName();
-                ftpFile = dest.concat(files);
-                Sftp.upload("192.168.222.141", "prabodha", "prabodha", 22, "/home/prabodha/ftp", ftpFile);
-                logger.info("Ftp done for the file : " + ftpFile);
-
-            }
-        }
-
         return 0;
-    }
-
-    private static File[] getFiles(String path) {
-
-        File[] listOfFiles = null;
-        try {
-            File folder = new File(path);
-            listOfFiles = folder.listFiles();
-        } catch (Exception ex) {
-            logger.error("Error in reading fo;der : " + path);
-        }
-        return listOfFiles;
     }
 }

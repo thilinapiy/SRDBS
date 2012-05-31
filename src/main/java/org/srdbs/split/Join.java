@@ -73,9 +73,9 @@ public class Join {
             return 5;
         } else {
             long l3 = System.currentTimeMillis() - l2;
-            logger.info("Done!\n\n");
-            logger.info("bytes read: " + String.valueOf(l) + "\nbytes written: " + String.valueOf(i1) + "\n");
-            logger.info("time used: " + String.valueOf(l3 / 1000L) + "." + String.valueOf(l3 % 1000L) + " sec.\n");
+            logger.info("Done!");
+            logger.info("bytes read: " + String.valueOf(l) + " bytes written : " + String.valueOf(i1));
+            logger.info("time used: " + String.valueOf(l3 / 1000L) + "." + String.valueOf(l3 % 1000L) + " sec.");
             return 0;
         }
     }
