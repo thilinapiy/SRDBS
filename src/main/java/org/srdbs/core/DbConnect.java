@@ -5,6 +5,7 @@ import org.srdbs.split.MYSpFile;
 import org.srdbs.split.MyFile;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,8 +55,34 @@ public class DbConnect {
         return 0;
     }
 
-    public int selectQuery(String query) {
-        return 0;
+    public ArrayList selectQuery(String query) {
+
+        ArrayList array = new ArrayList();
+
+        try {
+
+            Connection conn = connect();
+            Statement stmt = conn.createStatement();
+            ResultSet resultSet = stmt.executeQuery(query);
+            logger.info("Execute the SQL SELECT statement.");
+            ResultSetMetaData rm = resultSet.getMetaData();
+            while (resultSet.next()) {
+                ArrayList row = new ArrayList();
+                for (int column = 1; column <= rm.getColumnCount(); column++) {
+                    row.add(resultSet.getObject(column));
+                }
+                array.add(row);
+            }
+            resultSet.close();
+            stmt.close();
+            conn.close();
+            logger.info("Retrieve data from the database successfully.");
+        } catch (Exception e) {
+
+            logger.error("Error in reading data from database. : " + e);
+        }
+
+        return array;
     }
 
     public int insertSetup(String key, String val) {
@@ -72,7 +99,7 @@ public class DbConnect {
     public int saveFiles(List<MyFile> fileList) throws SQLException {
 
         //	String sql = "insert into Full_File (FName, FSize, HashValue,Up_Date) values (?, ?, ?,?)";
-        String sql = "insert into Full_File (FName,FSize,HashValue,Up_Date) values (?,?,?,?)";
+        String sql = "insert into full_file (FName,FSize,HashValue,Up_Date) values (?,?,?,?)";
         Connection connection = connect();
         PreparedStatement ps = connection.prepareStatement(sql);
 
@@ -94,7 +121,7 @@ public class DbConnect {
     public int saveSPFiles(List<MYSpFile> fileList) throws SQLException {
 
 
-        String sql = "insert into Sp_File (SP_FileName,F_Size,HashValue,Ref_Cloud_ID,Raid_Ref) values (?,?,?,?,?)";
+        String sql = "insert into split_file(SP_FileName,F_Size,HashValue,Ref_Cloud_ID,Raid_Ref) values (?,?,?,?,?)";
         Connection connection = connect();
         PreparedStatement ps = connection.prepareStatement(sql);
 
@@ -114,6 +141,11 @@ public class DbConnect {
         connection.close();
 
         return 1;
+    }
 
+    public ArrayList getBasicConfig() {
+
+        String sql = "SELECT * FROM backup_locations";
+        return selectQuery(sql);
     }
 }

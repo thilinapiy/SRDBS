@@ -3,7 +3,7 @@ Secure and Redundant Data Backup System
 Description
 
 	SRDBS is a enterprise class data backup system. System can perform a fully automatic backup to several disaster 
-	recovery (DR) sites. This system requires minimum of there clouds to od its backup process.
+	recovery (DR) sites. This system requires minimum of there clouds to do its backup process.
 
 Installation
 

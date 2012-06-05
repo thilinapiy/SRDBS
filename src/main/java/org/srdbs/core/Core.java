@@ -1,15 +1,13 @@
 package org.srdbs.core;
 
 import org.apache.log4j.Logger;
+import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
-import org.quartz.TriggerUtils;
 import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
 import org.srdbs.scheduler.RunJob;
 import org.srdbs.web.Web;
-
-import java.util.Date;
 
 /**
  * Main class of the system
@@ -91,11 +89,16 @@ public class Core {
             try {
                 Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
                 scheduler.start();
+
                 JobDetail job = new JobDetail("backup1", "BackupSchedule", RunJob.class);
-                Trigger trigger = TriggerUtils.makeHourlyTrigger();
-                trigger.setStartTime(new Date());
-                trigger.setName("myTrigger");
+
+                Trigger trigger = new CronTrigger("Trigger1", "Triggers", "0 0/5 * * * ?");
+                //Trigger trigger = TriggerUtils.makeHourlyTrigger();
+                //trigger.setStartTime(new Date());
+                //trigger.setName("myTrigger");
+
                 scheduler.scheduleJob(job, trigger);
+
                 while (true) {
                     try {
                         Thread.sleep(90L * 1000L);

@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.ArrayList;
 import java.util.Properties;
 
 /**
@@ -70,6 +71,10 @@ public class Configs {
                     + "DB User : " + Global.dbUserName);
             System.out.println("Web dashboard port : " + Global.webPort);
             logger.info("Web dashboard port : " + Global.webPort);
+
+            //TODO : remove this from the source
+            initDbConfigs();
+
         } catch (Exception e) {
             System.out.println("Error in system variable initialization. Check the config file : \n"
                     + Global.sysConfigPath);
@@ -109,8 +114,13 @@ public class Configs {
             conn = DriverManager.getConnection(Global.dbURL
                     + Global.dbName, Global.dbUserName, Global.dbPassword);
             logger.info("Database connection test done.");
-
+            // get data from the database
             conn.close();
+
+            System.out.println("Database connection test done.");
+            ArrayList data = new DbConnect().getBasicConfig();
+            System.out.println("Retrive data from the database.");
+
         } catch (Exception ex) {
             System.out.println("Error in database connection test : " + ex);
             logger.error("Error in database connection test : " + ex);
