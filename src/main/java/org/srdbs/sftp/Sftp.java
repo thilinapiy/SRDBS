@@ -69,4 +69,50 @@ public class Sftp {
             return 10;
         }
     }
+
+    public static int[] raid(int pNumber, int numberOfClouds, int c1, int c2, int c3) {
+
+        int[] raidArray = new int[2 * pNumber];
+        int count1 = c1 * 2, count2 = c2 * 2, count3 = c3 * 2, i = 0;
+
+        do {
+            int o = getRandomCloud(numberOfClouds);
+            int r = getRandomCloud(numberOfClouds);
+
+            while (o == r) {
+                r = getRandomCloud(numberOfClouds);
+            }
+            raidArray[i] = o;
+            raidArray[i + 1] = r;
+            i = i + 2;
+
+            if (o == 1 && r == 2) {
+                count1 = count1 - 1;
+                count2 = count2 - 1;
+            } else if (o == 1 && r == 3) {
+                count1 = count1 - 1;
+                count3 = count3 - 1;
+            } else if (o == 2 && r == 1) {
+                count2 = count2 - 1;
+                count1 = count1 - 1;
+            } else if (o == 2 && r == 3) {
+                count2 = count2 - 1;
+                count3 = count3 - 1;
+            } else if (o == 3 && r == 1) {
+                count3 = count3 - 1;
+                count1 = count1 - 1;
+            } else if (o == 3 && r == 2) {
+                count3 = count3 - 1;
+                count2 = count2 - 1;
+            }
+        }
+        while ((count1 + count2 + count3) / 2 > 0);
+
+        return raidArray;
+    }
+
+    private static int getRandomCloud(int numberOfClouds) {
+
+        return (int) ((Math.random() * 10) % numberOfClouds + 1);
+    }
 }

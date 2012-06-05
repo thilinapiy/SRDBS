@@ -86,8 +86,6 @@ public class RunBackup {
                 } else
                     raidDone = true;
             }
-            // FTP data to server.
-
         }
 
         try {
@@ -98,15 +96,7 @@ public class RunBackup {
         } catch (Exception e) {
             logger.error("Database connection error : " + e);
         }
-
-
         logger.info("Split " + noOfFiles + " Files in the file path of : " + path);
-        // reg details of the backup
-        // read folder and get files to backup
-        // split file by file
-        // RAID
-
-        // ftp each part file
 
         return 0;
     }

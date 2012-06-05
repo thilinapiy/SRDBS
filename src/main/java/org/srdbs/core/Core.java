@@ -111,11 +111,6 @@ public class Core {
             } catch (Exception e) {
                 logger.error("Error creating the job : " + e);
             }
-
-            /* RunBackup.runBackup("C:\\Users\\Thilina\\Desktop\\ISO\\",
-                     "E:\\copytest\\",
-                     524288);
-            */
         }
     }
 

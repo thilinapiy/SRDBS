@@ -94,7 +94,7 @@ public class Split {
         return j;
     }
 
-    static String createSuffix(int i) {
+    public static String createSuffix(int i) {
         String s;
         for (s = String.valueOf(i); s.length() < 3; s = "0" + s) ;
         return "." + s;

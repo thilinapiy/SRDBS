@@ -22,9 +22,9 @@ public class RunJob implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
         logger.info("Running the scheduled backup at : " + new Date());
-        RunBackup.runBackup("C:\\Users\\Thilina\\Desktop\\ISO\\",
+        RunBackup.runBackup("C:\\Users\\Thilina\\Desktop\\movie\\",
                 "E:\\copytest\\",
-                524288);
+                65536);
         logger.info("Scheduled backup process ended at : " + new Date());
     }
 }
