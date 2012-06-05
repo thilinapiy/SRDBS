@@ -6,6 +6,79 @@
 </head>
 
 <body style="text-align:center;">
+
+
+<%
+    String msg2 = "";
+    String preState = "";
+    String postState = "";
+    if (session.getAttribute("username") != null &&
+            String.valueOf(session.getAttribute("username")).equalsIgnoreCase("setup")) {
+        msg2 = "Loged in as : " + String.valueOf(session.getAttribute("username"));
+        preState = String.valueOf(session.getAttribute("setupstate"));
+        session.setAttribute("setupstate", "login success");
+        postState = String.valueOf(session.getAttribute("setupstate"));
+    } else {
+        response.sendRedirect("/setup/");
+    }
+
+
+    if (request.getParameter("back") != null && request.getParameter("back").equalsIgnoreCase("back")) {
+        response.sendRedirect("/setup/step2.jsp");
+    }
+
+    if (request.getParameter("logout") != null && request.getParameter("logout").equalsIgnoreCase("logout")) {
+        session.invalidate();
+        response.sendRedirect("/setup/");
+    }
+
+    String msg = "";
+    if (request.getParameter("c2ipadd") != null
+            && request.getParameter("c2uname") != null
+            && request.getParameter("c2password") != null
+            && request.getParameter("c2cost") != null
+            && request.getParameter("c2bandwidth") != null)
+
+    {
+
+        String IPAddress = request.getParameter("c2ipadd");
+        String UserName = request.getParameter("c2uname");
+        String password = request.getParameter("c2password");
+        String Cost = request.getParameter("c2cost");
+        String Bandwidth = request.getParameter("c2bandwidth");
+
+        if (UserName.equals("c2uname") && password.equals("c2password")) {
+
+            session.setAttribute("c2ipadd", "c2ipadd");
+            session.setAttribute("c2uname", "c2uname");
+            session.setAttribute("c2password", "c2password");
+            session.setAttribute("c2cost", "c2cost");
+            session.setAttribute("c2bandwidth", "c2bandwidth");
+            session.setAttribute("setupstate", "step3");
+            response.sendRedirect("/setup/step4.jsp");
+        } else if (!password.equals("")) {
+
+            msg = "Please  enter your password!";
+        } else if (!UserName.equals("")) {
+
+            msg = "Please  enter your Username!";
+        } else if (!IPAddress.equals("")) {
+
+            msg = "Please  enter IPAddress!";
+        } else if (!Cost.equals("")) {
+
+            msg = "Please  enter cost!";
+        } else if (!Bandwidth.equals("")) {
+
+            msg = "Please  enter Bandwidth!";
+        } else {
+
+            msg = "Your input is not correct!";
+        }
+    }
+
+%>
+
 <table width="600" border="0" align="center" style="margin-top:200px; background-color:#00F; color:#FFF;">
     <tr align="center" valign="middle">
         <td height="60">Step 1</td>
@@ -45,7 +118,12 @@
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
-                        <td><input type="submit" name="c2setup" value="Next"/></td>
+                        <td><a href="step4.jsp"><input type="submit" name="c2setup" value="Next"></a></td>
+                        </a>
+                        <td><input type="submit" name="back" value="Back"/></td>
+                        </a>
+                        <td><input type="submit" name="logout" value="Logout"></td>
+
                     </tr>
                 </table>
             </form>
@@ -53,7 +131,12 @@
     </tr>
     <tr align="center" valign="middle">
         <td colspan="10" height="50">&nbsp;</td>
+        <A HREF="step4.jsp">Continue</A>
     </tr>
 </table>
+<p><%
+    out.println(msg2);
+
+%></p>
 </body>
 </html>
