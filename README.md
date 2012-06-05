@@ -64,8 +64,6 @@
 
 ## Developers
 
-- //TODO add Supervisor Dr. Malitha N. Wijesundara
-
 - [Thilina Piyasundara] (http://thilina.org)
 
 - Chanaka Yapa
