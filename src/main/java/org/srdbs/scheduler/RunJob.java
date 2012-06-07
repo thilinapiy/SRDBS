@@ -17,14 +17,14 @@ import java.util.Date;
  */
 public class RunJob implements Job {
 
-    public static Logger logger = Logger.getLogger("systemsLog");
+    public static Logger logger = Logger.getLogger("backupLog");
+    public static Logger backplogger = Logger.getLogger("backupLog");
 
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
-        logger.info("Running the scheduled backup at : " + new Date());
+        backplogger.info("Running the scheduled backup at : " + new Date());
         RunBackup.runBackup("C:\\Users\\Thilina\\Desktop\\movie\\",
-                "E:\\copytest\\",
-                65536);
-        logger.info("Scheduled backup process ended at : " + new Date());
+                "E:\\copytest\\");
+        backplogger.info("Scheduled backup process ended at : " + new Date());
     }
 }

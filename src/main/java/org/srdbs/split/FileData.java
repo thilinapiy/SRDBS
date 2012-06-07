@@ -1,6 +1,7 @@
 package org.srdbs.split;
 
 import org.apache.log4j.Logger;
+import org.srdbs.core.DbConnect;
 import org.srdbs.core.Global;
 
 import java.io.File;
@@ -20,6 +21,7 @@ import java.util.List;
 public class FileData {
 
     public static Logger logger = Logger.getLogger("systemsLog");
+    public static Logger backplogger = Logger.getLogger("backupLog");
 
     //TODO: change method name.
     public static List<MyFile> Read(String path) {
@@ -30,9 +32,9 @@ public class FileData {
 
         try {
             folder = new File(path);
-            logger.info("Reading the directory  : " + path);
+            backplogger.info("Reading the directory  : " + path);
         } catch (Exception e) {
-            logger.error("Error reading directory : " + path);
+            backplogger.error("Error reading directory : " + path);
         }
 
         List<MyFile> fileList = new ArrayList<MyFile>();
@@ -57,6 +59,7 @@ public class FileData {
     }
 
     //TODO: change method name.
+    /*
     public static List<MYSpFile> ReadSPFile(String path) throws Exception {
         // int Count =0;
         // String Fname ;
@@ -85,14 +88,59 @@ public class FileData {
 
         return fileList;
     }
+    */
 
+    public static List<MYSpFile> ReadSPFile(String path, int NoPackets) {
+
+        int k = 0;
+        int j = 0;
+        String Full_Path;
+        String Hash, date;
+        String Fname;
+        DbConnect dbconnect = new DbConnect();
+        File folder = new File(path);
+        List<MYSpFile> fileList = new ArrayList<MYSpFile>();
+
+        for (int i = 0; i < NoPackets; i++) {
+            k = (int) dbconnect.RowCount();
+            List<MyFile> listofrecords = dbconnect.selectFullQuery(k);
+            for (File sysFile : folder.listFiles()) {
+
+                for (MyFile file2 : listofrecords) {
+                    Full_Path = path + "/" + sysFile.getName();
+                    Fname = sysFile.getName().replace(Split.createSuffix(++j), "");
+                    if (file2.getName().equalsIgnoreCase(Fname)) {
+                        Hash = getHash(Full_Path);
+                        long S = getFileSize(Full_Path);
+                        Calendar cal = Calendar.getInstance();
+                        date = cal.getTime().toString();
+                        i++;
+                        MYSpFile mySPFile = new MYSpFile();
+                        mySPFile.setFid(file2.getId());
+                        mySPFile.setName(sysFile.getName());
+                        mySPFile.setHash(Hash);
+                        mySPFile.setcDate(date);
+                        mySPFile.setSize(S);
+                        mySPFile.setFile(sysFile);
+                        mySPFile.setCloud(1);
+                        mySPFile.setRcloud(2);
+                        fileList.add(mySPFile);
+                    } else {
+                        j = 0;
+                    }
+                }
+            }
+        }
+        return fileList;
+    }
 
     public static long getFileSize(String filename) {
 
         File file = new File(filename);
 
         if (!file.exists() || !file.isFile()) {
-            System.out.println("File doesn\'t exist");
+            backplogger.error("File doesn\'t exist");
+            logger.error("File doesn\'t exist");
             return -1;
         }
 
@@ -123,10 +171,10 @@ public class FileData {
                 sb.append(Integer.toString((mdBytes[i] & 0xff) + 0x100, 16)
                         .substring(1));
             }
-            logger.info("Digest in hex format :: " + sb.toString());
+            backplogger.info("Digest in hex format :: " + sb.toString());
             hashValue = sb.toString();
         } catch (Exception e) {
-            logger.error("Error in hashing : " + e);
+            backplogger.error("Error in hashing : " + e);
         }
 
         return hashValue;

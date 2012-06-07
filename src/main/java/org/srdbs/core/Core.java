@@ -18,6 +18,7 @@ import org.srdbs.web.Web;
 public class Core {
 
     public static Logger logger = Logger.getLogger("systemsLog");
+    public static Logger backplogger = Logger.getLogger("backupLog");
 
     /**
      * This is the runWebDashboard method of the system.
@@ -27,7 +28,9 @@ public class Core {
     public static void main(String[] args) {
 
         try {
-            System.out.println("Starting the system.");
+            System.out.println("initializing the basic system configurations.");
+
+            // Get system details from the host machine
             Global.fs = System.getProperty("file.separator");
             Global.systemHome = System.getenv("SRDBS_HOME");
             System.out.println("System SRDBS_HOME path is set to : " + Global.systemHome);
@@ -50,32 +53,9 @@ public class Core {
         // initialize logs and system configurations.
         System.out.println("Initializing main system configurations.");
         new Configs().initConfigs();
-
-        // Start, stop or restart the system.
-        if (args.length == 0) {
-
-            System.out.println("Usage : start | stop | restart");
-            logger.info("Usage : start | stop | restart");
-            System.exit(-1);
-        } else {
-
-            String argument = args[0].toLowerCase().trim();
-            if (argument.matches("start")) {
-                System.out.println("Starting ...");
-                logger.info("Starting ...");
-                Core.start();
-            } else if (argument.matches("stop")) {
-                logger.info("Stopping ...");
-                Core.stop();
-            } else if (argument.matches("restart")) {
-                logger.info("Restarting ...");
-                Core.restart();
-            } else {
-                System.out.println("Usage : start | stop | restart");
-                logger.info("Usage : start | stop | restart");
-                System.exit(-1);
-            }
-        }
+        System.out.println("Starting ...");
+        logger.info("Starting ...");
+        Core.start();
     }
 
 
@@ -98,7 +78,7 @@ public class Core {
                 //trigger.setName("myTrigger");
 
                 scheduler.scheduleJob(job, trigger);
-
+                backplogger.info("Starting backup job : 1 on schedule : 0 0/5 * * * ?");
                 while (true) {
                     try {
                         Thread.sleep(90L * 1000L);
@@ -146,12 +126,13 @@ public class Core {
     public static void restart() {
 
         new Configs().finalizeConfig();
+        backplogger.info("Log closing.");
         logger.info("Finalizing the binary configurations file.");
         logger.info("Restarting the core.");
         try {
 
             // This will create a new SRDBS process.
-            Process process = Runtime.getRuntime().exec(Global.systemHome + "\\bin\\srdbsstart.bat");
+            Runtime.getRuntime().exec(Global.systemHome + "\\bin\\srdbsstart.bat");
             logger.info("Create a new SRDBS Process");
         } catch (Exception e) {
             logger.error("Error : " + e);

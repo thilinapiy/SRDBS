@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 public class Split {
 
     public static Logger logger = Logger.getLogger("systemsLog");
+    public static Logger backplogger = Logger.getLogger("backupLog");
 
     public static int mySplit(String sourcePath, String destPath, int fileSize) {
 
@@ -44,9 +45,9 @@ public class Split {
 
         try {
             fileinputstream = new FileInputStream(s);
-            logger.info("Reading file : " + s);
+            backplogger.info("Reading file : " + s);
         } catch (Exception e) {
-            logger.error("Error opening input file: " + e);
+            backplogger.error("Error opening input file: " + e);
             return 10;
         }
 
@@ -60,7 +61,7 @@ public class Split {
                             if (i < ainteger.length - 1)
                                 i++;
                         } catch (Exception exception1) {
-                            logger.error("ex2: " + exception1);
+                            backplogger.error("ex2: " + exception1);
                         }
                     }
                     String s3 = s1 + createSuffix(++j);
@@ -68,7 +69,7 @@ public class Split {
                         File file = new File(s3);
                         fileoutputstream = new FileOutputStream(file);
                     } catch (Exception exception4) {
-                        logger.error("Error opening output file: " + exception4);
+                        backplogger.error("Error opening output file: " + exception4);
                         return 10;
                     }
                 }
@@ -77,20 +78,20 @@ public class Split {
                 fileoutputstream.write(abyte0, 0, l);
             }
         } catch (Exception exception2) {
-            logger.error("ex1: " + exception2);
+            backplogger.error("ex1: " + exception2);
         }
 
         try {
             fileinputstream.close();
             fileoutputstream.close();
         } catch (Exception e) {
-            logger.error("ex4: " + e);
+            backplogger.error("ex4: " + e);
         }
         l1 = System.currentTimeMillis() - l2;
-        logger.info("Done!");
-        logger.info("bytes read: " + String.valueOf(i1) + " bytes written: " + String.valueOf(j1));
-        logger.info("parts created: " + j);
-        logger.info("time used: " + String.valueOf(l1 / 1000L) + "." + String.valueOf(l1 % 1000L) + " sec.");
+        backplogger.info("Done!");
+        backplogger.info("bytes read: " + String.valueOf(i1) + " bytes written: " + String.valueOf(j1));
+        backplogger.info("parts created: " + j);
+        backplogger.info("time used: " + String.valueOf(l1 / 1000L) + "." + String.valueOf(l1 % 1000L) + " sec.");
         return j;
     }
 

@@ -20,6 +20,7 @@ import java.io.IOException;
 public class Sftp {
 
     public static Logger logger = Logger.getLogger("systemsLog");
+    public static Logger backplogger = Logger.getLogger("backupLog");
 
     /**
      * This is a test method
@@ -70,11 +71,17 @@ public class Sftp {
         }
     }
 
-    public static int[] raid(int pNumber, int numberOfClouds, int c1, int c2, int c3) {
+    // TODO write method 3 methods for RAID. Prabodha
+    public static int[] raid(int pNumber, int c1, int c2, int c3) {
 
+        int numberOfClouds = 3;
         int[] raidArray = new int[2 * pNumber];
-        int count1 = c1 * 2, count2 = c2 * 2, count3 = c3 * 2, i = 0;
+        int count1 = (c1 * 2) / 1024;
+        int count2 = (c2 * 2) / 1024;
+        int count3 = (c3 * 2) / 1024;
+        int i = 0;
 
+        backplogger.info("Raid starting with cloud bandwidths : " + count1 + ", " + count2 + ", " + count3 + " number of packets " + 2 * pNumber);
         do {
             int o = getRandomCloud(numberOfClouds);
             int r = getRandomCloud(numberOfClouds);
@@ -107,12 +114,12 @@ public class Sftp {
             }
         }
         while ((count1 + count2 + count3) / 2 > 0);
-
+        backplogger.info("Raid array completed successfully.");
         return raidArray;
     }
 
     private static int getRandomCloud(int numberOfClouds) {
 
-        return (int) ((Math.random() * 10) % numberOfClouds + 1);
+        return (int) ((Math.random() * 10) % numberOfClouds) + 1;
     }
 }

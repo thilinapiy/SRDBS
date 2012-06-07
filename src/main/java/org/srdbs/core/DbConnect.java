@@ -18,6 +18,7 @@ import java.util.List;
 public class DbConnect {
 
     public static Logger logger = Logger.getLogger("systemsLog");
+    public static Logger backplogger = Logger.getLogger("backupLog");
 
     private Connection connect() {
 
@@ -118,34 +119,129 @@ public class DbConnect {
         return 1;
     }
 
-    public int saveSPFiles(List<MYSpFile> fileList) throws SQLException {
+    public ArrayList getBasicConfig() {
+
+        String sql = "SELECT * FROM backup_locations";
+        return selectQuery(sql);
+    }
+
+    public int saveFiles(String Fname, long Size, String Hash, String Date) {
+
+        //	String sql = "insert into Full_File (FName, FSize, HashValue,Up_Date) values (?, ?, ?,?)";
+        String sql = "insert into Full_File (FName,FSize,HashValue,Up_Date) values (?,?,?,?)";
+        Connection connection = connect();
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement(sql);
+            //for (MyFile myFile: fileList) {
+            // java.sql.Date sqlDate = new java.sql.Date(myFile.getcDate().getTime());
+            MyFile myFile = new MyFile();
+            ps.setString(1, Fname);
+            ps.setLong(2, Size);
+            ps.setString(3, Hash);
+            ps.setString(4, Date);
+            ps.addBatch();
+            //}
+            ps.executeBatch();
+            ps.close();
+            connection.close();
+        } catch (SQLException e) {
+            logger.error("Save File error.");
+        }
+
+        return 1;
+    }
+
+    public int saveSPFiles(long fid, String Fname, long Size, String Hash, int Cl_ID, int R_ID) throws SQLException {
 
 
-        String sql = "insert into split_file(SP_FileName,F_Size,HashValue,Ref_Cloud_ID,Raid_Ref) values (?,?,?,?,?)";
+        String sql = "insert into Sp_File (F_ID,SP_FileName,F_Size,HashValue,Ref_Cloud_ID,Raid_Ref) values (?,?,?,?,?,?)";
         Connection connection = connect();
         PreparedStatement ps = connection.prepareStatement(sql);
 
-        for (MYSpFile mySFile : fileList) {
-            // java.sql.Date sqlDate = new java.sql.Date(myFile.getcDate().getTime());
 
-            ps.setString(1, mySFile.getName());
-            ps.setLong(2, mySFile.getSize());
-            ps.setString(3, mySFile.getHash());
-            //  ps.setString(4,mySFile.getcDate());
-            ps.setInt(4, mySFile.getCloud());
-            ps.setInt(5, mySFile.getRCloud());
-            ps.addBatch();
-        }
+        //for (MYSpFile mySFile: fileList) {
+        // java.sql.Date sqlDate = new java.sql.Date(myFile.getcDate().getTime());
+        MYSpFile mySFile = new MYSpFile();
+        ps.setLong(1, fid);
+        ps.setString(2, Fname);
+        ps.setLong(3, Size);
+        ps.setString(4, Hash);
+        //  ps.setString(4,mySFile.getcDate());
+        ps.setInt(5, Cl_ID);
+        ps.setInt(6, R_ID);
+        ps.addBatch();
+        //}
         ps.executeBatch();
         ps.close();
         connection.close();
 
         return 1;
+
     }
 
-    public ArrayList getBasicConfig() {
+    public List<MyFile> selectFullQuery(int fid) {
 
-        String sql = "SELECT * FROM backup_locations";
-        return selectQuery(sql);
+
+        String sql = " select F_ID,FName,HashValue from Full_File where F_ID=" + fid + "";
+        Connection connection = connect();
+        List<MyFile> fileList = new ArrayList<MyFile>();
+        try {
+            Statement s = connection.createStatement();
+            ResultSet rs = s.executeQuery(sql);
+
+            while (rs.next()) {
+                MyFile myFile = new MyFile();
+
+                myFile.setId(rs.getLong("F_ID"));
+                myFile.setName(rs.getString("FName"));
+                myFile.setHash(rs.getString("HashValue"));
+                fileList.add(myFile);
+
+            }
+        } catch (Exception e) {
+            logger.error("Error in SelectFullQuery : " + e);
+        }
+        return fileList;
+    }
+
+    public long RowCount() {
+
+        long fid = 0;
+
+        String sql = "select F_ID from Full_File ";
+        Connection connection = connect();
+        try {
+            Statement s = connection.createStatement();
+            ResultSet rs = s.executeQuery(sql);
+
+            while (rs.next()) {
+                MyFile myfile = new MyFile();
+
+                myfile.setId(rs.getLong("F_ID"));
+            }
+            rs.last();
+            fid = rs.getRow();
+        } catch (Exception e) {
+            logger.error("Error in RowCount " + e);
+        }
+        return fid;
+    }
+
+    public List<MYSpFile> selectQuery(int fid) throws Exception {
+
+        String sql = " select SP_FileName,HashValue from sp_file where F_ID=" + fid + "";
+        Connection connection = connect();
+        Statement s = connection.createStatement();
+        ResultSet rs = s.executeQuery(sql);
+        List<MYSpFile> fileList = new ArrayList<MYSpFile>();
+
+        while (rs.next()) {
+            MYSpFile myspFile = new MYSpFile();
+            myspFile.setName(rs.getString("SP_FileName"));
+            myspFile.setHash(rs.getString("HashValue"));
+            fileList.add(myspFile);
+        }
+        return fileList;
     }
 }

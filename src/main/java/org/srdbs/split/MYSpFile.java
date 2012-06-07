@@ -12,7 +12,7 @@ import java.io.File;
 public class MYSpFile {
 
     private long spid;
-    private int fid;
+    private long fid;
     private String name;
     private String hash;
     private String cDate;
@@ -86,5 +86,11 @@ public class MYSpFile {
         this.rcloudId = RcloudID;
     }
 
+    public long getFid() {
+        return fid;
+    }
 
+    public void setFid(long fid) {
+        this.fid = fid;
+    }
 }
