@@ -74,8 +74,9 @@
 
     out.println("");
     out.println("Database");
-    out.println(session.getAttribute("ipaddress"));
-    out.println(session.getAttribute("port"));
+    out.println(session.getAttribute("dbipaddress"));
+    out.println(session.getAttribute("dbport"));
+    out.println(session.getAttribute("dbname"));
     out.println(session.getAttribute("dbuser"));
     out.println(session.getAttribute("dbpassword"));
 
