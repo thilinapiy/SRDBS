@@ -1,142 +1,115 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Set Cloud 2</title>
-</head>
+<%@ page import="org.srdbs.web.Setup" %>
 
-<body style="text-align:center;">
+<% String msg = "";
+    String backbtn = request.getParameter("back");
+    String nextbtn = request.getParameter("next");
 
 
-<%
-    String msg2 = "";
-    String preState = "";
-    String postState = "";
-    if (session.getAttribute("username") != null &&
-            String.valueOf(session.getAttribute("username")).equalsIgnoreCase("setup")) {
-        msg2 = "Loged in as : " + String.valueOf(session.getAttribute("username"));
-        preState = String.valueOf(session.getAttribute("setupstate"));
-        session.setAttribute("setupstate", "login success");
-        postState = String.valueOf(session.getAttribute("setupstate"));
-    } else {
-        response.sendRedirect("/setup/");
-    }
-
-
-    if (request.getParameter("back") != null && request.getParameter("back").equalsIgnoreCase("back")) {
+    String ipaddress = request.getParameter("ipaddress");
+    String port = request.getParameter("port");
+    String username = request.getParameter("username");
+    String password = request.getParameter("password");
+    String bandwidth = request.getParameter("bandwidth");
+    String cost = request.getParameter("cost");
+    if (backbtn != null && backbtn.equalsIgnoreCase("back")) {
         response.sendRedirect("/setup/step2.jsp");
+        return;
     }
 
-    if (request.getParameter("logout") != null && request.getParameter("logout").equalsIgnoreCase("logout")) {
-        session.invalidate();
-        response.sendRedirect("/setup/");
-    }
+    if (nextbtn != null && nextbtn.equalsIgnoreCase("next")) {
 
-    String msg = "";
-    if (request.getParameter("c2ipadd") != null
-            && request.getParameter("c2uname") != null
-            && request.getParameter("c2password") != null
-            && request.getParameter("c2cost") != null
-            && request.getParameter("c2bandwidth") != null)
+        if (ipaddress != null && port != null && username != null && password != null && bandwidth != null && cost != null) {
+            if (!ipaddress.trim().equals("") && !port.trim().equals("") && !username.trim().equals("")
+                    && !password.trim().equals("") && !bandwidth.trim().equals("") && !cost.trim().equals("")) {
 
-    {
+                session.setAttribute("c1ipaddress", ipaddress.toLowerCase().trim());
+                session.setAttribute("c1port", port.trim());
+                session.setAttribute("c1username", username.trim());
+                session.setAttribute("c1password", password.trim());
+                session.setAttribute("c1bandwidth", bandwidth.trim());
+                session.setAttribute("c1cost", cost.trim());
 
-        String IPAddress = request.getParameter("c2ipadd");
-        String UserName = request.getParameter("c2uname");
-        String password = request.getParameter("c2password");
-        String Cost = request.getParameter("c2cost");
-        String Bandwidth = request.getParameter("c2bandwidth");
-
-        if (UserName.equals("c2uname") && password.equals("c2password")) {
-
-            session.setAttribute("c2ipadd", "c2ipadd");
-            session.setAttribute("c2uname", "c2uname");
-            session.setAttribute("c2password", "c2password");
-            session.setAttribute("c2cost", "c2cost");
-            session.setAttribute("c2bandwidth", "c2bandwidth");
-            session.setAttribute("setupstate", "step3");
-            response.sendRedirect("/setup/step4.jsp");
-        } else if (!password.equals("")) {
-
-            msg = "Please  enter your password!";
-        } else if (!UserName.equals("")) {
-
-            msg = "Please  enter your Username!";
-        } else if (!IPAddress.equals("")) {
-
-            msg = "Please  enter IPAddress!";
-        } else if (!Cost.equals("")) {
-
-            msg = "Please  enter cost!";
-        } else if (!Bandwidth.equals("")) {
-
-            msg = "Please  enter Bandwidth!";
-        } else {
-
-            msg = "Your input is not correct!";
+                session.setAttribute("setupstate", "step3");
+                response.sendRedirect("/setup/step4.jsp");
+                return;
+            } else {
+                msg = "All fields are required.";
+            }
         }
     }
-
 %>
 
-<table width="600" border="0" align="center" style="margin-top:200px; background-color:#00F; color:#FFF;">
-    <tr align="center" valign="middle">
-        <td height="60">Step 1</td>
-        <td>Step 2</td>
-        <td style="background-color:#FF0; color:#F00;">Step 3</td>
-        <td>Step 4</td>
-        <td>Step 5</td>
-        <td>Step 6</td>
-        <td>Step 7</td>
-        <td>Step 8</td>
-        <td>Step 9</td>
-        <td>Final</td>
-    </tr>
-    <tr align="center" valign="middle">
-        <td colspan="10" height="200">
-            <form action="" method="post">
-                <table width="400" border="0">
-                    <tr>
-                        <td>IP address</td>
-                        <td><input type="text" name="c2ipadd"/></td>
-                    </tr>
-                    <tr>
-                        <td>User Name</td>
-                        <td><input type="text" name="c2uname"/></td>
-                    </tr>
-                    <tr>
-                        <td>Password</td>
-                        <td><input type="password" name="c2password"/></td>
-                    </tr>
-                    <tr>
-                        <td>Cost</td>
-                        <td><input type="text" name="c2cost"/></td>
-                    </tr>
-                    <tr>
-                        <td>Bandwidth</td>
-                        <td><input type="text" name="c2bandwidth"/></td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td><a href="step4.jsp"><input type="submit" name="c2setup" value="Next"></a></td>
-                        </a>
-                        <td><input type="submit" name="back" value="Back"/></td>
-                        </a>
-                        <td><input type="submit" name="logout" value="Logout"></td>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<h3>Cloud 1 Setup</h3>
 
-                    </tr>
-                </table>
-            </form>
-        </td>
-    </tr>
-    <tr align="center" valign="middle">
-        <td colspan="10" height="50">&nbsp;</td>
-        <A HREF="step4.jsp">Continue</A>
-    </tr>
-</table>
-<p><%
-    out.println(msg2);
+<form action="" method="GET">
+    <table width="400" border="0">
+        <tr>
+            <td>IP address</td>
+            <td><input type="text" name="ipaddress"
+                       value="<% if(session.getAttribute("c1ipaddress")!=null) { out.println(session.getAttribute("c1ipaddress")); } %>"/>
+            </td>
+        </tr>
+        <tr>
+            <td>Port</td>
+            <td><input type="text" name="port"
+                       value="<% if(session.getAttribute("c1port")!=null) { out.println(session.getAttribute("c1port")); } %>"/>
+            </td>
+        </tr>
+        <tr>
+            <td>User Name</td>
+            <td><input type="text" name="username"
+                       value="<% if(session.getAttribute("c1username")!=null) { out.println(session.getAttribute("c1username")); } %>"/>
+            </td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="text" name="password"
+                       value="<% if(session.getAttribute("c1password")!=null) { out.println(session.getAttribute("c1password")); } %>"/>
+            </td>
+        </tr>
+        <tr>
+            <td>Bandwidth (KBPS)</td>
+            <td><input type="text" name="bandwidth"
+                       value="<% if(session.getAttribute("c1bandwidth")!=null) { out.println(session.getAttribute("c1bandwidth")); } %>"/>
+            </td>
+        </tr>
+        <tr>
+            <td>Cost</td>
+            <td><input type="text" name="cost"
+                       value="<% if(session.getAttribute("c1cost")!=null) { out.println(session.getAttribute("c1cost")); } %>"/>
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>
+                <input type="submit" name="back" value="Back"/>
+                <input type="submit" name="next" value="Next"/>
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td><p><% out.println(msg); %></p>
+            </td>
+        </tr>
+    </table>
+</form>
 
-%></p>
-</body>
-</html>
+<pre>
+<%
+    out.println(session.getAttribute("setupstate"));
+
+    out.println("");
+    out.println("Admin details");
+    out.println(session.getAttribute("username"));
+    out.println(session.getAttribute("password"));
+
+    out.println("");
+    out.println("Database");
+    out.println(session.getAttribute("ipaddress"));
+    out.println(session.getAttribute("port"));
+    out.println(session.getAttribute("dbuser"));
+    out.println(session.getAttribute("dbpassword"));
+
+%>
+</pre>
