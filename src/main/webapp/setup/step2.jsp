@@ -4,7 +4,12 @@
 <%
     if (Api.systemState()) {
 
-        response.sendRedirect("/setup/");
+        response.sendRedirect("/");
+        return;
+    }
+
+    if (!session.getAttribute("setupstate").equals("step2")) {
+        response.sendRedirect("/setup/" + session.getAttribute("setupstate") + ".jsp");
         return;
     }
 
@@ -67,7 +72,7 @@
                 session.setAttribute("dbuser", dbuser.trim());
                 session.setAttribute("dbpassword", dbpassword.trim());
 
-                session.setAttribute("setupstate", "step2");
+                session.setAttribute("setupstate", "step3");
                 response.sendRedirect("/setup/step3.jsp");
                 return;
             } else {

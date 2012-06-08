@@ -4,7 +4,12 @@
 <%
     if (Api.systemState()) {
 
-        response.sendRedirect("/setup/");
+        response.sendRedirect("/");
+        return;
+    }
+
+    if (!session.getAttribute("setupstate").equals("step8")) {
+        response.sendRedirect("/setup/" + session.getAttribute("setupstate") + ".jsp");
         return;
     }
 

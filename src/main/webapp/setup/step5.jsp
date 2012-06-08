@@ -3,7 +3,12 @@
 <%
     if (Api.systemState()) {
 
-        response.sendRedirect("/setup/");
+        response.sendRedirect("/");
+        return;
+    }
+
+    if (!session.getAttribute("setupstate").equals("step5")) {
+        response.sendRedirect("/setup/" + session.getAttribute("setupstate") + ".jsp");
         return;
     }
 
@@ -36,7 +41,7 @@
                 session.setAttribute("c3bandwidth", bandwidth.trim());
                 session.setAttribute("c3cost", cost.trim());
 
-                session.setAttribute("setupstate", "step4");
+                session.setAttribute("setupstate", "step6");
                 response.sendRedirect("/setup/step6.jsp");
                 return;
             } else {

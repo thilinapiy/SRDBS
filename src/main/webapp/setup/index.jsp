@@ -2,9 +2,11 @@
 <%
     if (Api.systemState()) {
 
-        response.sendRedirect("/setup/");
+        response.sendRedirect("/");
         return;
     }
+
+    session.setAttribute("setupstate", "index");
 
     String msg = "";
     String nextbtn = request.getParameter("next");
@@ -20,7 +22,7 @@
 
                     session.setAttribute("username", username.toLowerCase().trim());
                     session.setAttribute("password", password1.trim());
-                    session.setAttribute("setupstate", "step1");
+                    session.setAttribute("setupstate", "step2");
                     response.sendRedirect("/setup/step2.jsp");
                     return;
                 } else {
