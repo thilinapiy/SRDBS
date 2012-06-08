@@ -1,6 +1,14 @@
-<%@ page import="org.srdbs.web.Setup" %>
-<%@ page import="java.sql.*" %>
-<% String msg = "";
+<%@ page import="org.srdbs.web.Api" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.DriverManager" %>
+<%
+    if (Api.systemState()) {
+
+        response.sendRedirect("/setup/");
+        return;
+    }
+
+    String msg = "";
     String backbtn = request.getParameter("back");
     String nextbtn = request.getParameter("next");
     String testbtn = request.getParameter("testdb");

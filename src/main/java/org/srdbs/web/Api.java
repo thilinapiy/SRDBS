@@ -2,6 +2,7 @@ package org.srdbs.web;
 
 import org.apache.log4j.Logger;
 import org.srdbs.core.Core;
+import org.srdbs.core.Global;
 
 /**
  * Api class of the core
@@ -29,5 +30,14 @@ public class Api {
 
         logger.info("Running the stopCore method.");
         Core.stop();
+    }
+
+    public static boolean systemState() {
+
+        if (Global.binaryConfigState.equalsIgnoreCase("TRUE")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

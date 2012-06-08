@@ -30,7 +30,7 @@ public class Setup {
         Global.dbName = dbname;
         Global.dbUserName = dbuser;
         Global.dbPassword = dbpassword;
-
+        Global.binaryConfigState = "TRUE";
         new Configs().finalizeConfig();
 
         String state = (String) session.getAttribute("setupstate");

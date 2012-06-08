@@ -2,63 +2,38 @@
 <%@ page import="org.srdbs.web.MyPrint" %>
 
 <%
-    //response.sendRedirect("/setup/");
-    //todo: session handling
-    if (request.getParameter("restartbt") != null && request.getParameter("restartbt").equalsIgnoreCase("restart")) {
+    if (!Api.systemState()) {
 
-        System.out.println("Restart method called.");
-        out.print("Restart ...");
-        Api.restartCore();
+        response.sendRedirect("/setup/");
+        return;
     }
 
-    if (request.getParameter("stopbt") != null && request.getParameter("stopbt").equalsIgnoreCase("stop")) {
+    if (session.getAttribute("username") == null) {
 
-        System.out.println("Stop method called.");
-        out.print("Stop ...");
-        Api.stopCore();
+        response.sendRedirect("/login.jsp");
+        return;
+
+    } else {
+
+        if (request.getParameter("restartbtn") != null && request.getParameter("restartbtn").equalsIgnoreCase("restart")) {
+
+            Api.restartCore();
+        }
+
+        if (request.getParameter("stopbtn") != null && request.getParameter("stopbtn").equalsIgnoreCase("stop")) {
+
+            Api.stopCore();
+        }
     }
 %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>SRDBS | Welcome</title>
-    <link href="style.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-<div class="header">
-    <div align="center">
-        <img src="images/header.png" alt="SRDBS Logo">
-    </div>
-</div>
-<div class="navi">
-    <div class="wrapper">
-        <table width="943" height="31">
-            <tr>
-                <td class="navtab"><a href="./status.jsp">Status</a></td>
-                <td class="navtab"><a href="./config.jsp">Configuration</a></td>
-                <td class="navtab"><a href="./backup.jsp">Backup</a></td>
-                <td class="navtab"><a href="./restore.jsp">Restore</a></td>
-                <td class="navtab"><a href="./logs.jsp">Logs</a></td>
-                <td class="navtab"><a href="./contacts.jsp">Contacts</a></td>
-            </tr>
-        </table>
-    </div>
-</div>
-<div class="body">
-    <div class="wrapper">
-        <h3><% out.println(MyPrint.send()); %></h3>
+<p>Login as : <% if (session.getAttribute("username") != null) {
+    out.println(session.getAttribute("username"));
+}%></p>
+<a href="/logout.jsp">Logout</a>
 
-        <form action="index.jsp" method="post">
-            <input type="submit" name="restartbt" value="restart">
-            <input type="submit" name="stopbt" value="stop">
-        </form>
-    </div>
-</div>
-<div class="footer">
-    <div class="wrapper">
-        <p>Creative Common Lichens.</p>
-    </div>
-</div>
-</body>
-</html>
+<form action="index.jsp" method="post">
+    <input type="submit" name="restartbtn" value="restart">
+    <input type="submit" name="stopbtn" value="stop">
+</form>

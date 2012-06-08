@@ -85,19 +85,22 @@ public class RunBackup {
                 if (raidArray[j] == 1) {
                     backplogger.info("Uploading " + file.getName() + Split.createSuffix(ftpFileNo) + " to cloud 1.");
                     Sftp.upload(Global.cloudIP1, Global.cloudUname1, Global.cloudPasswd1, Global.cloudPort1,
-                            Global.cloudCWD1 + "/" + datef.format(date), dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
+                            Global.cloudCWD1, dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
+                    //Global.cloudCWD1 + "/" + datef.format(date), dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
                 }
 
                 if (raidArray[j] == 2) {
                     backplogger.info("Uploading " + file.getName() + Split.createSuffix(ftpFileNo) + " to cloud 2.");
                     Sftp.upload(Global.cloudIP2, Global.cloudUname2, Global.cloudPasswd2, Global.cloudPort2,
-                            Global.cloudCWD2 + "/" + datef.format(date), dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
+                            Global.cloudCWD2, dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
+                    //Global.cloudCWD2 + "/" + datef.format(date), dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
                 }
 
                 if (raidArray[j] == 3) {
                     backplogger.info("Uploading " + file.getName() + Split.createSuffix(ftpFileNo) + " to cloud 3.");
                     Sftp.upload(Global.cloudIP3, Global.cloudUname3, Global.cloudPasswd3, Global.cloudPort3,
-                            Global.cloudCWD3 + "/" + datef.format(date), dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
+                            Global.cloudCWD3, dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
+                    //Global.cloudCWD3 + "/" + datef.format(date), dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
                 }
 
                 if (raidArray[j] == 4) {

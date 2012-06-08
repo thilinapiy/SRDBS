@@ -59,8 +59,8 @@ public class Sftp {
             channel = session.openChannel("sftp");
             channel.connect();
             channelSftp = (ChannelSftp) channel;
-            channelSftp.mkdir(remotePath);
-            channelSftp.cd(remotePath);
+            //channelSftp.mkdir(remotePath);
+            //channelSftp.cd(remotePath);
             File f = new File(file);
             channelSftp.put(new FileInputStream(f), f.getName());
             backplogger.info("Send the file.");

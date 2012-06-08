@@ -1,6 +1,14 @@
+<%@ page import="org.srdbs.web.Api" %>
 <%@ page import="org.srdbs.web.Setup" %>
 
-<% String msg = "";
+<%
+    if (Api.systemState()) {
+
+        response.sendRedirect("/setup/");
+        return;
+    }
+
+    String msg = "";
     String backbtn = request.getParameter("back");
     String submitbtn = request.getParameter("submit");
 

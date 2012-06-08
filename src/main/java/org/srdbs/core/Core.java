@@ -61,6 +61,15 @@ public class Core {
 
 
     private static class MyThread1 implements Runnable {
+        public void run() {
+
+            System.out.println("Starting thread 2 (web dashboard) Started.");
+            logger.info("Starting thread 2 (web dashboard) Started.");
+            Web.runWebDashboard();
+        }
+    }
+
+    private static class MyThread2 implements Runnable {
 
         public void run() {
 
@@ -95,15 +104,6 @@ public class Core {
         }
     }
 
-    private static class MyThread2 implements Runnable {
-        public void run() {
-
-            System.out.println("Starting thread 2 (web dashboard) Started.");
-            logger.info("Starting thread 2 (web dashboard) Started.");
-            Web.runWebDashboard();
-        }
-    }
-
     /**
      * This method will start the system.
      */
@@ -113,9 +113,15 @@ public class Core {
             Thread t1 = new Thread(new MyThread1());
             Thread t2 = new Thread(new MyThread2());
             t1.start();
-            t2.start();
+            logger.info("Start the web dashboard.");
+            if (Global.binaryConfigState.equalsIgnoreCase("TRUE")) {
+                t2.start();
+                logger.info("Start the system.");
+            } else {
+                System.out.println("Please do the initial configurations : https://localhost:8080/setup/ ");
+                logger.info("Please do the initial configurations : https://localhost:8080/setup/ ");
+            }
 
-            logger.info("Start the system.");
         } catch (Exception e) {
             logger.error("Error occurred : " + e);
         }
