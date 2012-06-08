@@ -130,18 +130,21 @@ public class Configs {
             Global.cloudIP1 = "192.168.222.141";
             Global.cloudUname1 = "prabodha";
             Global.cloudPasswd1 = "prabodha";
+            Global.cloudCWD1 = "/home/prabodha";
             Global.cloudPort1 = 22;
             Global.cloudBW1 = 1024;
 
             Global.cloudIP2 = "192.168.222.142";
             Global.cloudUname2 = "prabodha";
             Global.cloudPasswd2 = "prabodha";
+            Global.cloudCWD2 = "/home/prabodha";
             Global.cloudPort2 = 22;
             Global.cloudBW2 = 2048;
 
             Global.cloudIP3 = "192.168.222.143";
             Global.cloudUname3 = "prabodha";
             Global.cloudPasswd3 = "prabodha";
+            Global.cloudCWD3 = "/home/prabodha";
             Global.cloudPort3 = 22;
             Global.cloudBW3 = 4096;
 
@@ -163,6 +166,12 @@ public class Configs {
 
         try {
             binProp.setProperty("binary.system.config", Global.binaryConfigState);
+            binProp.setProperty("mysql.dbIP", Global.dbIP);
+            binProp.setProperty("mysql.dbPort", Global.dbPort);
+            binProp.setProperty("mysql.dbName", Global.dbName);
+            binProp.setProperty("mysql.dbUserName", Global.dbUserName);
+            binProp.setProperty("mysql.dbPassword", Global.dbPassword);
+
             binProp.store(new FileOutputStream(Global.binConfigPath), null);
             logger.info("Write configurations to the binary file.");
         } catch (Exception e) {

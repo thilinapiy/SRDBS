@@ -4,10 +4,10 @@
     String backbtn = request.getParameter("back");
     String nextbtn = request.getParameter("next");
 
-
     String ipaddress = request.getParameter("ipaddress");
     String port = request.getParameter("port");
     String username = request.getParameter("username");
+    String remotepath = request.getParameter("remotepath");
     String password = request.getParameter("password");
     String bandwidth = request.getParameter("bandwidth");
     String cost = request.getParameter("cost");
@@ -17,13 +17,13 @@
     }
 
     if (nextbtn != null && nextbtn.equalsIgnoreCase("next")) {
-
-        if (ipaddress != null && port != null && username != null && password != null && bandwidth != null && cost != null) {
-            if (!ipaddress.trim().equals("") && !port.trim().equals("") && !username.trim().equals("")
+        if (ipaddress != null && port != null && remotepath != null && username != null && password != null && bandwidth != null && cost != null) {
+            if (!ipaddress.trim().equals("") && !port.trim().equals("") && !remotepath.trim().equals("") && !username.trim().equals("")
                     && !password.trim().equals("") && !bandwidth.trim().equals("") && !cost.trim().equals("")) {
 
                 session.setAttribute("c3ipaddress", ipaddress.toLowerCase().trim());
                 session.setAttribute("c3port", port.trim());
+                session.setAttribute("c3remotepath", remotepath.trim());
                 session.setAttribute("c3username", username.trim());
                 session.setAttribute("c3password", password.trim());
                 session.setAttribute("c3bandwidth", bandwidth.trim());
@@ -54,6 +54,12 @@
             <td>Port</td>
             <td><input type="text" name="port"
                        value="<% if(session.getAttribute("c3port")!=null) { out.println(session.getAttribute("c3port")); } %>"/>
+            </td>
+        </tr>
+        <tr>
+            <td>Remote Path</td>
+            <td><input type="text" name="remotepath"
+                       value="<% if(session.getAttribute("c3remotepath")!=null) { out.println(session.getAttribute("c3remotepath")); } %>"/>
             </td>
         </tr>
         <tr>
@@ -116,6 +122,7 @@
     out.println("Cloud 1");
     out.println(session.getAttribute("c1ipaddress"));
     out.println(session.getAttribute("c1port"));
+    out.println(session.getAttribute("c1remotepath"));
     out.println(session.getAttribute("c1username"));
     out.println(session.getAttribute("c1password"));
     out.println(session.getAttribute("c1bandwidth"));
@@ -126,6 +133,7 @@
     out.println("Cloud 2");
     out.println(session.getAttribute("c2ipaddress"));
     out.println(session.getAttribute("c2port"));
+    out.println(session.getAttribute("c2remotepath"));
     out.println(session.getAttribute("c2username"));
     out.println(session.getAttribute("c2password"));
     out.println(session.getAttribute("c2bandwidth"));

@@ -56,10 +56,15 @@ F_SIZE Bigint,
 HashValue varchar(200),
 Ref_Cloud_ID int,
 Raid_Ref int,
+Remote_path varchar(400),
 
 Constraint Pk_SP_FileID_1 Primary key(SP_FILE_ID),
 Constraint FK_SP_FileID_2 Foreign key (F_ID) References Full_File (F_ID)
 );
+
+
+SELECT  * from Sp_File;
+
 --
 -- Step 1
 --

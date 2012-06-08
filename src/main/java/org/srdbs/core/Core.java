@@ -34,9 +34,10 @@ public class Core {
             Global.fs = System.getProperty("file.separator");
             Global.systemHome = System.getenv("SRDBS_HOME");
             System.out.println("System SRDBS_HOME path is set to : " + Global.systemHome);
+
             if (Global.systemHome == null) {
                 System.out.println("Set the environment variable \"SRDBS_HOME\" and rerun the system.");
-                System.exit(0);
+                System.exit(-1);
             } else {
                 Global.sysConfigPath = Global.systemHome + Global.fs + "config" + Global.fs + "sysconfig.conf";
                 Global.binConfigPath = Global.systemHome + Global.fs + "config" + Global.fs + "sysconfig.bin";
@@ -111,7 +112,7 @@ public class Core {
         try {
             Thread t1 = new Thread(new MyThread1());
             Thread t2 = new Thread(new MyThread2());
-            //t1.start();
+            t1.start();
             t2.start();
 
             logger.info("Start the system.");

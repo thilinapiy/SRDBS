@@ -8,6 +8,7 @@
     String ipaddress = request.getParameter("ipaddress");
     String port = request.getParameter("port");
     String username = request.getParameter("username");
+    String remotepath = request.getParameter("remotepath");
     String password = request.getParameter("password");
     String bandwidth = request.getParameter("bandwidth");
     String cost = request.getParameter("cost");
@@ -18,12 +19,13 @@
 
     if (nextbtn != null && nextbtn.equalsIgnoreCase("next")) {
 
-        if (ipaddress != null && port != null && username != null && password != null && bandwidth != null && cost != null) {
-            if (!ipaddress.trim().equals("") && !port.trim().equals("") && !username.trim().equals("")
+        if (ipaddress != null && port != null && remotepath != null && username != null && password != null && bandwidth != null && cost != null) {
+            if (!ipaddress.trim().equals("") && !port.trim().equals("") && !remotepath.trim().equals("") && !username.trim().equals("")
                     && !password.trim().equals("") && !bandwidth.trim().equals("") && !cost.trim().equals("")) {
 
                 session.setAttribute("c1ipaddress", ipaddress.toLowerCase().trim());
                 session.setAttribute("c1port", port.trim());
+                session.setAttribute("c1remotepath", remotepath.trim());
                 session.setAttribute("c1username", username.trim());
                 session.setAttribute("c1password", password.trim());
                 session.setAttribute("c1bandwidth", bandwidth.trim());
@@ -54,6 +56,12 @@
             <td>Port</td>
             <td><input type="text" name="port"
                        value="<% if(session.getAttribute("c1port")!=null) { out.println(session.getAttribute("c1port")); } %>"/>
+            </td>
+        </tr>
+        <tr>
+            <td>Remote Path</td>
+            <td><input type="text" name="remotepath"
+                       value="<% if(session.getAttribute("c1remotepath")!=null) { out.println(session.getAttribute("c1remotepath")); } %>"/>
             </td>
         </tr>
         <tr>

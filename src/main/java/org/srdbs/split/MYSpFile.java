@@ -20,7 +20,7 @@ public class MYSpFile {
     private File file;
     private int cloudId;
     private int rcloudId;
-
+    private String remotePath;
 
     public File getFile() {
         return file;
@@ -92,5 +92,14 @@ public class MYSpFile {
 
     public void setFid(long fid) {
         this.fid = fid;
+    }
+
+    public void setRemotePath(String remotePath) {
+        this.remotePath = remotePath;
+    }
+
+
+    public String getRemotePath() {
+        return remotePath;
     }
 }

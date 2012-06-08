@@ -7,6 +7,9 @@ import org.srdbs.split.MYSpFile;
 import org.srdbs.split.MyFile;
 import org.srdbs.split.Split;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static org.srdbs.split.Split.mySplit;
@@ -33,6 +36,8 @@ public class RunBackup {
         int noOfFiles = 0;
         List<MyFile> listOfFiles = null;
         listOfFiles = FileData.Read(path);
+        Date date = new Date();
+        DateFormat datef = new SimpleDateFormat("yyMMddHHmmss");
 
         for (MyFile file : listOfFiles) {
 
@@ -79,20 +84,20 @@ public class RunBackup {
 
                 if (raidArray[j] == 1) {
                     backplogger.info("Uploading " + file.getName() + Split.createSuffix(ftpFileNo) + " to cloud 1.");
-                    // Sftp.upload(Global.cloudIP1, Global.cloudUname1, Global.cloudPasswd1, Global.cloudPort1, Global.cloudCWD1,
-                    //         dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
+                    Sftp.upload(Global.cloudIP1, Global.cloudUname1, Global.cloudPasswd1, Global.cloudPort1,
+                            Global.cloudCWD1 + "/" + datef.format(date), dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
                 }
 
                 if (raidArray[j] == 2) {
                     backplogger.info("Uploading " + file.getName() + Split.createSuffix(ftpFileNo) + " to cloud 2.");
-                    // Sftp.upload(Global.cloudIP2, Global.cloudUname2, Global.cloudPasswd2, Global.cloudPort2, Global.cloudCWD2,
-                    //         dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
+                    Sftp.upload(Global.cloudIP2, Global.cloudUname2, Global.cloudPasswd2, Global.cloudPort2,
+                            Global.cloudCWD2 + "/" + datef.format(date), dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
                 }
 
                 if (raidArray[j] == 3) {
                     backplogger.info("Uploading " + file.getName() + Split.createSuffix(ftpFileNo) + " to cloud 3.");
-                    // Sftp.upload(Global.cloudIP3, Global.cloudUname3, Global.cloudPasswd3, Global.cloudPort3, Global.cloudCWD3,
-                    //         dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
+                    Sftp.upload(Global.cloudIP3, Global.cloudUname3, Global.cloudPasswd3, Global.cloudPort3,
+                            Global.cloudCWD3 + "/" + datef.format(date), dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
                 }
 
                 if (raidArray[j] == 4) {

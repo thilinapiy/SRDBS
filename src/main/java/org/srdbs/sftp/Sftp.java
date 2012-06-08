@@ -42,7 +42,7 @@ public class Sftp {
     }
 
 
-    public static int upload(String sftpIP, String sftpUser, String sftpPasswd, int sftpPort, String sftpCwd, String file) {
+    public static int upload(String sftpIP, String sftpUser, String sftpPasswd, int sftpPort, String remotePath, String file) {
 
         Session session = null;
         Channel channel = null;
@@ -59,14 +59,17 @@ public class Sftp {
             channel = session.openChannel("sftp");
             channel.connect();
             channelSftp = (ChannelSftp) channel;
-            channelSftp.cd(sftpCwd);
+            channelSftp.mkdir(remotePath);
+            channelSftp.cd(remotePath);
             File f = new File(file);
             channelSftp.put(new FileInputStream(f), f.getName());
-            logger.info("Send the file.");
+            backplogger.info("Send the file.");
 
             return 0;
         } catch (Exception ex) {
-            logger.error("Ftp upload error : " + ex);
+            backplogger.error("Ftp upload error on IP : " + sftpIP + " more details :" + ex);
+            backplogger.error("IP : " + sftpIP + ", " + sftpPort + ", " + sftpUser + ", "
+                    + sftpPasswd + ", " + file + " upload to " + remotePath);
             return 10;
         }
     }

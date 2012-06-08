@@ -1,6 +1,8 @@
 package org.srdbs.web;
 
 import org.apache.log4j.Logger;
+import org.srdbs.core.Configs;
+import org.srdbs.core.Global;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,17 +19,26 @@ public class Setup {
 
     public static boolean checkInstallation(HttpSession session) {
 
-        //DbConnect insert = new DbConnect();
-        //insert.insertSetup("INIT_CONFIG", "true");
-        String state = (String) session.getAttribute("setupstate");
-        String username = (String) session.getAttribute("username");
-        String password = (String) session.getAttribute("password");
-
         String dbipaddress = (String) session.getAttribute("dbipaddress");
         String dbport = (String) session.getAttribute("dbport");
         String dbname = (String) session.getAttribute("dbname");
         String dbuser = (String) session.getAttribute("dbuser");
         String dbpassword = (String) session.getAttribute("dbpassword");
+
+        Global.dbIP = dbipaddress;
+        Global.dbPort = dbport;
+        Global.dbName = dbname;
+        Global.dbUserName = dbuser;
+        Global.dbPassword = dbpassword;
+
+        new Configs().finalizeConfig();
+
+        String state = (String) session.getAttribute("setupstate");
+        String username = (String) session.getAttribute("username");
+        String password = (String) session.getAttribute("password");
+
+        //DbConnect insert = new DbConnect();
+        //insert.insertSetup("INIT_CONFIG", "true");
 
         String c1ipaddress = (String) session.getAttribute("c1ipaddress");
         String c1port = (String) session.getAttribute("c1port");

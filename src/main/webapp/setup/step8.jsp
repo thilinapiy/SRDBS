@@ -50,15 +50,18 @@
                         out.println("Cloud 1");
                         out.println(session.getAttribute("c1ipaddress"));
                         out.println(session.getAttribute("c1port"));
+                        out.println(session.getAttribute("c1remotepath"));
                         out.println(session.getAttribute("c1username"));
                         out.println(session.getAttribute("c1password"));
                         out.println(session.getAttribute("c1bandwidth"));
                         out.println(session.getAttribute("c1cost"));
 
+
                         out.println("");
                         out.println("Cloud 2");
                         out.println(session.getAttribute("c2ipaddress"));
                         out.println(session.getAttribute("c2port"));
+                        out.println(session.getAttribute("c2remotepath"));
                         out.println(session.getAttribute("c2username"));
                         out.println(session.getAttribute("c2password"));
                         out.println(session.getAttribute("c2bandwidth"));
@@ -68,6 +71,7 @@
                         out.println("Cloud 3");
                         out.println(session.getAttribute("c3ipaddress"));
                         out.println(session.getAttribute("c3port"));
+                        out.println(session.getAttribute("c3remotepath"));
                         out.println(session.getAttribute("c3username"));
                         out.println(session.getAttribute("c3password"));
                         out.println(session.getAttribute("c3bandwidth"));
