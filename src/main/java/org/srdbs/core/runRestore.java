@@ -24,16 +24,6 @@ public class RunRestore {
 
     public static int runRestore(String downloadPath, String restorePath, int restoreFileID) {
 
-        // retrive data from the database.
-
-        // FTP GET
-
-        // validate
-
-        // merge
-
-        //  validate
-
         try {
             DbConnect dbconnection = new DbConnect();
             List<MYSpFile> listofFiles = ReadSPFile(downloadPath);
