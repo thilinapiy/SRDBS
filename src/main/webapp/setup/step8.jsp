@@ -17,7 +17,7 @@
     String backbtn = request.getParameter("back");
     String submitbtn = request.getParameter("submit");
 
-    session.setAttribute("setupstate", "Done");
+    session.setAttribute("setupstate", "step8");
     if (backbtn != null && backbtn.equalsIgnoreCase("back")) {
         response.sendRedirect("/setup/step7.jsp");
         return;
@@ -53,7 +53,7 @@
 
                         out.println("");
                         out.println("Database");
-                        out.println(session.getAttribute("ipaddress"));
+                        out.println(session.getAttribute("dbipaddress"));
                         out.println(session.getAttribute("dbport"));
                         out.println(session.getAttribute("dbname"));
                         out.println(session.getAttribute("dbuser"));

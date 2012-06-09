@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.srdbs.core.Global;
 import org.srdbs.core.RunBackup;
 
 import java.util.Date;
@@ -23,8 +24,7 @@ public class RunJob implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
         backplogger.info("Running the scheduled backup at : " + new Date());
-        RunBackup.runBackup("C:\\Users\\Thilina\\Desktop\\movie\\",
-                "E:\\copytest\\");
+        RunBackup.runBackup(Global.backupLocation1, Global.tempLocation);
         backplogger.info("Scheduled backup process ended at : " + new Date());
     }
 }

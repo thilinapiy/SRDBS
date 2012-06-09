@@ -19,8 +19,8 @@ public class Global {
     // Basic system configurations.
     public static String sysLogPath;
     public static String backupLogPath;
-    public static String dbIP;
-    public static String dbPort;
+    public static String dbIPAddress;
+    public static int dbPort;
     public static String dbURL;
     public static String dbName;
     public static String dbDriver = "com.mysql.jdbc.Driver";
@@ -28,44 +28,45 @@ public class Global {
     public static String dbPassword;
 
     public static int webPort;
+    public static String SysUserName;
+    public static String SysUserPassword;
 
-    public static String cloudIP1;
-    public static String cloudUname1;
-    public static String cloudPasswd1;
-    public static int cloudPort1;
-    public static int cloudBW1;
-    public static String cloudCost1;
-    public static String cloudCWD1;
+    public static String c1IPAddress;
+    public static int c1Port;
+    public static String c1Remotepath;
+    public static String c1UserName;
+    public static String c1Password;
+    public static int c1Bandwidth;
+    public static String c1Cost;
 
-    public static String cloudIP2;
-    public static String cloudUname2;
-    public static String cloudPasswd2;
-    public static int cloudPort2;
-    public static int cloudBW2;
-    public static String cloudCost2;
-    public static String cloudCWD2;
+    public static String c2IPAddress;
+    public static int c2Port;
+    public static String c2Remotepath;
+    public static String c2UserName;
+    public static String c2Password;
+    public static int c2Bandwidth;
+    public static String c2Cost;
 
-    public static String cloudIP3;
-    public static String cloudUname3;
-    public static String cloudPasswd3;
-    public static int cloudPort3;
-    public static int cloudBW3;
-    public static String cloudCost3;
-    public static String cloudCWD3;
+    public static String c3IPAddress;
+    public static int c3Port;
+    public static String c3Remotepath;
+    public static String c3UserName;
+    public static String c3Password;
+    public static int c3Bandwidth;
+    public static String c3Cost;
 
-    public static String cloudIP4;
-    public static String cloudUname4;
-    public static String cloudPasswd4;
-    public static int cloudPort4;
-    public static int cloudBW4;
-    public static String cloudCost4;
-    public static String cloudCWD4;
+    public static String tempLocation;
+    public static String restoreLocation;
 
-    public static String cloudIP5;
-    public static String cloudUname5;
-    public static String cloudPasswd5;
-    public static int cloudPort5;
-    public static int cloudBW5;
-    public static String cloudCost5;
-    public static String cloudCWD5;
+    public static String backupLocation1;
+    public static String backupLocation2;
+    public static String backupLocation3;
+    public static String backupLocation4;
+    public static String backupLocation5;
+
+    public static String schedule1;
+    public static String schedule2;
+    public static String schedule3;
+    public static String schedule4;
+    public static String schedule5;
 }

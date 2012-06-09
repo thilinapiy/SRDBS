@@ -1,4 +1,5 @@
 <%@ page import="org.srdbs.web.Api" %>
+<%@ page import="org.srdbs.web.Setup" %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.DriverManager" %>
 <%
@@ -51,6 +52,8 @@
                     conn = DriverManager.getConnection(dbURL, dbu, dbp);
                     conn.close();
                     msg = "Connected to the database";
+                    Setup.initializeDatabase(session);
+                    msg = "Database initialized successfully.";
                 } catch (Exception e) {
                     msg = "Database connection error : " + e;
                 }

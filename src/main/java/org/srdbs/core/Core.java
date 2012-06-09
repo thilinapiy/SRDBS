@@ -54,6 +54,7 @@ public class Core {
         // initialize logs and system configurations.
         System.out.println("Initializing main system configurations.");
         new Configs().initConfigs();
+
         System.out.println("Starting ...");
         logger.info("Starting ...");
         Core.start();

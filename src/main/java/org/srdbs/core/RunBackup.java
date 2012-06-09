@@ -41,7 +41,10 @@ public class RunBackup {
 
         for (MyFile file : listOfFiles) {
 
-            int packetVal = ((int) file.getSize()) / (Global.cloudBW1 + Global.cloudBW2 + Global.cloudBW3);
+            int bandwidthSum = Global.c1Bandwidth + Global.c2Bandwidth + Global.c3Bandwidth;
+            int packetVal = (int) (file.getSize() / bandwidthSum);
+            backplogger.info("Packet size : " + packetVal + " File size : " + file.getSize() + " c1 : " + Global.c1Bandwidth
+                    + " c2 : " + Global.c2Bandwidth + " c3 : " + Global.c3Bandwidth + " sum : " + bandwidthSum);
             int count = mySplit(path + Global.fs + file.getName(), dest
                     + Global.fs + file.getName(), packetVal);
 
@@ -58,7 +61,7 @@ public class RunBackup {
             }
 
             // RAID
-            int[] raidArray = Sftp.raid(count, Global.cloudBW1, Global.cloudBW2, Global.cloudBW3);
+            int[] raidArray = Sftp.raid(count, Global.c1Bandwidth, Global.c2Bandwidth, Global.c3Bandwidth);
             backplogger.info("Raid is done.");
 
             //TODO remove this
@@ -84,22 +87,22 @@ public class RunBackup {
 
                 if (raidArray[j] == 1) {
                     backplogger.info("Uploading " + file.getName() + Split.createSuffix(ftpFileNo) + " to cloud 1.");
-                    Sftp.upload(Global.cloudIP1, Global.cloudUname1, Global.cloudPasswd1, Global.cloudPort1,
-                            Global.cloudCWD1, dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
+                    Sftp.upload(Global.c1IPAddress, Global.c1UserName, Global.c1Password, Global.c1Port,
+                            Global.c1Remotepath, dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
                     //Global.cloudCWD1 + "/" + datef.format(date), dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
                 }
 
                 if (raidArray[j] == 2) {
                     backplogger.info("Uploading " + file.getName() + Split.createSuffix(ftpFileNo) + " to cloud 2.");
-                    Sftp.upload(Global.cloudIP2, Global.cloudUname2, Global.cloudPasswd2, Global.cloudPort2,
-                            Global.cloudCWD2, dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
+                    Sftp.upload(Global.c2IPAddress, Global.c2UserName, Global.c2Password, Global.c2Port,
+                            Global.c2Remotepath, dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
                     //Global.cloudCWD2 + "/" + datef.format(date), dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
                 }
 
                 if (raidArray[j] == 3) {
                     backplogger.info("Uploading " + file.getName() + Split.createSuffix(ftpFileNo) + " to cloud 3.");
-                    Sftp.upload(Global.cloudIP3, Global.cloudUname3, Global.cloudPasswd3, Global.cloudPort3,
-                            Global.cloudCWD3, dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
+                    Sftp.upload(Global.c3IPAddress, Global.c3UserName, Global.c3Password, Global.c3Port,
+                            Global.c3Remotepath, dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
                     //Global.cloudCWD3 + "/" + datef.format(date), dest + Global.fs + file.getName() + Split.createSuffix(ftpFileNo));
                 }
 

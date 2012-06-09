@@ -26,7 +26,7 @@ public class DbConnect {
         try {
 
             Class.forName(Global.dbDriver).newInstance();
-            Global.dbURL = "jdbc:mysql://" + Global.dbIP + ":" + Global.dbPort + "/";
+            Global.dbURL = "jdbc:mysql://" + Global.dbIPAddress + ":" + Global.dbPort + "/";
             conn = DriverManager.getConnection(Global.dbURL
                     + Global.dbName, Global.dbUserName, Global.dbPassword);
             logger.info("Connected to the database");
@@ -86,10 +86,20 @@ public class DbConnect {
         return array;
     }
 
-    public int insertSetup(String key, String val) {
+    public boolean updateQuery(String query) {
 
-        String query = "INSERT INTO sysconfig (sysname, sysvalue) VALUE ('" + key + "','" + val + "')";
-        return insertQuery(query);
+        Connection conn = connect();
+        Statement s = null;
+        try {
+            s = conn.createStatement();
+            s.executeUpdate(query);
+            s.close();
+            return true;
+
+        } catch (Exception e) {
+            logger.error("Error on update sql query : " + query);
+            return false;
+        }
     }
 
     public int validateUser(String uname, String passwd) {
@@ -244,4 +254,5 @@ public class DbConnect {
         }
         return fileList;
     }
+
 }

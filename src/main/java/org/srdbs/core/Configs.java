@@ -5,8 +5,6 @@ import org.apache.log4j.PropertyConfigurator;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.Properties;
 
 /**
@@ -56,74 +54,111 @@ public class Configs {
 
     public void initUsingBin(Properties binProp) {
 
-        Global.webPort = 8080;
         Global.dbDriver = "com.mysql.jdbc.Driver";
-        Global.dbIP = binProp.getProperty("mysql.dbIP");
-        Global.dbPort = binProp.getProperty("mysql.dbPort");
+        Global.dbIPAddress = binProp.getProperty("mysql.dbIPAddress");
+        Global.dbPort = Integer.valueOf(binProp.getProperty("mysql.dbPort"));
         Global.dbName = binProp.getProperty("mysql.dbName");
-        Global.dbURL = "jdbc:mysql://" + Global.dbIP + ":" + Global.dbPort + "/";
+        Global.dbURL = "jdbc:mysql://" + Global.dbIPAddress + ":" + Global.dbPort + "/";
         Global.dbUserName = binProp.getProperty("mysql.dbUserName");
         Global.dbPassword = binProp.getProperty("mysql.dbPassword");
 
-        initDbConfigs();
-    }
+        Global.webPort = Integer.valueOf(binProp.getProperty("system.webPort"));
+        Global.SysUserName = binProp.getProperty("system.SysUserName");
+        Global.SysUserPassword = binProp.getProperty("system.SysUserPassword");
 
-    public void initDbConfigs() {
+        Global.c1IPAddress = binProp.getProperty("system.c1IPAddress");
+        Global.c1Port = Integer.valueOf(binProp.getProperty("system.c1Port"));
+        Global.c1Remotepath = binProp.getProperty("system.c1Remotepath");
+        Global.c1UserName = binProp.getProperty("system.c1UserName");
+        Global.c1Password = binProp.getProperty("system.c1Password");
+        Global.c1Bandwidth = Integer.valueOf(binProp.getProperty("system.c1Bandwidth"));
+        Global.c1Cost = binProp.getProperty("system.c1Cost");
 
-        // test the database connection.
-        Connection conn = null;
-        try {
+        Global.c2IPAddress = binProp.getProperty("system.c2IPAddress");
+        Global.c2Port = Integer.valueOf(binProp.getProperty("system.c2Port"));
+        Global.c2Remotepath = binProp.getProperty("system.c2Remotepath");
+        Global.c2UserName = binProp.getProperty("system.c2UserName");
+        Global.c2Password = binProp.getProperty("system.c2Password");
+        Global.c2Bandwidth = Integer.valueOf(binProp.getProperty("system.c2Bandwidth"));
+        Global.c2Cost = binProp.getProperty("system.c2Cost");
 
-            Class.forName(Global.dbDriver).newInstance();
-            conn = DriverManager.getConnection(Global.dbURL
-                    + Global.dbName, Global.dbUserName, Global.dbPassword);
-            logger.info("Database connection test done.");
-            // get data from the database
-            // TODO change this
+        Global.c3IPAddress = binProp.getProperty("system.c3IPAddress");
+        Global.c3Port = Integer.valueOf(binProp.getProperty("system.c3Port"));
+        Global.c3Remotepath = binProp.getProperty("system.c3Remotepath");
+        Global.c3UserName = binProp.getProperty("system.c3UserName");
+        Global.c3Password = binProp.getProperty("system.c3Password");
+        Global.c3Bandwidth = Integer.valueOf(binProp.getProperty("system.c3Bandwidth"));
+        Global.c3Cost = binProp.getProperty("system.c3Cost");
 
-            Global.cloudIP1 = "192.168.222.141";
-            Global.cloudUname1 = "prabodha";
-            Global.cloudPasswd1 = "prabodha";
-            Global.cloudCWD1 = "/home/prabodha";
-            Global.cloudPort1 = 22;
-            Global.cloudBW1 = 1024;
+        Global.tempLocation = binProp.getProperty("system.tempLocation");
+        Global.restoreLocation = binProp.getProperty("system.restoreLocation");
 
-            Global.cloudIP2 = "192.168.222.142";
-            Global.cloudUname2 = "prabodha";
-            Global.cloudPasswd2 = "prabodha";
-            Global.cloudCWD2 = "/home/prabodha";
-            Global.cloudPort2 = 22;
-            Global.cloudBW2 = 2048;
+        Global.backupLocation1 = binProp.getProperty("system.backupLocation1");
+        Global.backupLocation2 = binProp.getProperty("system.backupLocation2");
+        Global.backupLocation3 = binProp.getProperty("system.backupLocation3");
+        Global.backupLocation4 = binProp.getProperty("system.backupLocation4");
+        Global.backupLocation5 = binProp.getProperty("system.backupLocation5");
 
-            Global.cloudIP3 = "192.168.222.143";
-            Global.cloudUname3 = "prabodha";
-            Global.cloudPasswd3 = "prabodha";
-            Global.cloudCWD3 = "/home/prabodha";
-            Global.cloudPort3 = 22;
-            Global.cloudBW3 = 4096;
+        Global.schedule1 = binProp.getProperty("system.schedule1");
+        Global.schedule2 = binProp.getProperty("system.schedule2");
+        Global.schedule3 = binProp.getProperty("system.schedule3");
+        Global.schedule4 = binProp.getProperty("system.schedule4");
+        Global.schedule5 = binProp.getProperty("system.schedule5");
 
-            conn.close();
-
-            //System.out.println("Database connection test done.");
-            //ArrayList data = new DbConnect().getBasicConfig();
-            //System.out.println("Retrive data from the database.");
-
-        } catch (Exception ex) {
-            System.out.println("Error in database connection test : " + ex);
-            logger.error("Error in database connection test : " + ex);
-            System.exit(-1);
-        }
     }
 
     public void finalizeConfig() {
 
         try {
             binProp.setProperty("binary.system.config", Global.binaryConfigState);
-            binProp.setProperty("mysql.dbIP", Global.dbIP);
-            binProp.setProperty("mysql.dbPort", Global.dbPort);
+            binProp.setProperty("mysql.dbIPAddress", Global.dbIPAddress);
+            binProp.setProperty("mysql.dbPort", String.valueOf(Global.dbPort));
             binProp.setProperty("mysql.dbName", Global.dbName);
             binProp.setProperty("mysql.dbUserName", Global.dbUserName);
             binProp.setProperty("mysql.dbPassword", Global.dbPassword);
+
+            binProp.setProperty("system.webPort", String.valueOf(Global.webPort));
+            binProp.setProperty("system.SysUserName", Global.SysUserName);
+            binProp.setProperty("system.SysUserPassword", Global.SysUserPassword);
+
+            binProp.setProperty("system.c1IPAddress", Global.c1IPAddress);
+            binProp.setProperty("system.c1Port", String.valueOf(Global.c1Port));
+            binProp.setProperty("system.c1Remotepath", Global.c1Remotepath);
+            binProp.setProperty("system.c1UserName", Global.c1UserName);
+            binProp.setProperty("system.c1Password", Global.c1Password);
+            binProp.setProperty("system.c1Bandwidth", String.valueOf(Global.c1Bandwidth));
+            binProp.setProperty("system.c1Cost", Global.c1Cost);
+
+            binProp.setProperty("system.c2IPAddress", Global.c2IPAddress);
+            binProp.setProperty("system.c2Port", String.valueOf(Global.c2Port));
+            binProp.setProperty("system.c2Remotepath", Global.c2Remotepath);
+            binProp.setProperty("system.c2UserName", Global.c2UserName);
+            binProp.setProperty("system.c2Password", Global.c2Password);
+            binProp.setProperty("system.c2Bandwidth", String.valueOf(Global.c2Bandwidth));
+            binProp.setProperty("system.c2Cost", Global.c2Cost);
+
+            binProp.setProperty("system.c3IPAddress", Global.c3IPAddress);
+            binProp.setProperty("system.c3Port", String.valueOf(Global.c3Port));
+            binProp.setProperty("system.c3Remotepath", Global.c3Remotepath);
+            binProp.setProperty("system.c3UserName", Global.c3UserName);
+            binProp.setProperty("system.c3Password", Global.c3Password);
+            binProp.setProperty("system.c3Bandwidth", String.valueOf(Global.c3Bandwidth));
+            binProp.setProperty("system.c3Cost", Global.c3Cost);
+
+            binProp.setProperty("system.tempLocation", Global.tempLocation);
+            binProp.setProperty("system.restoreLocation", Global.restoreLocation);
+
+            binProp.setProperty("system.backupLocation1", Global.backupLocation1);
+            binProp.setProperty("system.backupLocation2", Global.backupLocation2);
+            binProp.setProperty("system.backupLocation3", Global.backupLocation3);
+            binProp.setProperty("system.backupLocation4", Global.backupLocation4);
+            binProp.setProperty("system.backupLocation5", Global.backupLocation5);
+
+            binProp.setProperty("system.schedule1", Global.schedule1);
+            binProp.setProperty("system.schedule2", Global.schedule2);
+            binProp.setProperty("system.schedule3", Global.schedule3);
+            binProp.setProperty("system.schedule4", Global.schedule4);
+            binProp.setProperty("system.schedule5", Global.schedule5);
 
             binProp.store(new FileOutputStream(Global.binConfigPath), null);
             logger.info("Write configurations to the binary file.");
