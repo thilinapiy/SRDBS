@@ -90,10 +90,11 @@ public class FileData {
     }
     */
 
-    public static List<MYSpFile> ReadSPFile(String path, int NoPackets) {
+    public static List<MYSpFile> ReadSPFile(String path, int NoPackets, int[] raidArray) {
 
         int k = 0;
         int j = 0;
+        int m = 0;
         String Full_Path;
         String Hash, date;
         String Fname;
@@ -122,9 +123,10 @@ public class FileData {
                         mySPFile.setcDate(date);
                         mySPFile.setSize(S);
                         mySPFile.setFile(sysFile);
-                        mySPFile.setCloud(1);
-                        mySPFile.setRcloud(2);
+                        mySPFile.setCloud(raidArray[m]);
+                        mySPFile.setRcloud(raidArray[m + 1]);
                         fileList.add(mySPFile);
+                        m = m + 2;
                     } else {
                         j = 0;
                     }

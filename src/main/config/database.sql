@@ -39,6 +39,9 @@ CREATE TABLE backup_locations(
   location varchar (2048)
 );
 
+DROP TABLE sp_File;
+DROP TABLE full_File;
+
 CREATE TABLE full_file(
 	F_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	FName VARCHAR(100),
@@ -62,8 +65,8 @@ Constraint Pk_SP_FileID_1 Primary key(SP_FILE_ID),
 Constraint FK_SP_FileID_2 Foreign key (F_ID) References Full_File (F_ID)
 );
 
-
 SELECT  * from Sp_File;
+
 
 --
 -- Step 1

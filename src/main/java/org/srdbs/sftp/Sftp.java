@@ -6,6 +6,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.srdbs.core.Global;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,6 +22,7 @@ public class Sftp {
 
     public static Logger logger = Logger.getLogger("systemsLog");
     public static Logger backplogger = Logger.getLogger("backupLog");
+    public static Logger restoreLog = Logger.getLogger("restoreLog");
 
     /**
      * This is a test method
@@ -73,6 +75,64 @@ public class Sftp {
             return 10;
         }
     }
+
+    public static int download(String fileName, int cloud) {
+
+        String uName = "";
+        String host = "";
+        int port = 22;
+        String password = "";
+        String serverPath = "";
+
+        JSch jsch = new JSch();
+        Session session = null;
+
+        if (cloud == 1) {
+            host = Global.c1IPAddress;
+            uName = Global.c1UserName;
+            port = Global.c1Port;
+            password = Global.c1Password;
+            serverPath = Global.c1Remotepath;
+        }
+
+        if (cloud == 2) {
+            host = Global.c2IPAddress;
+            uName = Global.c2UserName;
+            port = Global.c2Port;
+            password = Global.c2Password;
+            serverPath = Global.c2Remotepath;
+        }
+
+        if (cloud == 3) {
+            host = Global.c3IPAddress;
+            uName = Global.c3UserName;
+            port = Global.c3Port;
+            password = Global.c3Password;
+            serverPath = Global.c3Remotepath;
+        }
+
+        try {
+            session = jsch.getSession(uName, host, port);
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.setPassword(password);
+            session.connect();
+
+            Channel channel = session.openChannel("sftp");
+            channel.connect();
+            ChannelSftp sftpChannel = (ChannelSftp) channel;
+            sftpChannel.get(serverPath + "/" + fileName, Global.restoreLocation);
+            sftpChannel.exit();
+            session.disconnect();
+            restoreLog.info("Successfully download the file : " + serverPath + "/" + fileName);
+            return 0;
+
+        } catch (Exception e) {
+            restoreLog.error("Error on downloading file : " + serverPath + "/"
+                    + fileName + " from : " + uName + "@" + host + ":" + port);
+            return -1;
+        }
+    }
+
 
     // TODO write method 3 methods for RAID. Prabodha
     public static int[] raid(int pNumber, int c1, int c2, int c3) {

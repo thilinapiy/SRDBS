@@ -19,6 +19,7 @@ public class DbConnect {
 
     public static Logger logger = Logger.getLogger("systemsLog");
     public static Logger backplogger = Logger.getLogger("backupLog");
+    public static Logger restoreLog = Logger.getLogger("restoreLog");
 
     private Connection connect() {
 
@@ -255,4 +256,28 @@ public class DbConnect {
         return fileList;
     }
 
+    public List<MYSpFile> selectLoadSpQuery(int fid) {
+
+        String sql = " select SP_FileName,Ref_Cloud_ID,Raid_Ref from sp_file where F_ID=" + fid + "";
+        Connection connection = connect();
+        List<MYSpFile> fileList = new ArrayList<MYSpFile>();
+
+        try {
+            Statement s = connection.createStatement();
+            ResultSet rs = s.executeQuery(sql);
+
+            while (rs.next()) {
+                MYSpFile myspFile = new MYSpFile();
+                myspFile.setName(rs.getString("SP_FileName"));
+                myspFile.setCloud(rs.getInt("Ref_Cloud_ID"));
+                myspFile.setRcloud(rs.getInt("Raid_Ref"));
+                fileList.add(myspFile);
+            }
+            restoreLog.info("Get SP files of the FID : " + fid);
+        } catch (Exception e) {
+            restoreLog.error("Error in retrieving data from the database.");
+        }
+
+        return fileList;
+    }
 }

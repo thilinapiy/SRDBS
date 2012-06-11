@@ -83,13 +83,13 @@ public class Core {
 
                 JobDetail job = new JobDetail("backup1", "BackupSchedule", RunJob.class);
 
-                Trigger trigger = new CronTrigger("Trigger1", "Triggers", "0 0/5 * * * ?");
+                Trigger trigger = new CronTrigger("Trigger1", "Triggers", "0 0/15 * * * ?");
                 //Trigger trigger = TriggerUtils.makeHourlyTrigger();
                 //trigger.setStartTime(new Date());
                 //trigger.setName("myTrigger");
 
                 scheduler.scheduleJob(job, trigger);
-                backplogger.info("Starting backup job : 1 on schedule : 0 0/5 * * * ?");
+                backplogger.info("Starting backup job : 1 on schedule : 0 0/15 * * * ?");
                 while (true) {
                     try {
                         Thread.sleep(90L * 1000L);

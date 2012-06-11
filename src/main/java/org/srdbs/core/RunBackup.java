@@ -38,6 +38,7 @@ public class RunBackup {
         listOfFiles = FileData.Read(path);
         Date date = new Date();
         DateFormat datef = new SimpleDateFormat("yyMMddHHmmss");
+        List<MYSpFile> dListOfFiles = null;
 
         for (MyFile file : listOfFiles) {
 
@@ -71,7 +72,8 @@ public class RunBackup {
             }
 
             try {
-                List<MYSpFile> dListOfFiles = FileData.ReadSPFile(dest, count);
+                dListOfFiles = FileData.ReadSPFile(dest, count, raidArray);
+
                 for (MYSpFile file2 : dListOfFiles) {
                     dbConnect.saveSPFiles(file2.getFid(), file2.getName(), file2.getSize(),
                             file2.getHash(), file2.getCloud(), file2.getRCloud());

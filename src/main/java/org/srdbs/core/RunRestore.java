@@ -1,6 +1,7 @@
 package org.srdbs.core;
 
 import org.apache.log4j.Logger;
+import org.srdbs.sftp.Sftp;
 import org.srdbs.split.FileData;
 import org.srdbs.split.Join;
 import org.srdbs.split.MYSpFile;
@@ -22,22 +23,33 @@ public class RunRestore {
     public static Logger logger = Logger.getLogger("systemsLog");
     public static Logger restoreLog = Logger.getLogger("restoreLog");
 
-    public static int runRestore(String downloadPath, String restorePath, int restoreFileID) {
+    public static int runRestore(int FID) {
+
+        //Download files
+        List<MYSpFile> getSPFiles = new DbConnect().selectLoadSpQuery(FID);
+        for (MYSpFile spfile : getSPFiles) {
+
+            restoreLog.info("Downloading file : " + spfile.getName() + " from " + spfile.getCloud());
+            int original = Sftp.download(spfile.getName(), spfile.getCloud());
+            if (original != 0) {
+                Sftp.download(spfile.getName(), spfile.getRCloud());
+            }
+        }
+
 
         try {
             DbConnect dbconnection = new DbConnect();
-            List<MYSpFile> listofFiles = ReadSPFile(downloadPath);
-            List<MyFile> listofrecords = dbconnection.selectFullQuery(restoreFileID);
+            List<MYSpFile> listofFiles = ReadSPFile(Global.restoreLocation);
+            List<MyFile> listofrecords = dbconnection.selectFullQuery(FID);
             for (MyFile mylist : listofrecords) {
-                if (HashCheck(listofFiles, restoreFileID)) {
-                    // MyFile myfile = new MyFile();
+                if (HashCheck(listofFiles, FID)) {
                     String FileName = mylist.getName();
-                    String S_Complete = downloadPath + "/" + FileName;
-                    String D_Complete = restorePath + "/" + FileName;
+                    String S_Complete = Global.restoreLocation + "/" + FileName;
+                    String D_Complete = Global.restoreLocation + "/" + FileName;
                     Join.join(S_Complete, D_Complete);
 
-                    List<MyFile> fullfilelist = Read(restorePath);
-                    if (FullHashCheck(fullfilelist, restoreFileID)) {
+                    List<MyFile> fullfilelist = Read(Global.restoreLocation);
+                    if (FullHashCheck(fullfilelist, FID)) {
                         restoreLog.info("Hashes are matching");
                     } else {
                         restoreLog.error("Error");

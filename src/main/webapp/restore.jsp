@@ -1,9 +1,11 @@
 <%@ page import="org.srdbs.web.Api" %>
-<%@ page import="org.srdbs.web.MyPrint" %>
+<%@ page import="org.srdbs.core.RunRestore" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.sql.*" %>
 <%
+    String select[] = request.getParameterValues("id");
+
     if (!Api.systemState()) {
 
         response.sendRedirect("/setup/");
@@ -14,9 +16,13 @@
 
         response.sendRedirect("/login.jsp");
         return;
+    } else {
 
-        // } else {
-
+        if (select != null && select.length != 0) {
+            for (int i = 0; i < select.length; i++) {
+                RunRestore.runRestore(Integer.valueOf(select[i]));
+            }
+        }
 
     }
 %>
@@ -72,7 +78,6 @@
             </td>
             <td colspan="5">
                 <%
-                    String select[] = request.getParameterValues("id");
                     if (select != null && select.length != 0) {
                         out.println("You have selected: ");
                         for (int i = 0; i < select.length; i++) {
