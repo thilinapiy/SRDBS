@@ -31,6 +31,7 @@
 <p>Login as : <% if (session.getAttribute("username") != null) {
     out.println(session.getAttribute("username"));
 }%></p>
+<a href="/">Index</a>
 <a href="/logout.jsp">Logout</a>
 <table border="2px" cellpadding="10px">
     <form action="restore.jsp" method="post">

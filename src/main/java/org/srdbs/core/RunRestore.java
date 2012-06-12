@@ -29,7 +29,6 @@ public class RunRestore {
         List<MYSpFile> getSPFiles = new DbConnect().selectLoadSpQuery(FID);
         for (MYSpFile spfile : getSPFiles) {
 
-            restoreLog.info("Downloading file : " + spfile.getName() + " from " + spfile.getCloud());
             int original = Sftp.download(spfile.getName(), spfile.getCloud());
             if (original != 0) {
                 Sftp.download(spfile.getName(), spfile.getRCloud());
@@ -52,14 +51,14 @@ public class RunRestore {
                     if (FullHashCheck(fullfilelist, FID)) {
                         restoreLog.info("Hashes are matching");
                     } else {
-                        restoreLog.error("Error");
+                        // restoreLog.error("Error in full file hash.");
                     }
                 } else {
-                    restoreLog.error("Error");
+                    restoreLog.error("Error in split part hash.");
                 }
             }
         } catch (Exception ex) {
-            restoreLog.error("Error");
+            restoreLog.error("Error : " + ex);
         }
 
         return 0;
@@ -115,11 +114,11 @@ public class RunRestore {
                 if ((myfile.getName().equalsIgnoreCase(dbfile.getName()))
                         && (myfile.getHash().equalsIgnoreCase(dbfile.getHash()))) {
                     Check = true;
-                    restoreLog.info("Pass");
+                    restoreLog.info("Pass : " + myfile.getName());
 
                 } else {
                     Check = false;
-                    restoreLog.error("Fail");
+                    //restoreLog.error("Fail");
                 }
             }
         }
@@ -137,10 +136,10 @@ public class RunRestore {
                 if (myfile.getName().equalsIgnoreCase(dbfile.getName())
                         && myfile.getHash().equalsIgnoreCase(dbfile.getHash())) {
                     pass = true;
-                    restoreLog.info("Pass");
+                    restoreLog.info("Pass : " + myfile.getName());
                 } else {
                     pass = false;
-                    restoreLog.info("Fail");
+                    //restoreLog.info("Fail");
                 }
             }
         }

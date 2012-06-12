@@ -65,6 +65,8 @@ public class Sftp {
             //channelSftp.cd(remotePath);
             File f = new File(file);
             channelSftp.put(new FileInputStream(f), f.getName());
+            channelSftp.exit();
+            session.disconnect();
             backplogger.info("Send the file.");
 
             return 0;
@@ -143,42 +145,85 @@ public class Sftp {
         int count2 = (c2 * 2) / 1024;
         int count3 = (c3 * 2) / 1024;
         int i = 0;
-
+        int n = (count1 + count2 + count3 + 2);
         backplogger.info("Raid starting with cloud bandwidths : " + count1 + ", " + count2 + ", " + count3 + " number of packets " + 2 * pNumber);
-        do {
-            int o = getRandomCloud(numberOfClouds);
-            int r = getRandomCloud(numberOfClouds);
+        if (pNumber * 2 == (count1 + count2 + count3)) {
+            do {
+                int o = getRandomCloud(numberOfClouds);
+                int r = getRandomCloud(numberOfClouds);
 
-            while (o == r) {
-                r = getRandomCloud(numberOfClouds);
-            }
-            raidArray[i] = o;
-            raidArray[i + 1] = r;
-            i = i + 2;
+                while (o == r) {
+                    r = getRandomCloud(numberOfClouds);
+                }
+                raidArray[i] = o;
+                raidArray[i + 1] = r;
+                i = i + 2;
 
-            if (o == 1 && r == 2) {
-                count1 = count1 - 1;
-                count2 = count2 - 1;
-            } else if (o == 1 && r == 3) {
-                count1 = count1 - 1;
-                count3 = count3 - 1;
-            } else if (o == 2 && r == 1) {
-                count2 = count2 - 1;
-                count1 = count1 - 1;
-            } else if (o == 2 && r == 3) {
-                count2 = count2 - 1;
-                count3 = count3 - 1;
-            } else if (o == 3 && r == 1) {
-                count3 = count3 - 1;
-                count1 = count1 - 1;
-            } else if (o == 3 && r == 2) {
-                count3 = count3 - 1;
-                count2 = count2 - 1;
+                if (o == 1 && r == 2) {
+                    count1 = count1 - 1;
+                    count2 = count2 - 1;
+                } else if (o == 1 && r == 3) {
+                    count1 = count1 - 1;
+                    count3 = count3 - 1;
+                } else if (o == 2 && r == 1) {
+                    count2 = count2 - 1;
+                    count1 = count1 - 1;
+                } else if (o == 2 && r == 3) {
+                    count2 = count2 - 1;
+                    count3 = count3 - 1;
+                } else if (o == 3 && r == 1) {
+                    count3 = count3 - 1;
+                    count1 = count1 - 1;
+                } else if (o == 3 && r == 2) {
+                    count3 = count3 - 1;
+                    count2 = count2 - 1;
+                }
             }
+            while ((count1 + count2 + count3) / 2 > 0);
+            backplogger.info("Raid array completed successfully.");
+            return raidArray;
+        } else {
+            do {
+                int o = getRandomCloud(numberOfClouds);
+                int r = getRandomCloud(numberOfClouds);
+
+                while (o == r) {
+                    r = getRandomCloud(numberOfClouds);
+                }
+                raidArray[i] = o;
+                raidArray[i + 1] = r;
+                i = i + 2;
+
+                if ((count1 + count2 + count3) > 0) {
+                    if (o == 1 && r == 2) {
+                        count1 = count1 - 1;
+                        count2 = count2 - 1;
+                    } else if (o == 1 && r == 3) {
+                        count1 = count1 - 1;
+                        count3 = count3 - 1;
+                    } else if (o == 2 && r == 1) {
+                        count2 = count2 - 1;
+                        count1 = count1 - 1;
+                    } else if (o == 2 && r == 3) {
+                        count2 = count2 - 1;
+                        count3 = count3 - 1;
+                    } else if (o == 3 && r == 1) {
+                        count3 = count3 - 1;
+                        count1 = count1 - 1;
+                    } else if (o == 3 && r == 2) {
+                        count3 = count3 - 1;
+                        count2 = count2 - 1;
+                    }
+                } else {
+                    n = 0;
+                }
+
+            } while (n / 2 > 0);
+            backplogger.info("Raid array completed successfully.");
+            return raidArray;
         }
-        while ((count1 + count2 + count3) / 2 > 0);
-        backplogger.info("Raid array completed successfully.");
-        return raidArray;
+
+
     }
 
     private static int getRandomCloud(int numberOfClouds) {

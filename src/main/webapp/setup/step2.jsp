@@ -26,6 +26,7 @@
     String dbpassword = request.getParameter("dbpassword");
 
     if (backbtn != null && backbtn.equalsIgnoreCase("back")) {
+        session.setAttribute("setupstate", "index");
         response.sendRedirect("/setup/index.jsp");
         return;
     }

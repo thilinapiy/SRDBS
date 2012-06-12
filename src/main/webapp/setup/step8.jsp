@@ -19,6 +19,7 @@
 
     session.setAttribute("setupstate", "step8");
     if (backbtn != null && backbtn.equalsIgnoreCase("back")) {
+        session.setAttribute("setupstate", "step7");
         response.sendRedirect("/setup/step7.jsp");
         return;
     }

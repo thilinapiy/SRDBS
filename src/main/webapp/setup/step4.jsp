@@ -24,7 +24,9 @@
     String password = request.getParameter("password");
     String bandwidth = request.getParameter("bandwidth");
     String cost = request.getParameter("cost");
+
     if (backbtn != null && backbtn.equalsIgnoreCase("back")) {
+        session.setAttribute("setupstate", "step3");
         response.sendRedirect("/setup/step3.jsp");
         return;
     }

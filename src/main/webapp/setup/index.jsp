@@ -41,7 +41,9 @@
     <table width="400" border="0">
         <tr>
             <td>Admin User</td>
-            <td><input type="text" name="adminuser"/></td>
+            <td><input type="text" name="adminuser"
+                       value="<% if(session.getAttribute("adminuser")!=null) { out.println(session.getAttribute("adminuser")); } %>"/>
+            </td>
         </tr>
         <tr>
             <td>Password</td>

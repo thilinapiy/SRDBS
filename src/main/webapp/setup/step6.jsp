@@ -21,6 +21,7 @@
     String restorelocation = request.getParameter("restorelocation");
 
     if (backbtn != null && backbtn.equalsIgnoreCase("back")) {
+        session.setAttribute("setupstate", "step5");
         response.sendRedirect("/setup/step5.jsp");
         return;
     }

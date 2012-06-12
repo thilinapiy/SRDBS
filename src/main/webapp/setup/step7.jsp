@@ -29,6 +29,7 @@
     String schedule5 = request.getParameter("schedule5");
 
     if (backbtn != null && backbtn.equalsIgnoreCase("back")) {
+        session.setAttribute("setupstate", "step6");
         response.sendRedirect("/setup/step6.jsp");
         return;
     }
