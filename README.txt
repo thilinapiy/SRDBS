@@ -41,11 +41,14 @@ Installation
 
     Create MySQL database
 
-            > Run the config/database.sql as a root user of the system.
-                (Change settings according to your MySQL server and security needs.)
+            > Create a separate database for the system on MySQL database.
+                - CREATE DATABASE SRDBSDB;
 
-            > Change MySQL settings in config/sysconfig.conf file according to
-                your system.
+            > Create a user to the system.
+                - CREATE USER SRDBS;
+
+            > Grant privileges.
+                - GRANT ALL PRIVILEGES ON SRDBSDB.* TO 'SRDBS'@'127.0.0.1' IDENTIFIED BY 'password';
 
     Run the server
 
@@ -57,7 +60,7 @@ Installation
 
     To see the UI visit:
 
-	    https://localhost:8080
+	    https://localhost:8080/setup
 
 Dependencies
 	Oracle Java JDK 7
