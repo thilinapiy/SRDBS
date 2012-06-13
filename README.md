@@ -55,7 +55,7 @@
 
 ### To see the UI visit:
 
-        https://localhost:8080
+        https://localhost:8080/setup
 
 ## Dependencies
 
