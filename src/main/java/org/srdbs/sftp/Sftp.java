@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * Creating the secure ftp channels.
  *
- * @author Thilina Piyasundara
+ * @author Prabodha
  * @version 0.1
  */
 public class Sftp {
