@@ -30,13 +30,13 @@ Installation
 
         in Windows
             > set SRDBS_HOME=<path to the installation>
-                 eg: SRDBS_HOME=C:\Users\Thilina\Desktop\SRDBS-<version>
+                 eg: SRDBS_HOME=C:\Users\Thilina\Desktop\SRDBS-${project.version}
             > set path=%SRDBS_HOME%\bin;%PATH%
 
         in Linux
 
             $ export SRDBS_HOME=<path to the installation>
-                eg: export SRDBS_HOME=/home/thilina/SRDBS-<version>
+                eg: export SRDBS_HOME=/home/thilina/SRDBS-${project.version}
             $ export PATH=$SRDBS_HOME/bin:$PATH
 
     Create MySQL database
