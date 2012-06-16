@@ -1,13 +1,16 @@
 package org.srdbs.core;
 
 import org.apache.log4j.Logger;
-import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
 import org.srdbs.scheduler.RunJob;
 import org.srdbs.web.Web;
+
+import static org.quartz.CronScheduleBuilder.dailyAtHourAndMinute;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
  * Main class of the system
@@ -81,15 +84,14 @@ public class Core {
                 Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
                 scheduler.start();
 
-                JobDetail job = new JobDetail("backup1", "BackupSchedule", RunJob.class);
-
-                Trigger trigger = new CronTrigger("Trigger1", "Triggers", "0 0/15 * * * ?");
-                //Trigger trigger = TriggerUtils.makeHourlyTrigger();
-                //trigger.setStartTime(new Date());
-                //trigger.setName("myTrigger");
+                JobDetail job = newJob(RunJob.class).withIdentity("Job 1", "Daily backup group").build();
+                Trigger trigger = newTrigger().withIdentity("trigger1", "Daily backup group")
+                        .startNow()
+                        .withSchedule(dailyAtHourAndMinute(10, 05))
+                        .build();
 
                 scheduler.scheduleJob(job, trigger);
-                backplogger.info("Starting backup job : 1 on schedule : 0 0/15 * * * ?");
+                backplogger.info("Starting backup job : 1 on schedule : dailyAtHourAndMinute - 10:05 ");
                 while (true) {
                     try {
                         Thread.sleep(90L * 1000L);
