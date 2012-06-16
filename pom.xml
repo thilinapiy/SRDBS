@@ -4,7 +4,7 @@
     <groupId>org.srdbs</groupId>
     <artifactId>SRDBS</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>SRDBS</name>
     <url>http://maven.apache.org</url>
     <properties>
@@ -73,6 +73,16 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.16</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.6.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.6.6</version>
         </dependency>
         <dependency>
             <groupId>quartz</groupId>
