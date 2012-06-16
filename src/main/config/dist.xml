@@ -19,6 +19,16 @@
             <source>LICENSE.txt</source>
             <outputDirectory>/</outputDirectory>
         </file>
+        <file>
+            <source>/src/main/bin/srdbsstart</source>
+            <outputDirectory>bin</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>/src/main/bin/srdbsstart.bat</source>
+            <outputDirectory>bin</outputDirectory>
+            <filtered>true</filtered>
+        </file>
     </files>
     <fileSets>
         <fileSet>
@@ -27,10 +37,6 @@
             <excludes>
                 <exclude>dist.xml</exclude>
             </excludes>
-        </fileSet>
-        <fileSet>
-            <directory>src/main/bin</directory>
-            <outputDirectory>bin</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>src/main/webapp</directory>
