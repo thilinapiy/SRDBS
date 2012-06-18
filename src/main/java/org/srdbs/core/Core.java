@@ -57,7 +57,6 @@ public class Core {
         // initialize logs and system configurations.
         System.out.println("Initializing main system configurations.");
         new Configs().initConfigs();
-
         System.out.println("Starting ...");
         logger.info("Starting ...");
         Core.start();
@@ -136,19 +135,9 @@ public class Core {
     public static void restart() {
 
         new Configs().finalizeConfig();
-        backplogger.info("Log closing.");
         logger.info("Finalizing the binary configurations file.");
-        logger.info("Restarting the core.");
-        try {
-
-            // This will create a new SRDBS process.
-            Runtime.getRuntime().exec(Global.systemHome + "\\bin\\srdbsstart.bat");
-            logger.info("Create a new SRDBS Process");
-        } catch (Exception e) {
-            logger.error("Error : " + e);
-        }
-        logger.info("Exiting the initial process");
-        System.exit(0);
+        logger.info("Restarting the configurations.");
+        new Configs().initConfigs();
     }
 
     /**
