@@ -1,5 +1,7 @@
 package org.srdbs.core;
 
+import java.util.List;
+
 /**
  * Secure and Redundant Data Backup System.
  * User: Thilina Piyasundara
@@ -38,6 +40,7 @@ public class Global {
     public static String c1Password;
     public static int c1Bandwidth;
     public static String c1Cost;
+    public static int cloud1ID=1;
 
     public static String c2IPAddress;
     public static int c2Port;
@@ -46,6 +49,7 @@ public class Global {
     public static String c2Password;
     public static int c2Bandwidth;
     public static String c2Cost;
+    public static int cloud2ID=2;
 
     public static String c3IPAddress;
     public static int c3Port;
@@ -54,6 +58,7 @@ public class Global {
     public static String c3Password;
     public static int c3Bandwidth;
     public static String c3Cost;
+    public static int cloud3ID=3;
 
     public static String tempLocation;
     public static String restoreLocation;

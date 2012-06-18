@@ -7,15 +7,17 @@ import com.jcraft.jsch.Session;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.srdbs.core.Global;
+import org.srdbs.split.*;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.*;
 
 /**
  * Creating the secure ftp channels.
  *
- * @author Prabodha Amarasinghe
+ * @author Thilina Piyasundara
  * @version 0.1
  */
 public class Sftp {
@@ -24,10 +26,15 @@ public class Sftp {
     public static Logger backplogger = Logger.getLogger("backupLog");
     public static Logger restoreLog = Logger.getLogger("restoreLog");
 
+    public static List<Integer> cloud1 = new ArrayList<Integer>();
+    public static List<Integer> cloud2 = new ArrayList<Integer>();
+    public static List<Integer> cloud3 = new ArrayList<Integer>();
+
     /**
      * This is a test method
      */
-    public static int copyFile(String sourcePath, String destPath) {
+    public static int copyFile(String sourcePath, String destPath)
+    {
 
         String msg = "";
         File source = new File(sourcePath);
@@ -44,11 +51,13 @@ public class Sftp {
     }
 
 
-    public static int upload(String sftpIP, String sftpUser, String sftpPasswd, int sftpPort, String remotePath, String file) {
+    public static int upload(String sftpIP, String sftpUser, String sftpPasswd, int sftpPort, String remotePath, String file, int cID)
+    {
 
         Session session = null;
         Channel channel = null;
         ChannelSftp channelSftp = null;
+        int ftpFileNo=0;
 
         try {
             JSch jsch = new JSch();
@@ -61,13 +70,49 @@ public class Sftp {
             channel = session.openChannel("sftp");
             channel.connect();
             channelSftp = (ChannelSftp) channel;
-            //channelSftp.mkdir(remotePath);
-            //channelSftp.cd(remotePath);
-            File f = new File(file);
-            channelSftp.put(new FileInputStream(f), f.getName());
-            channelSftp.exit();
+            channelSftp.mkdir(remotePath);
+            channelSftp.cd(remotePath);
+
+        if(cID==1)
+        {
+            for(int i=0; i < cloud1.size(); i++ )
+            {
+               ftpFileNo=cloud1.get(i);
+               File f = new File(file + Split.createSuffix(ftpFileNo));
+
+                backplogger.info("File name :" + f );
+                channelSftp.put(new FileInputStream(f), f.getName());
+                backplogger.info("Send the file.");
+            }
+        }
+        if(cID==2)
+        {
+            for(int i=0; i < cloud2.size(); i++ )
+            {
+                    ftpFileNo=cloud2.get(i);
+                    File f = new File(file + Split.createSuffix(ftpFileNo));
+
+                    backplogger.info("File name :" + f );
+                    channelSftp.put(new FileInputStream(f), f.getName());
+                    backplogger.info("Send the file.");
+            }
+        }
+        if(cID==3)
+        {
+        for(int i=0; i < cloud3.size(); i++ )
+        {
+                ftpFileNo=cloud3.get(i);
+                File f = new File(file + Split.createSuffix(ftpFileNo));
+
+                backplogger.info("File name :" + f );
+                channelSftp.put(new FileInputStream(f), f.getName());
+                backplogger.info("Send the file.");
+        }
+        }
+
+                channelSftp.exit();
             session.disconnect();
-            backplogger.info("Send the file.");
+
 
             return 0;
         } catch (Exception ex) {
@@ -78,7 +123,8 @@ public class Sftp {
         }
     }
 
-    public static int download(String fileName, int cloud) {
+    public static int download(String fileName, int cloud)
+    {
 
         String uName = "";
         String host = "";
@@ -137,97 +183,66 @@ public class Sftp {
 
 
     // TODO write method 3 methods for RAID. Prabodha
-    public static int[] raid(int pNumber, int c1, int c2, int c3) {
+    public static int[] raid(int pNumber)
+    {
 
         int numberOfClouds = 3;
         int[] raidArray = new int[2 * pNumber];
-        int count1 = (c1 * 2) / 1024;
-        int count2 = (c2 * 2) / 1024;
-        int count3 = (c3 * 2) / 1024;
         int i = 0;
-        int n = (count1 + count2 + count3 + 2);
-        backplogger.info("Raid starting with cloud bandwidths : " + count1 + ", " + count2 + ", " + count3 + " number of packets " + 2 * pNumber);
-        if (pNumber * 2 == (count1 + count2 + count3)) {
-            do {
-                int o = getRandomCloud(numberOfClouds);
-                int r = getRandomCloud(numberOfClouds);
 
-                while (o == r) {
-                    r = getRandomCloud(numberOfClouds);
-                }
-                raidArray[i] = o;
-                raidArray[i + 1] = r;
-                i = i + 2;
+        do {
+            int o = getRandomCloud(numberOfClouds);
+            int r = getRandomCloud(numberOfClouds);
 
-                if (o == 1 && r == 2) {
-                    count1 = count1 - 1;
-                    count2 = count2 - 1;
-                } else if (o == 1 && r == 3) {
-                    count1 = count1 - 1;
-                    count3 = count3 - 1;
-                } else if (o == 2 && r == 1) {
-                    count2 = count2 - 1;
-                    count1 = count1 - 1;
-                } else if (o == 2 && r == 3) {
-                    count2 = count2 - 1;
-                    count3 = count3 - 1;
-                } else if (o == 3 && r == 1) {
-                    count3 = count3 - 1;
-                    count1 = count1 - 1;
-                } else if (o == 3 && r == 2) {
-                    count3 = count3 - 1;
-                    count2 = count2 - 1;
-                }
+            while (o == r) {
+                r = getRandomCloud(numberOfClouds);
             }
-            while ((count1 + count2 + count3) / 2 > 0);
-            backplogger.info("Raid array completed successfully.");
-            return raidArray;
-        } else {
-            do {
-                int o = getRandomCloud(numberOfClouds);
-                int r = getRandomCloud(numberOfClouds);
+            raidArray[i] = o;
+            raidArray[i + 1] = r;
 
-                while (o == r) {
-                    r = getRandomCloud(numberOfClouds);
-                }
-                raidArray[i] = o;
-                raidArray[i + 1] = r;
-                i = i + 2;
+            if(o==1 && r==2 )
+            {
+                cloud1.add((i+2)/2);
+                cloud2.add((i+2)/2);
+            }
+            if(o==1 && r==3 )
+            {
+                cloud1.add((i+2)/2);
+                cloud3.add((i+2)/2);
+            }
+            if(o==2 && r==1 )
+            {
+                cloud2.add((i+2)/2);
+                cloud1.add((i+2)/2);
+            }
+            if(o==2 && r==3 )
+            {
+                cloud2.add((i+2)/2);
+                cloud3.add((i+2)/2);
+            }
+            if(o==3 && r==1 )
+            {
+                cloud3.add((i+2)/2);
+                cloud1.add((i+2)/2);
+            }
+            if(o==3 && r==2 )
+            {
+                cloud3.add((i+2)/2);
+                cloud2.add(((i+2))/2);
+            }
+            i=i+2;
 
-                if ((count1 + count2 + count3) > 0) {
-                    if (o == 1 && r == 2) {
-                        count1 = count1 - 1;
-                        count2 = count2 - 1;
-                    } else if (o == 1 && r == 3) {
-                        count1 = count1 - 1;
-                        count3 = count3 - 1;
-                    } else if (o == 2 && r == 1) {
-                        count2 = count2 - 1;
-                        count1 = count1 - 1;
-                    } else if (o == 2 && r == 3) {
-                        count2 = count2 - 1;
-                        count3 = count3 - 1;
-                    } else if (o == 3 && r == 1) {
-                        count3 = count3 - 1;
-                        count1 = count1 - 1;
-                    } else if (o == 3 && r == 2) {
-                        count3 = count3 - 1;
-                        count2 = count2 - 1;
-                    }
-                } else {
-                    n = 0;
-                }
 
-            } while (n / 2 > 0);
-            backplogger.info("Raid array completed successfully.");
-            return raidArray;
         }
+        while ( i < (pNumber*2) );
+        backplogger.info("Raid array completed successfully.");
 
+        return raidArray;
 
     }
 
-    private static int getRandomCloud(int numberOfClouds) {
-
+    private static int getRandomCloud(int numberOfClouds)
+    {
         return (int) ((Math.random() * 10) % numberOfClouds) + 1;
     }
 }
