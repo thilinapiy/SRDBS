@@ -16,7 +16,7 @@ import static org.quartz.TriggerBuilder.newTrigger;
  * Main class of the system
  *
  * @author Thilina Piyasundara
- * @version 0.2
+ * @version 0.3
  */
 public class Core {
 
