@@ -2,6 +2,8 @@
 <%@ page import="org.srdbs.web.MyPrint" %>
 
 <%
+    // Isanka
+
     if (!Api.systemState()) {
 
         response.sendRedirect("/setup/");
