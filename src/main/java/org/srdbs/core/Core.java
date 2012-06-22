@@ -86,7 +86,7 @@ public class Core {
                 JobDetail job = newJob(RunJob.class).withIdentity("Job 1", "Daily backup group").build();
                 Trigger trigger = newTrigger().withIdentity("trigger1", "Daily backup group")
                         .startNow()
-                        .withSchedule(dailyAtHourAndMinute(10, 05))
+                        .withSchedule(dailyAtHourAndMinute(14, 00))
                         .build();
 
                 scheduler.scheduleJob(job, trigger);
