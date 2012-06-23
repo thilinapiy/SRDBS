@@ -259,7 +259,7 @@ public class DbConnect {
 
     public List<MYSpFile> selectLoadSpQuery(int fid) {
 
-        String sql = " select SP_FileName,Ref_Cloud_ID,Raid_Ref from sp_file where F_ID=" + fid + "";
+        String sql = " select SP_FileName,Ref_Cloud_ID,Raid_Ref,Remote_path from sp_file where F_ID=" + fid + "";
         Connection connection = connect();
         List<MYSpFile> fileList = new ArrayList<MYSpFile>();
 
@@ -272,6 +272,7 @@ public class DbConnect {
                 myspFile.setName(rs.getString("SP_FileName"));
                 myspFile.setCloud(rs.getInt("Ref_Cloud_ID"));
                 myspFile.setRcloud(rs.getInt("Raid_Ref"));
+                myspFile.setRemotePath(rs.getString("Remote_path"));
                 fileList.add(myspFile);
             }
             restoreLog.info("Get SP files of the FID : " + fid);

@@ -29,9 +29,9 @@ public class RunRestore {
         List<MYSpFile> getSPFiles = new DbConnect().selectLoadSpQuery(FID);
         for (MYSpFile spfile : getSPFiles) {
 
-            int original = Sftp.download(spfile.getName(), spfile.getCloud());
+            int original = Sftp.download(spfile.getName(), spfile.getCloud(), spfile.getRemotePath());
             if (original != 0) {
-                Sftp.download(spfile.getName(), spfile.getRCloud());
+                Sftp.download(spfile.getName(), spfile.getRCloud(), spfile.getRemotePath());
             }
         }
 

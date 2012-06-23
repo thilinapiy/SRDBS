@@ -123,7 +123,7 @@ public class Sftp {
         }
     }
 
-    public static int download(String fileName, int cloud)
+    public static int download(String fileName, int cloud, String remotePath)
     {
 
         String uName = "";
@@ -168,15 +168,15 @@ public class Sftp {
             Channel channel = session.openChannel("sftp");
             channel.connect();
             ChannelSftp sftpChannel = (ChannelSftp) channel;
-            sftpChannel.get(serverPath + "/" + fileName, Global.restoreLocation);
+            sftpChannel.get(serverPath + "/" + remotePath + "/" + fileName, Global.restoreLocation);
             sftpChannel.exit();
             session.disconnect();
-            restoreLog.info("Successfully download the file : " + serverPath + "/" + fileName);
+            restoreLog.info("Successfully download the file : " + serverPath + "/" + remotePath + "/" + fileName);
             return 0;
 
         } catch (Exception e) {
-            restoreLog.error("Error on downloading file : " + serverPath + "/"
-                    + fileName + " from : " + uName + "@" + host + ":" + port);
+            restoreLog.error("Error on downloading file : " + serverPath + "/" + remotePath + "/" + fileName
+                    + " from : " + uName + "@" + host + ":" + port);
             return -1;
         }
     }
