@@ -24,9 +24,15 @@
     String restorelocation = request.getParameter("restorelocation");
 
     if (addbtn != null && addbtn.equalsIgnoreCase("add")) {
+
         int getFrequency = Integer.valueOf(request.getParameter("frequency").toString());
         int getStartHour = Integer.valueOf(request.getParameter("starthour").toString());
         int getStartMin = Integer.valueOf(request.getParameter("startmin").toString());
+
+        if (!templocation.trim().equals("") && !restorelocation.trim().equals("")) {
+            session.setAttribute("templocation", templocation.trim());
+            session.setAttribute("restorelocation", restorelocation.trim());
+        }
 
         if (getName != "" && getFrequency != 0) {
             count++;
