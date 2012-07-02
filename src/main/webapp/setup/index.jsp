@@ -7,6 +7,7 @@
     }
 
     session.setAttribute("setupstate", "index");
+    session.setAttribute("noofbackuplocations", 0);
 
     String msg = "";
     String nextbtn = request.getParameter("next");
@@ -34,35 +35,110 @@
         }
     }
 %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<h3>User Setup</h3>
+<%@ include file="header.jsp" %>
 
+<!-- start step-holder -->
+<div id="step-holder">
+    <div class="step-no">1</div>
+    <div class="step-dark-left">Add Users</div>
+    <div class="step-dark-right">&nbsp;</div>
+
+    <div class="step-no-off">2</div>
+    <div class="step-light-left">Database Setup</div>
+    <div class="step-light-right">&nbsp;</div>
+
+    <div class="step-no-off">3</div>
+    <div class="step-light-left">Cloud 1</div>
+    <div class="step-light-right">&nbsp;</div>
+
+    <div class="step-no-off">4</div>
+    <div class="step-light-left">Cloud 2</div>
+    <div class="step-light-right">&nbsp;</div>
+
+    <div class="step-no-off">5</div>
+    <div class="step-light-left">Cloud 3</div>
+    <div class="step-light-right">&nbsp;</div>
+
+    <div class="step-no-off">6</div>
+    <div class="step-light-left">Schedules</div>
+    <div class="step-light-right">&nbsp;</div>
+
+    <div class="step-no-off">7</div>
+    <div class="step-light-left">Final</div>
+    <div class="step-light-round">&nbsp;</div>
+
+    <div class="clear"></div>
+</div>
+<!-- end step-holder -->
+
+<!-- start id-form -->
 <form action="index.jsp" method="GET">
-    <table width="400" border="0">
+    <table border="0" cellpadding="0" cellspacing="0" id="id-form">
         <tr>
-            <td>Admin User</td>
-            <td><input type="text" name="adminuser"
+            <th valign="top">Admin User:</th>
+            <td><input type="text" class="inp-form" name="adminuser"
                        value="<% if(session.getAttribute("adminuser")!=null) { out.println(session.getAttribute("adminuser")); } %>"/>
             </td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td><input type="password" name="password"/></td>
-        </tr>
-        <tr>
-            <td>Re-enter the password</td>
-            <td><input type="password" name="password2"/></td>
-        </tr>
-        <tr>
             <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <th valign="top">Password:</th>
+            <td><input type="password" name="password" class="inp-form"/></td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <th valign="top">Re-enter password:</th>
+            <td><input type="password" name="password2" class="inp-form"/></td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <th>&nbsp;</th>
+            <td valign="top"><input type="submit" name="next" value="Next" class="form-next"/></td>
             <td>
-                <input type="submit" name="next" value="Next"/>
-            </td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td><p><% out.println(msg); %></p>
+                <% if (!msg.equals("")) {
+                    out.println("<div class='error-left'></div>");
+                    out.println("<div class='error-inner'>" + msg + "</div>");
+                } else {
+                    out.println("&nbsp;");
+                }
+                %>
             </td>
         </tr>
     </table>
 </form>
+<!-- end id-form -->
+</td>
+<td>
+
+    <!--  start related-activities -->
+    <div id="related-activities">
+        <!--  start related-act-top -->
+        <div id="related-act-top">
+            <img src="/images/forms/header_related_act.gif" width="271" height="43" alt=""/>
+        </div>
+        <!-- end related-act-top -->
+
+        <!--  start related-act-bottom -->
+        <div id="related-act-bottom">
+            <!--  start related-act-inner -->
+            <div id="related-act-inner">
+                <div class="left"><a href=""><img src="/images/forms/icon_plus.gif" width="21" height="21" alt=""/></a>
+                </div>
+                <div class="right">
+                    <h5></h5>
+                    Lorem ipsum dolor sit amet consectetur
+                    adipisicing elitsed do eiusmod tempor.
+                    <ul class="greyarrow">
+                        <li><a href="">Click here to visit</a></li>
+                        <li><a href="">Click here to visit</a></li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <!-- end related-act-inner -->
+            <div class="clear"></div>
+        </div>
+        <!-- end related-act-bottom -->
+    </div>
+    <!-- end related-activities -->
+<%@ include file="footer.jsp" %>

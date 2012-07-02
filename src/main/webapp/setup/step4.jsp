@@ -56,93 +56,140 @@
 %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<h3>Cloud 2 Setup</h3>
 
-<form action="" method="GET">
-    <table width="400" border="0">
+
+<%@ include file="header.jsp" %>
+
+<!-- start step-holder -->
+<div id="step-holder">
+    <div class="step-no-off">1</div>
+    <div class="step-light-left">Add Users</div>
+    <div class="step-light-right">&nbsp;</div>
+
+    <div class="step-no-off">2</div>
+    <div class="step-light-left">Database Setup</div>
+    <div class="step-light-right">&nbsp;</div>
+
+    <div class="step-no-off">3</div>
+    <div class="step-light-left">Cloud 1</div>
+    <div class="step-light-right">&nbsp;</div>
+
+    <div class="step-no">4</div>
+    <div class="step-dark-left">Cloud 2</div>
+    <div class="step-dark-right">&nbsp;</div>
+
+    <div class="step-no-off">5</div>
+    <div class="step-light-left">Cloud 3</div>
+    <div class="step-light-right">&nbsp;</div>
+
+    <div class="step-no-off">6</div>
+    <div class="step-light-left">Schedules</div>
+    <div class="step-light-right">&nbsp;</div>
+
+    <div class="step-no-off">7</div>
+    <div class="step-light-left">Final</div>
+    <div class="step-light-round">&nbsp;</div>
+
+    <div class="clear"></div>
+</div>
+<!-- end step-holder -->
+<!-- start id-form -->
+
+<form action="step4.jsp" method="GET">
+    <table border="0" cellpadding="0" cellspacing="0" id="id-form">
         <tr>
-            <td>IP address</td>
-            <td><input type="text" name="ipaddress"
+            <th valign="top">IP address</th>
+            <td><input type="text" class="inp-form" name="ipaddress"
                        value="<% if(session.getAttribute("c2ipaddress")!=null) { out.println(session.getAttribute("c2ipaddress")); } %>"/>
             </td>
         </tr>
         <tr>
-            <td>Port</td>
-            <td><input type="text" name="port"
+            <th valign="top">Port</th>
+            <td><input type="text" class="inp-form" name="port"
                        value="<% if(session.getAttribute("c2port")!=null) { out.println(session.getAttribute("c2port")); } %>"/>
             </td>
         </tr>
         <tr>
-            <td>Remote Path</td>
-            <td><input type="text" name="remotepath"
+            <th valign="top">Remote Path</th>
+            <td><input type="text" class="inp-form" name="remotepath"
                        value="<% if(session.getAttribute("c2remotepath")!=null) { out.println(session.getAttribute("c2remotepath")); } %>"/>
             </td>
         </tr>
         <tr>
-            <td>User Name</td>
-            <td><input type="text" name="username"
+            <th valign="top">User Name</th>
+            <td><input type="text" class="inp-form" name="username"
                        value="<% if(session.getAttribute("c2username")!=null) { out.println(session.getAttribute("c2username")); } %>"/>
             </td>
         </tr>
         <tr>
-            <td>Password</td>
-            <td><input type="text" name="password"
+            <th valign="top">Password</th>
+            <td><input type="text" class="inp-form" name="password"
                        value="<% if(session.getAttribute("c2password")!=null) { out.println(session.getAttribute("c2password")); } %>"/>
             </td>
         </tr>
         <tr>
-            <td>Bandwidth (KBPS)</td>
-            <td><input type="text" name="bandwidth"
+            <th valign="top">Bandwidth (KBPS)</th>
+            <td><input type="text" class="inp-form" name="bandwidth"
                        value="<% if(session.getAttribute("c2bandwidth")!=null) { out.println(session.getAttribute("c2bandwidth")); } %>"/>
             </td>
         </tr>
         <tr>
-            <td>Cost</td>
-            <td><input type="text" name="cost"
+            <th valign="top">Cost</th>
+            <td><input type="text" class="inp-form" name="cost"
                        value="<% if(session.getAttribute("c2cost")!=null) { out.println(session.getAttribute("c2cost")); } %>"/>
             </td>
         </tr>
         <tr>
-            <td>&nbsp;</td>
-            <td>
-                <input type="submit" name="back" value="Back"/>
-                <input type="submit" name="next" value="Next"/>
+            <th>&nbsp;</th>
+            <td valign="top">
+                <input type="submit" class="form-back" name="back" value="Back"/>
+                <input type="submit" class="form-next" name="next" value="Next"/>
             </td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td><p><% out.println(msg); %></p>
+            <td>
+                <% if (!msg.equals("")) {
+                    out.println("<div class='error-left'></div>");
+                    out.println("<div class='error-inner'>" + msg + "</div>");
+                } else {
+                    out.println("&nbsp;");
+                }
+                %>
             </td>
         </tr>
     </table>
 </form>
+<!-- end id-form -->
+</td>
+<td>
 
-<pre>
-<%
-    out.println(session.getAttribute("setupstate"));
+    <!--  start related-activities -->
+    <div id="related-activities">
+        <!--  start related-act-top -->
+        <div id="related-act-top">
+            <img src="/images/forms/header_related_act.gif" width="271" height="43" alt=""/>
+        </div>
+        <!-- end related-act-top -->
 
-    out.println("");
-    out.println("Admin details");
-    out.println(session.getAttribute("username"));
-    out.println(session.getAttribute("password"));
-
-    out.println("");
-    out.println("Database");
-    out.println(session.getAttribute("dbipaddress"));
-    out.println(session.getAttribute("dbport"));
-    out.println(session.getAttribute("dbname"));
-    out.println(session.getAttribute("dbuser"));
-    out.println(session.getAttribute("dbpassword"));
-
-    out.println("");
-    out.println("Cloud 1");
-    out.println(session.getAttribute("c1ipaddress"));
-    out.println(session.getAttribute("c1port"));
-    out.println(session.getAttribute("c1remotepath"));
-    out.println(session.getAttribute("c1username"));
-    out.println(session.getAttribute("c1password"));
-    out.println(session.getAttribute("c1bandwidth"));
-    out.println(session.getAttribute("c1cost"));
-
-%>
-</pre>
+        <!--  start related-act-bottom -->
+        <div id="related-act-bottom">
+            <!--  start related-act-inner -->
+            <div id="related-act-inner">
+                <div class="left"><a href=""><img src="/images/forms/icon_plus.gif" width="21" height="21" alt=""/></a>
+                </div>
+                <div class="right">
+                    <h5></h5>
+                    Lorem ipsum dolor sit amet consectetur
+                    adipisicing elitsed do eiusmod tempor.
+                    <ul class="greyarrow">
+                        <li><a href="">Click here to visit</a></li>
+                        <li><a href="">Click here to visit</a></li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <!-- end related-act-inner -->
+            <div class="clear"></div>
+        </div>
+        <!-- end related-act-bottom -->
+    </div>
+    <!-- end related-activities -->
+<%@ include file="footer.jsp" %>
