@@ -59,27 +59,33 @@ public class Setup {
 
         Global.tempLocation = (String) session.getAttribute("templocation");
         Global.restoreLocation = (String) session.getAttribute("restorelocation");
+        Global.noOfBackuplocations = Integer.valueOf(session.getAttribute("noofbackuplocations").toString());
 
-        Global.backupLocation1 = (String) session.getAttribute("backuplocation1");
-        Global.backupLocation2 = (String) session.getAttribute("backuplocation2");
-        Global.backupLocation3 = (String) session.getAttribute("backuplocation3");
-        Global.backupLocation4 = (String) session.getAttribute("backuplocation4");
-        Global.backupLocation5 = (String) session.getAttribute("backuplocation5");
-
-        Global.schedule1 = (String) session.getAttribute("schedule1");
-        Global.schedule2 = (String) session.getAttribute("schedule2");
-        Global.schedule3 = (String) session.getAttribute("schedule3");
-        Global.schedule4 = (String) session.getAttribute("schedule4");
-        Global.schedule5 = (String) session.getAttribute("schedule5");
         Global.binaryConfigState = "true";
         new Configs().finalizeConfig();
+
+        DbConnect dbCon = new DbConnect();
+        for (int i = 1; i <= Global.noOfBackuplocations; i++) {
+
+            String name = "backuplocation" + i;
+            String frequency = "frequency" + i;
+            String StartHour = "starthour" + i;
+            String StartMin = "startmin" + i;
+
+            String sql = "INSERT INTO backup_locations (location, frequency, StartHour, StartMin) VALUE (' "
+                    + session.getAttribute(name) + "',"
+                    + session.getAttribute(frequency) + ","
+                    + session.getAttribute(StartHour) + ","
+                    + session.getAttribute(StartMin) + ")";
+            dbCon.insertQuery(sql);
+            logger.info("Insert the backup location " + i + " : " + session.getAttribute(name));
+
+        }
         logger.info("Setup is installing basic configurations of the system.");
         return true;
     }
 
     public static void initializeDatabase(HttpSession session) {
-
-        DbConnect dbCon = new DbConnect();
 
         Global.dbIPAddress = (String) session.getAttribute("dbipaddress");
         Global.dbPort = Integer.valueOf(session.getAttribute("dbport").toString());
@@ -87,8 +93,10 @@ public class Setup {
         Global.dbUserName = (String) session.getAttribute("dbuser");
         Global.dbPassword = (String) session.getAttribute("dbpassword");
 
+        DbConnect dbCon = new DbConnect();
         dbCon.updateQuery("DROP TABLE IF EXISTS sp_File");
         dbCon.updateQuery("DROP TABLE IF EXISTS full_File");
+        dbCon.updateQuery("DROP TABLE IF EXISTS backup_Locations");
         dbCon.updateQuery("CREATE TABLE full_file(" +
                 "F_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY," +
                 "FName VARCHAR(100)," +
@@ -106,6 +114,12 @@ public class Setup {
                 "Remote_path varchar(400)," +
                 "Constraint Pk_SP_FileID_1 Primary key(SP_FILE_ID)," +
                 "Constraint FK_SP_FileID_2 Foreign key (F_ID) References Full_File (F_ID))");
+        dbCon.updateQuery("CREATE TABLE backup_Locations(" +
+                "backupID INT NOT NULL AUTO_INCREMENT PRIMARY KEY," +
+                "location varchar (2048)," +
+                "frequency int," +
+                "StartHour int," +
+                "StartMin int)");
         //dbCon.updateQuery("");
     }
 }
