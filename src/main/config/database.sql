@@ -34,9 +34,12 @@ CREATE TABLE clouds(
 --  location varchar (2048)
 -- );
 
-CREATE TABLE backup_locations(
+CREATE TABLE backup_Locations(
   backupID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  location varchar (2048)
+  location varchar (2048),
+  frequency int,
+  StartHour int,
+  StartMin int
 );
 
 DROP TABLE sp_File;
@@ -90,6 +93,4 @@ INSERT INTO clouds (IPaddress, port, username, password, bandwidth, cost)
 -- Step 3
 --
 --
-INSERT INTO backup_locations (location) VALUE ('C:\\Users\\Thilina\\Desktop\\ISO\\');
-INSERT INTO backup_locations (location) VALUE ('C:\\Users\\Thilina\\Desktop\\movie\\');
-
+INSERT INTO backup_Locations (location, frequency, StartHour, StartMin) VALUE ('C:\\Users\\Thilina\\Desktop\\movie\\',1,00,00);

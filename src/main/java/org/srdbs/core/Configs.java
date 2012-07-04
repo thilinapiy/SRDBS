@@ -93,18 +93,7 @@ public class Configs {
         Global.tempLocation = binProp.getProperty("system.tempLocation");
         Global.restoreLocation = binProp.getProperty("system.restoreLocation");
 
-        Global.backupLocation1 = binProp.getProperty("system.backupLocation1");
-        Global.backupLocation2 = binProp.getProperty("system.backupLocation2");
-        Global.backupLocation3 = binProp.getProperty("system.backupLocation3");
-        Global.backupLocation4 = binProp.getProperty("system.backupLocation4");
-        Global.backupLocation5 = binProp.getProperty("system.backupLocation5");
-
-        Global.schedule1 = binProp.getProperty("system.schedule1");
-        Global.schedule2 = binProp.getProperty("system.schedule2");
-        Global.schedule3 = binProp.getProperty("system.schedule3");
-        Global.schedule4 = binProp.getProperty("system.schedule4");
-        Global.schedule5 = binProp.getProperty("system.schedule5");
-
+        //TODO: add scheduler data
     }
 
     public void finalizeConfig() {
@@ -148,17 +137,7 @@ public class Configs {
             binProp.setProperty("system.tempLocation", Global.tempLocation);
             binProp.setProperty("system.restoreLocation", Global.restoreLocation);
 
-            binProp.setProperty("system.backupLocation1", Global.backupLocation1);
-            binProp.setProperty("system.backupLocation2", Global.backupLocation2);
-            binProp.setProperty("system.backupLocation3", Global.backupLocation3);
-            binProp.setProperty("system.backupLocation4", Global.backupLocation4);
-            binProp.setProperty("system.backupLocation5", Global.backupLocation5);
-
-            binProp.setProperty("system.schedule1", Global.schedule1);
-            binProp.setProperty("system.schedule2", Global.schedule2);
-            binProp.setProperty("system.schedule3", Global.schedule3);
-            binProp.setProperty("system.schedule4", Global.schedule4);
-            binProp.setProperty("system.schedule5", Global.schedule5);
+            //TODO: add scheduler data
 
             binProp.store(new FileOutputStream(Global.binConfigPath), null);
             logger.info("Write configurations to the binary file.");
