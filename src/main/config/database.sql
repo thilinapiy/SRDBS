@@ -12,9 +12,9 @@ DROP TABLE sp_File;
 DROP TABLE full_File;
 
 CREATE TABLE sysconfig(
-	sysname VARCHAR (30)  NOT NULL PRIMARY KEY,
---	sysvalue VARCHAR (2048)
-	sysvalue VARBINARY (2048)
+	sysid int NOT NULL PRIMARY KEY,
+	sysvalue VARCHAR (2048)  null
+	-- sysvalue VARBINARY (2048)
 );
 
 
@@ -34,12 +34,14 @@ CREATE TABLE clouds(
 --  location varchar (2048)
 -- );
 
-CREATE TABLE backup_Locations(
+CREATE TABLE schedule(
   backupID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   location varchar (2048),
   frequency int,
   StartHour int,
-  StartMin int
+  StartMin int,
+  compress int,
+  encrypt int,
 );
 
 DROP TABLE sp_File;

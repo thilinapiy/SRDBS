@@ -62,85 +62,25 @@ public class Configs {
         Global.dbUserName = binProp.getProperty("mysql.dbUserName");
         Global.dbPassword = binProp.getProperty("mysql.dbPassword");
 
-        Global.webPort = Integer.valueOf(binProp.getProperty("system.webPort"));
-        Global.SysUserName = binProp.getProperty("system.SysUserName");
-        Global.SysUserPassword = binProp.getProperty("system.SysUserPassword");
+        new DbConnect().getSystemConfig();
 
-        Global.c1IPAddress = binProp.getProperty("system.c1IPAddress");
-        Global.c1Port = Integer.valueOf(binProp.getProperty("system.c1Port"));
-        Global.c1Remotepath = binProp.getProperty("system.c1Remotepath");
-        Global.c1UserName = binProp.getProperty("system.c1UserName");
-        Global.c1Password = binProp.getProperty("system.c1Password");
-        Global.c1Bandwidth = Integer.valueOf(binProp.getProperty("system.c1Bandwidth"));
-        Global.c1Cost = binProp.getProperty("system.c1Cost");
-
-        Global.c2IPAddress = binProp.getProperty("system.c2IPAddress");
-        Global.c2Port = Integer.valueOf(binProp.getProperty("system.c2Port"));
-        Global.c2Remotepath = binProp.getProperty("system.c2Remotepath");
-        Global.c2UserName = binProp.getProperty("system.c2UserName");
-        Global.c2Password = binProp.getProperty("system.c2Password");
-        Global.c2Bandwidth = Integer.valueOf(binProp.getProperty("system.c2Bandwidth"));
-        Global.c2Cost = binProp.getProperty("system.c2Cost");
-
-        Global.c3IPAddress = binProp.getProperty("system.c3IPAddress");
-        Global.c3Port = Integer.valueOf(binProp.getProperty("system.c3Port"));
-        Global.c3Remotepath = binProp.getProperty("system.c3Remotepath");
-        Global.c3UserName = binProp.getProperty("system.c3UserName");
-        Global.c3Password = binProp.getProperty("system.c3Password");
-        Global.c3Bandwidth = Integer.valueOf(binProp.getProperty("system.c3Bandwidth"));
-        Global.c3Cost = binProp.getProperty("system.c3Cost");
-
-        Global.tempLocation = binProp.getProperty("system.tempLocation");
-        Global.restoreLocation = binProp.getProperty("system.restoreLocation");
-
-        //TODO: add scheduler data
     }
 
     public void finalizeConfig() {
 
         try {
             binProp.setProperty("binary.system.config", Global.binaryConfigState);
+
             binProp.setProperty("mysql.dbIPAddress", Global.dbIPAddress);
             binProp.setProperty("mysql.dbPort", String.valueOf(Global.dbPort));
             binProp.setProperty("mysql.dbName", Global.dbName);
             binProp.setProperty("mysql.dbUserName", Global.dbUserName);
             binProp.setProperty("mysql.dbPassword", Global.dbPassword);
-
-            binProp.setProperty("system.webPort", String.valueOf(Global.webPort));
-            binProp.setProperty("system.SysUserName", Global.SysUserName);
-            binProp.setProperty("system.SysUserPassword", Global.SysUserPassword);
-
-            binProp.setProperty("system.c1IPAddress", Global.c1IPAddress);
-            binProp.setProperty("system.c1Port", String.valueOf(Global.c1Port));
-            binProp.setProperty("system.c1Remotepath", Global.c1Remotepath);
-            binProp.setProperty("system.c1UserName", Global.c1UserName);
-            binProp.setProperty("system.c1Password", Global.c1Password);
-            binProp.setProperty("system.c1Bandwidth", String.valueOf(Global.c1Bandwidth));
-            binProp.setProperty("system.c1Cost", Global.c1Cost);
-
-            binProp.setProperty("system.c2IPAddress", Global.c2IPAddress);
-            binProp.setProperty("system.c2Port", String.valueOf(Global.c2Port));
-            binProp.setProperty("system.c2Remotepath", Global.c2Remotepath);
-            binProp.setProperty("system.c2UserName", Global.c2UserName);
-            binProp.setProperty("system.c2Password", Global.c2Password);
-            binProp.setProperty("system.c2Bandwidth", String.valueOf(Global.c2Bandwidth));
-            binProp.setProperty("system.c2Cost", Global.c2Cost);
-
-            binProp.setProperty("system.c3IPAddress", Global.c3IPAddress);
-            binProp.setProperty("system.c3Port", String.valueOf(Global.c3Port));
-            binProp.setProperty("system.c3Remotepath", Global.c3Remotepath);
-            binProp.setProperty("system.c3UserName", Global.c3UserName);
-            binProp.setProperty("system.c3Password", Global.c3Password);
-            binProp.setProperty("system.c3Bandwidth", String.valueOf(Global.c3Bandwidth));
-            binProp.setProperty("system.c3Cost", Global.c3Cost);
-
-            binProp.setProperty("system.tempLocation", Global.tempLocation);
-            binProp.setProperty("system.restoreLocation", Global.restoreLocation);
-
-            //TODO: add scheduler data
-
             binProp.store(new FileOutputStream(Global.binConfigPath), null);
+
+            new DbConnect().finaliseSystemConfig();
             logger.info("Write configurations to the binary file.");
+
         } catch (Exception e) {
             logger.error("Error on writing configurations to binary file : " + e);
         }

@@ -20,9 +20,6 @@ public class Setup {
 
     public static boolean checkInstallation(HttpSession session) {
 
-        //DbConnect insert = new DbConnect();
-        //insert.insertSetup("INIT_CONFIG", "true");
-
         Global.dbIPAddress = (String) session.getAttribute("dbipaddress");
         Global.dbPort = Integer.valueOf(session.getAttribute("dbport").toString());
         Global.dbName = (String) session.getAttribute("dbname");
@@ -63,24 +60,8 @@ public class Setup {
 
         Global.binaryConfigState = "true";
         new Configs().finalizeConfig();
+        new DbConnect().setScheduler(session);
 
-        DbConnect dbCon = new DbConnect();
-        for (int i = 1; i <= Global.noOfBackuplocations; i++) {
-
-            String name = "backuplocation" + i;
-            String frequency = "frequency" + i;
-            String StartHour = "starthour" + i;
-            String StartMin = "startmin" + i;
-
-            String sql = "INSERT INTO backup_locations (location, frequency, StartHour, StartMin) VALUE (' "
-                    + session.getAttribute(name) + "',"
-                    + session.getAttribute(frequency) + ","
-                    + session.getAttribute(StartHour) + ","
-                    + session.getAttribute(StartMin) + ")";
-            dbCon.insertQuery(sql);
-            logger.info("Insert the backup location " + i + " : " + session.getAttribute(name));
-
-        }
         logger.info("Setup is installing basic configurations of the system.");
         return true;
     }
@@ -96,7 +77,8 @@ public class Setup {
         DbConnect dbCon = new DbConnect();
         dbCon.updateQuery("DROP TABLE IF EXISTS sp_File");
         dbCon.updateQuery("DROP TABLE IF EXISTS full_File");
-        dbCon.updateQuery("DROP TABLE IF EXISTS backup_Locations");
+        dbCon.updateQuery("DROP TABLE IF EXISTS schedule");
+        dbCon.updateQuery("DROP TABLE IF EXISTS sysconfig");
         dbCon.updateQuery("CREATE TABLE full_file(" +
                 "F_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY," +
                 "FName VARCHAR(100)," +
@@ -114,12 +96,17 @@ public class Setup {
                 "Remote_path varchar(400)," +
                 "Constraint Pk_SP_FileID_1 Primary key(SP_FILE_ID)," +
                 "Constraint FK_SP_FileID_2 Foreign key (F_ID) References Full_File (F_ID))");
-        dbCon.updateQuery("CREATE TABLE backup_Locations(" +
+        dbCon.updateQuery("CREATE TABLE schedule(" +
                 "backupID INT NOT NULL AUTO_INCREMENT PRIMARY KEY," +
                 "location varchar (2048)," +
                 "frequency int," +
                 "StartHour int," +
-                "StartMin int)");
+                "StartMin int," +
+                "compress int," +
+                "encrypt int)");
+        dbCon.updateQuery("CREATE TABLE sysconfig(" +
+                "sysid int NOT NULL PRIMARY KEY," +
+                "sysvalue VARCHAR (2048) NULL)");
         //dbCon.updateQuery("");
     }
 }

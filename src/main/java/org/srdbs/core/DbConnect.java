@@ -1,9 +1,11 @@
 package org.srdbs.core;
 
 import org.apache.log4j.Logger;
+import org.srdbs.scheduler.Schedule;
 import org.srdbs.split.MYSpFile;
 import org.srdbs.split.MyFile;
 
+import javax.servlet.http.HttpSession;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -281,5 +283,367 @@ public class DbConnect {
         }
 
         return fileList;
+    }
+
+
+    public List<Schedule> getSchedule() {
+
+        String sql = "SELECT * FROM schedule";
+        Connection connection = connect();
+        List<Schedule> fileList = new ArrayList<Schedule>();
+
+        try {
+            Statement s = connection.createStatement();
+            ResultSet rs = s.executeQuery(sql);
+
+            while (rs.next()) {
+                Schedule schedule = new Schedule();
+                schedule.setLocation(rs.getString("location"));
+                schedule.setFrequency(rs.getInt("frequency"));
+                schedule.setStartHour(rs.getInt("StartHour"));
+                schedule.setStartMin(rs.getInt("StartMin"));
+                schedule.setCompress(rs.getInt("compress"));
+                schedule.setEncrypt(rs.getInt("encrypt"));
+                fileList.add(schedule);
+            }
+            backplogger.info("Retrieve schedule data from the database.");
+
+        } catch (Exception e) {
+            backplogger.error("Error in retrieving scheduler data from the database : " + e);
+        }
+
+        return fileList;
+    }
+
+    public void setScheduler(HttpSession session) {
+
+        String sql = "INSERT INTO schedule(location, frequency, StartHour, StartMin, compress, encrypt) VALUE (?,?,?,?,?,?)";
+        Connection con = connect();
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            for (int i = 1; i <= Global.noOfBackuplocations; i++) {
+
+                String location = "backuplocation" + i;
+                String frequency = "frequency" + i;
+                String StartHour = "starthour" + i;
+                String StartMin = "startmin" + i;
+                String compress = "compress" + i;
+                String encrypt = "encrypt" + i;
+
+                int freq = Integer.valueOf(session.getAttribute(frequency).toString());
+                int stHour = Integer.valueOf(session.getAttribute(StartHour).toString());
+                int stMin = Integer.valueOf(session.getAttribute(StartMin).toString());
+                //int comp =  Integer.valueOf(session.getAttribute(compress).toString());
+                int comp = 0; //TODO : remove this.
+                //int encr =  Integer.valueOf(session.getAttribute(encrypt).toString());
+                int encr = 0; //TODO : remove this.
+                logger.info("Convert the strings to int.");
+                ps.setString(1, (String) session.getAttribute(location));
+                logger.info("get location.");
+                ps.setInt(2, freq);
+                ps.setInt(3, stHour);
+                ps.setInt(4, stMin);
+                ps.setInt(5, comp);
+                ps.setInt(6, encr);
+                ps.addBatch();
+                logger.info("Insert the backup location " + i + " : " + session.getAttribute(location));
+            }
+
+            ps.executeBatch();
+            ps.close();
+            con.close();
+
+        } catch (Exception e) {
+
+            logger.error("Error in inserting schedule in to the database : " + e);
+        }
+    }
+
+    public void finaliseSystemConfig() {
+
+        logger.info("Inserting configurations into the database.");
+        String sql = "insert into sysconfig (sysid,sysvalue) values (?,?)";
+        Connection con = connect();
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setInt(1, 1);
+            ps.setString(2, String.valueOf(Global.webPort));
+            ps.addBatch();
+
+            ps.setInt(1, 2);
+            ps.setString(2, Global.SysUserName);
+            ps.addBatch();
+
+            ps.setInt(1, 3);
+            ps.setString(2, Global.SysUserPassword);
+            ps.addBatch();
+
+            ps.setInt(1, 4);
+            ps.setString(2, Global.c1IPAddress);
+            ps.addBatch();
+
+            ps.setInt(1, 5);
+            ps.setString(2, String.valueOf(Global.c1Port));
+            ps.addBatch();
+
+            ps.setInt(1, 6);
+            ps.setString(2, Global.c1Remotepath);
+            ps.addBatch();
+
+            ps.setInt(1, 7);
+            ps.setString(2, Global.c1UserName);
+            ps.addBatch();
+
+            ps.setInt(1, 8);
+            ps.setString(2, Global.c1Password);
+            ps.addBatch();
+
+            ps.setInt(1, 9);
+            ps.setString(2, String.valueOf(Global.c1Bandwidth));
+            ps.addBatch();
+
+            ps.setInt(1, 10);
+            ps.setString(2, Global.c1Cost);
+            ps.addBatch();
+
+            ps.setInt(1, 11);
+            ps.setString(2, Global.c2IPAddress);
+            ps.addBatch();
+
+            ps.setInt(1, 12);
+            ps.setString(2, String.valueOf(Global.c2Port));
+            ps.addBatch();
+
+            ps.setInt(1, 13);
+            ps.setString(2, Global.c2Remotepath);
+            ps.addBatch();
+
+            ps.setInt(1, 14);
+            ps.setString(2, Global.c2UserName);
+            ps.addBatch();
+
+            ps.setInt(1, 15);
+            ps.setString(2, Global.c2Password);
+            ps.addBatch();
+
+            ps.setInt(1, 16);
+            ps.setString(2, String.valueOf(Global.c2Bandwidth));
+            ps.addBatch();
+
+            ps.setInt(1, 17);
+            ps.setString(2, Global.c2Cost);
+            ps.addBatch();
+
+            ps.setInt(1, 18);
+            ps.setString(2, Global.c3IPAddress);
+            ps.addBatch();
+
+            ps.setInt(1, 19);
+            ps.setString(2, String.valueOf(Global.c3Port));
+            ps.addBatch();
+
+            ps.setInt(1, 20);
+            ps.setString(2, Global.c3Remotepath);
+            ps.addBatch();
+
+            ps.setInt(1, 21);
+            ps.setString(2, Global.c3UserName);
+            ps.addBatch();
+
+            ps.setInt(1, 22);
+            ps.setString(2, Global.c3Password);
+            ps.addBatch();
+
+            ps.setInt(1, 23);
+            ps.setString(2, String.valueOf(Global.c3Bandwidth));
+            ps.addBatch();
+
+            ps.setInt(1, 24);
+            ps.setString(2, Global.c3Cost);
+            ps.addBatch();
+
+            ps.setInt(1, 25);
+            ps.setString(2, Global.c4IPAddress);
+            ps.addBatch();
+
+            ps.setInt(1, 26);
+            ps.setString(2, String.valueOf(Global.c4Port));
+            ps.addBatch();
+
+            ps.setInt(1, 27);
+            ps.setString(2, Global.c4Remotepath);
+            ps.addBatch();
+
+            ps.setInt(1, 28);
+            ps.setString(2, Global.c4UserName);
+            ps.addBatch();
+
+            ps.setInt(1, 29);
+            ps.setString(2, Global.c4Password);
+            ps.addBatch();
+
+            ps.setInt(1, 30);
+            ps.setString(2, String.valueOf(Global.c4Bandwidth));
+            ps.addBatch();
+
+            ps.setInt(1, 31);
+            ps.setString(2, Global.c4Cost);
+            ps.addBatch();
+
+            ps.setInt(1, 32);
+            ps.setString(2, Global.c5IPAddress);
+            ps.addBatch();
+
+            ps.setInt(1, 33);
+            ps.setString(2, String.valueOf(Global.c5Port));
+            ps.addBatch();
+
+            ps.setInt(1, 34);
+            ps.setString(2, Global.c5Remotepath);
+            ps.addBatch();
+
+            ps.setInt(1, 35);
+            ps.setString(2, Global.c5UserName);
+            ps.addBatch();
+
+            ps.setInt(1, 36);
+            ps.setString(2, Global.c5Password);
+            ps.addBatch();
+
+            ps.setInt(1, 37);
+            ps.setString(2, String.valueOf(Global.c5Bandwidth));
+            ps.addBatch();
+
+            ps.setInt(1, 38);
+            ps.setString(2, Global.c5Cost);
+            ps.addBatch();
+
+            ps.setInt(1, 39);
+            ps.setString(2, Global.tempLocation);
+            ps.addBatch();
+
+            ps.setInt(1, 40);
+            ps.setString(2, Global.restoreLocation);
+            ps.addBatch();
+
+            ps.executeBatch();
+            ps.close();
+            con.close();
+
+            //TODO: chang this to - on duplicate key update.
+        } catch (Exception e) {
+
+            logger.error("Error in inserting configurations in to the database." + e);
+        }
+
+    }
+
+    public void getSystemConfig() {
+
+        try {
+
+            Connection conn = connect();
+            Statement stmt = conn.createStatement();
+            ResultSet resultSet = stmt.executeQuery("SELECT * FROM `sysconfig` ORDER BY `sysid`");
+            logger.info("Reading configurations from the database.");
+
+            resultSet.next();
+            Global.webPort = Integer.valueOf(resultSet.getString(2));
+            resultSet.next();
+            Global.SysUserName = resultSet.getString(2);
+            resultSet.next();
+            Global.SysUserPassword = resultSet.getString(2);
+
+            resultSet.next();
+            Global.c1IPAddress = resultSet.getString(2);
+            resultSet.next();
+            Global.c1Port = Integer.valueOf(resultSet.getString(2));
+            resultSet.next();
+            Global.c1Remotepath = resultSet.getString(2);
+            resultSet.next();
+            Global.c1UserName = resultSet.getString(2);
+            resultSet.next();
+            Global.c1Password = resultSet.getString(2);
+            resultSet.next();
+            Global.c1Bandwidth = Integer.valueOf(resultSet.getString(2));
+            resultSet.next();
+            Global.c1Cost = resultSet.getString(2);
+
+            resultSet.next();
+            Global.c2IPAddress = resultSet.getString(2);
+            resultSet.next();
+            Global.c2Port = Integer.valueOf(resultSet.getString(2));
+            resultSet.next();
+            Global.c2Remotepath = resultSet.getString(2);
+            resultSet.next();
+            Global.c2UserName = resultSet.getString(2);
+            resultSet.next();
+            Global.c2Password = resultSet.getString(2);
+            resultSet.next();
+            Global.c2Bandwidth = Integer.valueOf(resultSet.getString(2));
+            resultSet.next();
+            Global.c2Cost = resultSet.getString(2);
+
+            resultSet.next();
+            Global.c3IPAddress = resultSet.getString(2);
+            resultSet.next();
+            Global.c3Port = Integer.valueOf(resultSet.getString(2));
+            resultSet.next();
+            Global.c3Remotepath = resultSet.getString(2);
+            resultSet.next();
+            Global.c3UserName = resultSet.getString(2);
+            resultSet.next();
+            Global.c3Password = resultSet.getString(2);
+            resultSet.next();
+            Global.c3Bandwidth = Integer.valueOf(resultSet.getString(2));
+            resultSet.next();
+            Global.c3Cost = resultSet.getString(2);
+
+            resultSet.next();
+            Global.c4IPAddress = resultSet.getString(2);
+            resultSet.next();
+            Global.c4Port = Integer.valueOf(resultSet.getString(2));
+            resultSet.next();
+            Global.c4Remotepath = resultSet.getString(2);
+            resultSet.next();
+            Global.c4UserName = resultSet.getString(2);
+            resultSet.next();
+            Global.c4Password = resultSet.getString(2);
+            resultSet.next();
+            Global.c4Bandwidth = Integer.valueOf(resultSet.getString(2));
+            resultSet.next();
+            Global.c4Cost = resultSet.getString(2);
+
+            resultSet.next();
+            Global.c5IPAddress = resultSet.getString(2);
+            resultSet.next();
+            Global.c5Port = Integer.valueOf(resultSet.getString(2));
+            resultSet.next();
+            Global.c5Remotepath = resultSet.getString(2);
+            resultSet.next();
+            Global.c5UserName = resultSet.getString(2);
+            resultSet.next();
+            Global.c5Password = resultSet.getString(2);
+            resultSet.next();
+            Global.c5Bandwidth = Integer.valueOf(resultSet.getString(2));
+            resultSet.next();
+            Global.c5Cost = resultSet.getString(2);
+
+            resultSet.next();
+            Global.tempLocation = resultSet.getString(2);
+            resultSet.next();
+            Global.restoreLocation = resultSet.getString(2);
+
+            resultSet.close();
+            stmt.close();
+            conn.close();
+            logger.info("Retrieve data from the database successfully.");
+        } catch (Exception e) {
+
+            logger.error("Error in reading data from database. : " + e.getMessage());
+        }
     }
 }

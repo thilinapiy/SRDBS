@@ -58,6 +58,24 @@ public class Global {
     public static String c3Cost;
     public static int cloud3ID = 3;
 
+    public static String c4IPAddress;
+    public static int c4Port;
+    public static String c4Remotepath;
+    public static String c4UserName;
+    public static String c4Password;
+    public static int c4Bandwidth;
+    public static String c4Cost;
+    public static int cloud4ID = 3;
+
+    public static String c5IPAddress;
+    public static int c5Port;
+    public static String c5Remotepath;
+    public static String c5UserName;
+    public static String c5Password;
+    public static int c5Bandwidth;
+    public static String c5Cost;
+    public static int cloud5ID = 3;
+
     public static String tempLocation;
     public static String restoreLocation;
 

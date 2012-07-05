@@ -1,16 +1,8 @@
 package org.srdbs.core;
 
 import org.apache.log4j.Logger;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.Trigger;
-import org.quartz.impl.StdSchedulerFactory;
-import org.srdbs.scheduler.RunJob;
+import org.srdbs.scheduler.RunScheduler;
 import org.srdbs.web.Web;
-
-import static org.quartz.CronScheduleBuilder.dailyAtHourAndMinute;
-import static org.quartz.JobBuilder.newJob;
-import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
  * Main class of the system
@@ -21,7 +13,6 @@ import static org.quartz.TriggerBuilder.newTrigger;
 public class Core {
 
     public static Logger logger = Logger.getLogger("systemsLog");
-    public static Logger backplogger = Logger.getLogger("backupLog");
 
     /**
      * This is the runWebDashboard method of the system.
@@ -78,31 +69,8 @@ public class Core {
 
             System.out.println("Starting thread 1 (scheduler) started.");
             logger.info("Starting thread 1 (scheduler) started.");
+            new RunScheduler().initSchedule();
 
-            try {
-                Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-                scheduler.start();
-
-                JobDetail job = newJob(RunJob.class).withIdentity("Job 1", "Daily backup group").build();
-                Trigger trigger = newTrigger().withIdentity("trigger1", "Daily backup group")
-                        .startNow()
-                        .withSchedule(dailyAtHourAndMinute(14, 00))
-                        .build();
-
-                scheduler.scheduleJob(job, trigger);
-                backplogger.info("Starting backup job : 1 on schedule : dailyAtHourAndMinute - 10:05 ");
-                while (true) {
-                    try {
-                        Thread.sleep(90L * 1000L);
-                    } catch (InterruptedException e) {
-                        logger.error("Thread interrupt.");
-                        scheduler.shutdown(true);
-                        logger.info("Shutdown the job.");
-                    }
-                }
-            } catch (Exception e) {
-                logger.error("Error creating the job : " + e);
-            }
         }
     }
 

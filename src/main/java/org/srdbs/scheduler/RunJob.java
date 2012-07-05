@@ -1,9 +1,9 @@
 package org.srdbs.scheduler;
 
 import org.apache.log4j.Logger;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import org.quartz.*;
+import org.srdbs.core.Global;
+import org.srdbs.core.RunBackup;
 
 import java.util.Date;
 
@@ -21,8 +21,12 @@ public class RunJob implements Job {
 
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
+        JobKey key = context.getJobDetail().getKey();
+        JobDataMap dataMap = context.getJobDetail().getJobDataMap();
+        String jobSays = dataMap.getString("backupLocation");
+
         backplogger.info("Running the scheduled backup at : " + new Date());
-        //RunBackup.runBackup(Global.backupLocation1, Global.tempLocation);
+        RunBackup.runBackup(jobSays, Global.tempLocation);
         backplogger.info("Scheduled backup process ended at : " + new Date());
     }
 }
