@@ -15,11 +15,11 @@
 
         if (username != null && password != null) {
             if (!username.trim().equals("") && !password.trim().equals("")) {
-                //if ( validateUser(username.trim(), password.trim()) ) {
-                if (username.trim().equals("thilina") && password.trim().equals("password")) {
+                if (Api.validateUser(username.trim(), password.trim())) {
+                    //if (username.trim().equals("thilina") && password.trim().equals("password")) {
 
                     session.setAttribute("username", username.toLowerCase().trim());
-                    session.setAttribute("password", password.trim());
+                    //session.setAttribute("password", password.trim());
                     response.sendRedirect("/");
                     return;
                 } else {

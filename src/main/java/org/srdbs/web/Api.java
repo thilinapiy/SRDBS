@@ -40,4 +40,14 @@ public class Api {
             return false;
         }
     }
+
+    public static boolean validateUser(String uName, String password) {
+
+        if (uName.equalsIgnoreCase(Global.SysUserName)
+                && password.equals(Global.SysUserPassword)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
