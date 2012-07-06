@@ -35,6 +35,7 @@ public class Setup {
         Global.c1Remotepath = (String) session.getAttribute("c1remotepath");
         Global.c1UserName = (String) session.getAttribute("c1username");
         Global.c1Password = (String) session.getAttribute("c1password");
+        Global.c1MessagePort = Integer.valueOf(session.getAttribute("c1messageport").toString());
         Global.c1Bandwidth = Integer.valueOf(session.getAttribute("c1bandwidth").toString());
         Global.c1Cost = (String) session.getAttribute("c1cost");
 
@@ -43,6 +44,7 @@ public class Setup {
         Global.c2Remotepath = (String) session.getAttribute("c2remotepath");
         Global.c2UserName = (String) session.getAttribute("c2username");
         Global.c2Password = (String) session.getAttribute("c2password");
+        Global.c2MessagePort = Integer.valueOf(session.getAttribute("c2messageport").toString());
         Global.c2Bandwidth = Integer.valueOf(session.getAttribute("c2bandwidth").toString());
         Global.c2Cost = (String) session.getAttribute("c2cost");
 
@@ -52,6 +54,7 @@ public class Setup {
         Global.c3UserName = (String) session.getAttribute("c3username");
         Global.c3Password = (String) session.getAttribute("c3password");
         Global.c3Bandwidth = Integer.valueOf(session.getAttribute("c3bandwidth").toString());
+        Global.c3MessagePort = Integer.valueOf(session.getAttribute("c3messageport").toString());
         Global.c3Cost = (String) session.getAttribute("c3cost");
 
         Global.tempLocation = (String) session.getAttribute("templocation");

@@ -22,6 +22,7 @@
     String username = request.getParameter("username");
     String remotepath = request.getParameter("remotepath");
     String password = request.getParameter("password");
+    String messageport = request.getParameter("messageport");
     String bandwidth = request.getParameter("bandwidth");
     String cost = request.getParameter("cost");
 
@@ -33,15 +34,18 @@
 
     if (nextbtn != null && nextbtn.equalsIgnoreCase("next")) {
 
-        if (ipaddress != null && port != null && remotepath != null && username != null && password != null && bandwidth != null && cost != null) {
-            if (!ipaddress.trim().equals("") && !port.trim().equals("") && !remotepath.trim().equals("") && !username.trim().equals("")
-                    && !password.trim().equals("") && !bandwidth.trim().equals("") && !cost.trim().equals("")) {
+        if (ipaddress != null && port != null && remotepath != null && username != null && password != null
+                && messageport != null && bandwidth != null && cost != null) {
+            if (!ipaddress.trim().equals("") && !port.trim().equals("") && !remotepath.trim().equals("")
+                    && !username.trim().equals("") && !password.trim().equals("") && !messageport.trim().equals("")
+                    && !bandwidth.trim().equals("") && !cost.trim().equals("")) {
 
                 session.setAttribute("c2ipaddress", ipaddress.toLowerCase().trim());
                 session.setAttribute("c2port", port.trim());
                 session.setAttribute("c2remotepath", remotepath.trim());
                 session.setAttribute("c2username", username.trim());
                 session.setAttribute("c2password", password.trim());
+                session.setAttribute("c2messageport", messageport.trim());
                 session.setAttribute("c2bandwidth", bandwidth.trim());
                 session.setAttribute("c2cost", cost.trim());
 
@@ -125,6 +129,12 @@
             <th valign="top">Password</th>
             <td><input type="text" class="inp-form" name="password"
                        value="<% if(session.getAttribute("c2password")!=null) { out.println(session.getAttribute("c2password")); } %>"/>
+            </td>
+        </tr>
+        <tr>
+            <th valign="top">Message Port</th>
+            <td><input type="text" class="inp-form" name="messageport"
+                       value="<% if(session.getAttribute("c2messageport")!=null) { out.println(session.getAttribute("c2messageport")); } %>"/>
             </td>
         </tr>
         <tr>

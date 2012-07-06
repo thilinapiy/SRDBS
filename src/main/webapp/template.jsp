@@ -1,5 +1,4 @@
 <%@ page import="org.srdbs.web.Api" %>
-<%@ page import="org.srdbs.web.MyPrint" %>
 
 <%
     if (!Api.systemState()) {

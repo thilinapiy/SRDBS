@@ -24,9 +24,11 @@ public class RunJob implements Job {
         JobKey key = context.getJobDetail().getKey();
         JobDataMap dataMap = context.getJobDetail().getJobDataMap();
         String jobSays = dataMap.getString("backupLocation");
+        int compress = dataMap.getInt("compress");
+        int encrypt = dataMap.getInt("encrypt");
 
         backplogger.info("Running the scheduled backup at : " + new Date());
-        RunBackup.runBackup(jobSays, Global.tempLocation);
+        RunBackup.runBackup(jobSays, Global.tempLocation, compress, encrypt);
         backplogger.info("Scheduled backup process ended at : " + new Date());
     }
 }

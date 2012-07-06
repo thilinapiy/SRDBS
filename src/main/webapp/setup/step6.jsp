@@ -29,6 +29,9 @@
         int getStartHour = Integer.valueOf(request.getParameter("starthour").toString());
         int getStartMin = Integer.valueOf(request.getParameter("startmin").toString());
 
+        int Compress = (request.getParameter("Compress") != null) ? 1 : 0;
+        int Encrypt = (request.getParameter("Encrypt") != null) ? 1 : 0;
+
         if (!templocation.trim().equals("") && !restorelocation.trim().equals("")) {
             session.setAttribute("templocation", templocation.trim());
             session.setAttribute("restorelocation", restorelocation.trim());
@@ -40,11 +43,15 @@
             String frequency = "frequency" + count;
             String StartHour = "starthour" + count;
             String StartMin = "startmin" + count;
+            String comp = "compress" + count;
+            String encr = "encrypt" + count;
 
             session.setAttribute(name, getName);
             session.setAttribute(frequency, getFrequency);
             session.setAttribute(StartHour, getStartHour);
             session.setAttribute(StartMin, getStartMin);
+            session.setAttribute(comp, Compress);
+            session.setAttribute(encr, Encrypt);
             session.setAttribute("noofbackuplocations", count);
         }
     }
@@ -59,12 +66,16 @@
                 String frequency = "frequency" + i;
                 String StartHour = "starthour" + i;
                 String StartMin = "startmin" + i;
+                String comp = "compress" + i;
+                String encr = "encrypt" + i;
                 i++;
 
                 session.setAttribute(name, session.getAttribute(("backuplocation" + k)));
                 session.setAttribute(frequency, session.getAttribute(("frequency" + k)));
                 session.setAttribute(StartHour, session.getAttribute(("starthour" + k)));
                 session.setAttribute(StartMin, session.getAttribute(("startmin" + k)));
+                session.setAttribute(comp, session.getAttribute(("compress" + k)));
+                session.setAttribute(encr, session.getAttribute(("encrypt" + k)));
 
             }
         }
@@ -111,46 +122,56 @@
                 value = "Daily";
                 break;
             case 2:
-                value = "Weekly - On every Monday";
-                break;
-            case 3:
-                value = "Weekly - On every Tuesday";
-                break;
-            case 4:
-                value = "Weekly - On every Wednesday";
-                break;
-            case 5:
-                value = "Weekly - On every Thursday";
-                break;
-            case 6:
-                value = "Weekly - On every Friday";
-                break;
-            case 7:
-                value = "Weekly - On every Saturday";
-                break;
-            case 8:
                 value = "Weekly - On every Sunday";
                 break;
+            case 3:
+                value = "Weekly - On every Monday";
+                break;
+            case 4:
+                value = "Weekly - On every Tuesday";
+                break;
+            case 5:
+                value = "Weekly - On every Wednesday";
+                break;
+            case 6:
+                value = "Weekly - On every Thursday";
+                break;
+            case 7:
+                value = "Weekly - On every Friday";
+                break;
+            case 8:
+                value = "Weekly - On every Saturday";
+                break;
             case 9:
-                value = "Monthly - On  1st";
-                break;
             case 10:
-                value = "Monthly - On  5th";
-                break;
             case 11:
-                value = "Monthly - On 10th";
-                break;
             case 12:
-                value = "Monthly - On 15th";
-                break;
             case 13:
-                value = "Monthly - On 20th";
-                break;
             case 14:
-                value = "Monthly - On 25th";
-                break;
             case 15:
-                value = "Monthly - On 28th";
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+            case 20:
+            case 21:
+            case 22:
+            case 23:
+            case 24:
+            case 25:
+            case 26:
+            case 27:
+            case 28:
+            case 29:
+            case 30:
+            case 31:
+            case 32:
+            case 33:
+            case 34:
+            case 35:
+            case 36:
+
+                value = "Monthly - On " + (fq - 8);
                 break;
             default:
                 value = "Error !";
@@ -230,17 +251,22 @@
     <%
         if (count != 0) {
             out.print("<table padding='2px'>");
-            out.print("<th>Backup Location</th><th>Frequency</th><th>Start Time</th>");
+            out.print("<th>Backup Location</th><th>Frequency</th><th>Start Time</th><th>Compress</th><th>Encrypt</th><th>&nbsp;</th>");
             for (int i = 1; i <= count; i++) {
                 String name = "backuplocation" + i;
                 String frequency = "frequency" + i;
                 String StartHour = "starthour" + i;
                 String StartMin = "startmin" + i;
+                String comp = "compress" + i;
+                String encr = "encrypt" + i;
+
                 int freq = Integer.valueOf(session.getAttribute(frequency).toString());
                 out.print("<tr>");
-                out.print("<td width='350px' ><b>" + session.getAttribute(name) + "</b></td>");
-                out.print("<td width='200px'>" + getFreq(freq) + "</td>");
-                out.print("<td width='100px' align='center'>" + session.getAttribute(StartHour) + ":" + session.getAttribute(StartMin) + "h </td>");
+                out.print("<td width='300px' ><b>" + session.getAttribute(name) + "</b></td>");
+                out.print("<td width='175px'>" + getFreq(freq) + "</td>");
+                out.print("<td width='80px' align='center'>" + session.getAttribute(StartHour) + ":" + session.getAttribute(StartMin) + "h </td>");
+                out.print("<td width='50px' align='center'>" + session.getAttribute(comp) + "</td>");
+                out.print("<td width='50px' align='center'>" + session.getAttribute(encr) + "</td>");
                 out.print("<td><button height='23px' type='submit' name='delete' value='" + i + "' ><img src='/images/table/delete.gif'/></button></td>");
                 out.print("</tr>");
             }
@@ -258,25 +284,32 @@
             <th>Add Backup Location</th>
             <td>
                 <input type="text" class="inp-form" name="backuplocation"/>
+            </td>
+        </tr>
+        <tr>
+            <th>Frequency</th>
+            <td>
                 <select name="frequency" class="styledselect-schedule">
                     <option value="0">Select</option>
                     <option value="1">Daily</option>
-                    <option value="2">Weekly - On every Monday</option>
-                    <option value="3">Weekly - On every Tuesday</option>
-                    <option value="4">Weekly - On every Wednesday</option>
-                    <option value="5">Weekly - On every Thursday</option>
-                    <option value="6">Weekly - On every Friday</option>
-                    <option value="7">Weekly - On every Saturday</option>
-                    <option value="8">Weekly - On every Sunday</option>
-                    <option value="9">Monthly - On 1st</option>
-                    <option value="10">Monthly - On 5th</option>
-                    <option value="11">Monthly - On 10th</option>
-                    <option value="12">Monthly - On 15th</option>
-                    <option value="13">Monthly - On 20th</option>
-                    <option value="14">Monthly - On 25th</option>
-                    <option value="15">Monthly - On 28th</option>
+                    <option value="2">Weekly - On every Sunday</option>
+                    <option value="3">Weekly - On every Monday</option>
+                    <option value="4">Weekly - On every Tuesday</option>
+                    <option value="5">Weekly - On every Wednesday</option>
+                    <option value="6">Weekly - On every Thursday</option>
+                    <option value="7">Weekly - On every Friday</option>
+                    <option value="8">Weekly - On every Saturday</option>
+                    <%
+                        for (int s = 1; s < 29; s++) {
+                            out.print("<option value='" + (s + 8) + "'>Monthly - On day " + s + " </option>");
+                        }
+                    %>
                 </select>
-                Start time :
+            </td>
+        </tr>
+        <tr>
+            <th>Start time</th>
+            <td>
                 <select name="starthour" class="styledselect-schedule">
                     <% for (int i = 0; i < 24; i++) {
                         out.println("<option value='" + i + "' >" + i + "</option>");
@@ -289,6 +322,18 @@
                     }
                     %>
                 </select>
+            </td>
+        </tr>
+        <tr>
+            <th>Compress</th>
+            <td>
+                <input type="checkbox" name="Compress" value="Compress"/>
+            </td>
+        </tr>
+        <tr>
+            <th>Encrypt</th>
+            <td>
+                <input type="checkbox" name="Encrypt" value="Encrypt"/>
             </td>
         </tr>
         <tr>

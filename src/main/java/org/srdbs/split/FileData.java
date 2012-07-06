@@ -23,7 +23,6 @@ public class FileData {
     public static Logger logger = Logger.getLogger("systemsLog");
     public static Logger backplogger = Logger.getLogger("backupLog");
 
-    //TODO: change method name.
     public static List<MyFile> Read(String path) {
 
         File folder = null;
@@ -58,39 +57,7 @@ public class FileData {
         return fileList;
     }
 
-    //TODO: change method name.
-    /*
-    public static List<MYSpFile> ReadSPFile(String path) throws Exception {
-        // int Count =0;
-        // String Fname ;
-        String Full_Path;
-        String Hash, date;
-
-        File folder = new File(path);
-        List<MYSpFile> fileList = new ArrayList<MYSpFile>();
-        for (File sysFile : folder.listFiles()) {
-            Full_Path = path + "/" + sysFile.getName();
-            long S = getFileSize(Full_Path);
-            Hash = getHash(Full_Path);
-            Calendar cal = Calendar.getInstance();
-            date = cal.getTime().toString();
-
-            MYSpFile mySPFile = new MYSpFile();
-            mySPFile.setName(sysFile.getName());
-            mySPFile.setHash(Hash);
-            mySPFile.setcDate(date);
-            mySPFile.setSize(S);
-            mySPFile.setFile(sysFile);
-            mySPFile.setCloud(1);
-            mySPFile.setRcloud(2);
-            fileList.add(mySPFile);
-        }
-
-        return fileList;
-    }
-    */
-
-    public static List<MYSpFile> ReadSPFile(String path, int NoPackets, int[] raidArray,String rPath) {
+    public static List<MYSpFile> ReadSPFile(String path, int NoPackets, int[] raidArray, String rPath) {
 
         int k = 0;
         int j = 0;

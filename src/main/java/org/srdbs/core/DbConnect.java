@@ -334,11 +334,9 @@ public class DbConnect {
                 int freq = Integer.valueOf(session.getAttribute(frequency).toString());
                 int stHour = Integer.valueOf(session.getAttribute(StartHour).toString());
                 int stMin = Integer.valueOf(session.getAttribute(StartMin).toString());
-                //int comp =  Integer.valueOf(session.getAttribute(compress).toString());
-                int comp = 0; //TODO : remove this.
-                //int encr =  Integer.valueOf(session.getAttribute(encrypt).toString());
-                int encr = 0; //TODO : remove this.
-                logger.info("Convert the strings to int.");
+                int comp = Integer.valueOf(session.getAttribute(compress).toString());
+                int encr = Integer.valueOf(session.getAttribute(encrypt).toString());
+                logger.debug("Convert Session objects to relevant types.");
                 ps.setString(1, (String) session.getAttribute(location));
                 logger.info("get location.");
                 ps.setInt(2, freq);
@@ -402,130 +400,150 @@ public class DbConnect {
             ps.addBatch();
 
             ps.setInt(1, 9);
-            ps.setString(2, String.valueOf(Global.c1Bandwidth));
+            ps.setString(2, String.valueOf(Global.c1MessagePort));
             ps.addBatch();
 
             ps.setInt(1, 10);
-            ps.setString(2, Global.c1Cost);
+            ps.setString(2, String.valueOf(Global.c1Bandwidth));
             ps.addBatch();
 
             ps.setInt(1, 11);
-            ps.setString(2, Global.c2IPAddress);
+            ps.setString(2, Global.c1Cost);
             ps.addBatch();
 
             ps.setInt(1, 12);
-            ps.setString(2, String.valueOf(Global.c2Port));
+            ps.setString(2, Global.c2IPAddress);
             ps.addBatch();
 
             ps.setInt(1, 13);
-            ps.setString(2, Global.c2Remotepath);
+            ps.setString(2, String.valueOf(Global.c2Port));
             ps.addBatch();
 
             ps.setInt(1, 14);
-            ps.setString(2, Global.c2UserName);
+            ps.setString(2, Global.c2Remotepath);
             ps.addBatch();
 
             ps.setInt(1, 15);
-            ps.setString(2, Global.c2Password);
+            ps.setString(2, Global.c2UserName);
             ps.addBatch();
 
             ps.setInt(1, 16);
-            ps.setString(2, String.valueOf(Global.c2Bandwidth));
+            ps.setString(2, Global.c2Password);
             ps.addBatch();
 
             ps.setInt(1, 17);
-            ps.setString(2, Global.c2Cost);
+            ps.setString(2, String.valueOf(Global.c2MessagePort));
             ps.addBatch();
 
             ps.setInt(1, 18);
-            ps.setString(2, Global.c3IPAddress);
+            ps.setString(2, String.valueOf(Global.c2Bandwidth));
             ps.addBatch();
 
             ps.setInt(1, 19);
-            ps.setString(2, String.valueOf(Global.c3Port));
+            ps.setString(2, Global.c2Cost);
             ps.addBatch();
 
             ps.setInt(1, 20);
-            ps.setString(2, Global.c3Remotepath);
+            ps.setString(2, Global.c3IPAddress);
             ps.addBatch();
 
             ps.setInt(1, 21);
-            ps.setString(2, Global.c3UserName);
+            ps.setString(2, String.valueOf(Global.c3Port));
             ps.addBatch();
 
             ps.setInt(1, 22);
-            ps.setString(2, Global.c3Password);
+            ps.setString(2, Global.c3Remotepath);
             ps.addBatch();
 
             ps.setInt(1, 23);
-            ps.setString(2, String.valueOf(Global.c3Bandwidth));
+            ps.setString(2, Global.c3UserName);
             ps.addBatch();
 
             ps.setInt(1, 24);
-            ps.setString(2, Global.c3Cost);
+            ps.setString(2, Global.c3Password);
             ps.addBatch();
 
             ps.setInt(1, 25);
-            ps.setString(2, Global.c4IPAddress);
+            ps.setString(2, String.valueOf(Global.c3MessagePort));
             ps.addBatch();
 
             ps.setInt(1, 26);
-            ps.setString(2, String.valueOf(Global.c4Port));
+            ps.setString(2, String.valueOf(Global.c3Bandwidth));
             ps.addBatch();
 
             ps.setInt(1, 27);
-            ps.setString(2, Global.c4Remotepath);
+            ps.setString(2, Global.c3Cost);
             ps.addBatch();
 
             ps.setInt(1, 28);
-            ps.setString(2, Global.c4UserName);
+            ps.setString(2, Global.c4IPAddress);
             ps.addBatch();
 
             ps.setInt(1, 29);
-            ps.setString(2, Global.c4Password);
+            ps.setString(2, String.valueOf(Global.c4Port));
             ps.addBatch();
 
             ps.setInt(1, 30);
-            ps.setString(2, String.valueOf(Global.c4Bandwidth));
+            ps.setString(2, Global.c4Remotepath);
             ps.addBatch();
 
             ps.setInt(1, 31);
-            ps.setString(2, Global.c4Cost);
+            ps.setString(2, Global.c4UserName);
             ps.addBatch();
 
             ps.setInt(1, 32);
-            ps.setString(2, Global.c5IPAddress);
+            ps.setString(2, Global.c4Password);
             ps.addBatch();
 
             ps.setInt(1, 33);
-            ps.setString(2, String.valueOf(Global.c5Port));
+            ps.setString(2, String.valueOf(Global.c4MessagePort));
             ps.addBatch();
 
             ps.setInt(1, 34);
-            ps.setString(2, Global.c5Remotepath);
+            ps.setString(2, String.valueOf(Global.c4Bandwidth));
             ps.addBatch();
 
             ps.setInt(1, 35);
-            ps.setString(2, Global.c5UserName);
+            ps.setString(2, Global.c4Cost);
             ps.addBatch();
 
             ps.setInt(1, 36);
-            ps.setString(2, Global.c5Password);
+            ps.setString(2, Global.c5IPAddress);
             ps.addBatch();
 
             ps.setInt(1, 37);
-            ps.setString(2, String.valueOf(Global.c5Bandwidth));
+            ps.setString(2, String.valueOf(Global.c5Port));
             ps.addBatch();
 
             ps.setInt(1, 38);
-            ps.setString(2, Global.c5Cost);
+            ps.setString(2, Global.c5Remotepath);
             ps.addBatch();
 
             ps.setInt(1, 39);
-            ps.setString(2, Global.tempLocation);
+            ps.setString(2, Global.c5UserName);
             ps.addBatch();
 
             ps.setInt(1, 40);
+            ps.setString(2, Global.c5Password);
+            ps.addBatch();
+
+            ps.setInt(1, 41);
+            ps.setString(2, String.valueOf(Global.c5MessagePort));
+            ps.addBatch();
+
+            ps.setInt(1, 42);
+            ps.setString(2, String.valueOf(Global.c5Bandwidth));
+            ps.addBatch();
+
+            ps.setInt(1, 43);
+            ps.setString(2, Global.c5Cost);
+            ps.addBatch();
+
+            ps.setInt(1, 44);
+            ps.setString(2, Global.tempLocation);
+            ps.addBatch();
+
+            ps.setInt(1, 45);
             ps.setString(2, Global.restoreLocation);
             ps.addBatch();
 
@@ -568,6 +586,8 @@ public class DbConnect {
             resultSet.next();
             Global.c1Password = resultSet.getString(2);
             resultSet.next();
+            Global.c1MessagePort = Integer.valueOf(resultSet.getString(2));
+            resultSet.next();
             Global.c1Bandwidth = Integer.valueOf(resultSet.getString(2));
             resultSet.next();
             Global.c1Cost = resultSet.getString(2);
@@ -582,6 +602,8 @@ public class DbConnect {
             Global.c2UserName = resultSet.getString(2);
             resultSet.next();
             Global.c2Password = resultSet.getString(2);
+            resultSet.next();
+            Global.c2MessagePort = Integer.valueOf(resultSet.getString(2));
             resultSet.next();
             Global.c2Bandwidth = Integer.valueOf(resultSet.getString(2));
             resultSet.next();
@@ -598,6 +620,8 @@ public class DbConnect {
             resultSet.next();
             Global.c3Password = resultSet.getString(2);
             resultSet.next();
+            Global.c3MessagePort = Integer.valueOf(resultSet.getString(2));
+            resultSet.next();
             Global.c3Bandwidth = Integer.valueOf(resultSet.getString(2));
             resultSet.next();
             Global.c3Cost = resultSet.getString(2);
@@ -613,6 +637,8 @@ public class DbConnect {
             resultSet.next();
             Global.c4Password = resultSet.getString(2);
             resultSet.next();
+            Global.c4MessagePort = Integer.valueOf(resultSet.getString(2));
+            resultSet.next();
             Global.c4Bandwidth = Integer.valueOf(resultSet.getString(2));
             resultSet.next();
             Global.c4Cost = resultSet.getString(2);
@@ -627,6 +653,8 @@ public class DbConnect {
             Global.c5UserName = resultSet.getString(2);
             resultSet.next();
             Global.c5Password = resultSet.getString(2);
+            resultSet.next();
+            Global.c5MessagePort = Integer.valueOf(resultSet.getString(2));
             resultSet.next();
             Global.c5Bandwidth = Integer.valueOf(resultSet.getString(2));
             resultSet.next();

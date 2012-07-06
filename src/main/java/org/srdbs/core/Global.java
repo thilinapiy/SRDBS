@@ -36,6 +36,7 @@ public class Global {
     public static String c1Remotepath;
     public static String c1UserName;
     public static String c1Password;
+    public static int c1MessagePort;
     public static int c1Bandwidth;
     public static String c1Cost;
     public static int cloud1ID = 1;
@@ -45,6 +46,7 @@ public class Global {
     public static String c2Remotepath;
     public static String c2UserName;
     public static String c2Password;
+    public static int c2MessagePort;
     public static int c2Bandwidth;
     public static String c2Cost;
     public static int cloud2ID = 2;
@@ -54,6 +56,7 @@ public class Global {
     public static String c3Remotepath;
     public static String c3UserName;
     public static String c3Password;
+    public static int c3MessagePort;
     public static int c3Bandwidth;
     public static String c3Cost;
     public static int cloud3ID = 3;
@@ -63,6 +66,7 @@ public class Global {
     public static String c4Remotepath;
     public static String c4UserName;
     public static String c4Password;
+    public static int c4MessagePort;
     public static int c4Bandwidth;
     public static String c4Cost;
     public static int cloud4ID = 3;
@@ -72,6 +76,7 @@ public class Global {
     public static String c5Remotepath;
     public static String c5UserName;
     public static String c5Password;
+    public static int c5MessagePort;
     public static int c5Bandwidth;
     public static String c5Cost;
     public static int cloud5ID = 3;

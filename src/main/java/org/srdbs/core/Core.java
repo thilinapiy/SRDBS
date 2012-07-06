@@ -106,6 +106,7 @@ public class Core {
         logger.info("Finalizing the binary configurations file.");
         logger.info("Restarting the configurations.");
         new Configs().initConfigs();
+        //TODO restart the scheduler.
     }
 
     /**

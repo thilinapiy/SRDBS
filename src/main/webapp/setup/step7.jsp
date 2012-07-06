@@ -165,6 +165,7 @@
                         out.println(session.getAttribute("c1remotepath"));
                         out.println(session.getAttribute("c1username"));
                         out.println(session.getAttribute("c1password"));
+                        out.println(session.getAttribute("c1messageport"));
                         out.println(session.getAttribute("c1bandwidth"));
                         out.println(session.getAttribute("c1cost"));
 
@@ -176,6 +177,7 @@
                         out.println(session.getAttribute("c2remotepath"));
                         out.println(session.getAttribute("c2username"));
                         out.println(session.getAttribute("c2password"));
+                        out.println(session.getAttribute("c2messageport"));
                         out.println(session.getAttribute("c2bandwidth"));
                         out.println(session.getAttribute("c2cost"));
 
@@ -186,6 +188,7 @@
                         out.println(session.getAttribute("c3remotepath"));
                         out.println(session.getAttribute("c3username"));
                         out.println(session.getAttribute("c3password"));
+                        out.println(session.getAttribute("c3messageport"));
                         out.println(session.getAttribute("c3bandwidth"));
                         out.println(session.getAttribute("c3cost"));
 
@@ -199,19 +202,26 @@
 
                         int count = Integer.valueOf(session.getAttribute("noofbackuplocations").toString());
                         if (count != 0) {
+                            out.print("<table border='2px'>");
+                            out.print("<tr><td>Backup Location</td><td>Frequency</td><td>Start Time</td><td>Compress</td><td>Encrypt</td></tr>");
                             for (int i = 1; i <= count; i++) {
                                 String name = "backuplocation" + i;
                                 String frequency = "frequency" + i;
                                 String StartHour = "starthour" + i;
                                 String StartMin = "startmin" + i;
+                                String comp = "compress" + i;
+                                String encr = "encrypt" + i;
+
                                 int freq = Integer.valueOf(session.getAttribute(frequency).toString());
-
-                                out.print(session.getAttribute(name));
-                                out.print("\t on : " + getFreq(freq));
-                                out.print("\t start at : " + session.getAttribute(StartHour) + ":" + session.getAttribute(StartMin) + "h");
-                                out.print("<br/>");
+                                out.print("<tr>");
+                                out.print("<td width='350px' ><b>" + session.getAttribute(name) + "</b></td>");
+                                out.print("<td width='175px'>" + getFreq(freq) + "</td>");
+                                out.print("<td width='80px' align='center'>" + session.getAttribute(StartHour) + ":" + session.getAttribute(StartMin) + "h </td>");
+                                out.print("<td width='50px' align='center'>" + session.getAttribute(comp) + "</td>");
+                                out.print("<td width='50px' align='center'>" + session.getAttribute(encr) + "</td>");
+                                out.print("</tr>");
                             }
-
+                            out.print("</table>");
                         }
 
                     %>
