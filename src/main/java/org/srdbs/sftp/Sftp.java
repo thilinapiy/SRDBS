@@ -12,7 +12,11 @@ import org.srdbs.split.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.net.*;
 
 /**
  * Creating the secure ftp channels.
@@ -29,6 +33,12 @@ public class Sftp {
     public static List<Integer> cloud1 = new ArrayList<Integer>();
     public static List<Integer> cloud2 = new ArrayList<Integer>();
     public static List<Integer> cloud3 = new ArrayList<Integer>();
+
+    public static Date date = new Date();
+    public static DateFormat datef = new SimpleDateFormat("yyMMddHHmmss");
+
+   // public static String temp [];
+    //public static String delimiter = "/";
 
     /**
      * This is a test method
@@ -51,7 +61,7 @@ public class Sftp {
     }
 
 
-    public static int upload(String sftpIP, String sftpUser, String sftpPasswd, int sftpPort, String remotePath, String file, int cID)
+    public static int upload(String file)
     {
 
         Session session = null;
@@ -61,8 +71,8 @@ public class Sftp {
 
         try {
             JSch jsch = new JSch();
-            session = jsch.getSession(sftpUser, sftpIP, sftpPort);
-            session.setPassword(sftpPasswd);
+            session = jsch.getSession(Global.c1UserName, Global.c1IPAddress, Global.c1Port);
+            session.setPassword(Global.c1Password);
             java.util.Properties config = new java.util.Properties();
             config.put("StrictHostKeyChecking", "no");
             session.setConfig(config);
@@ -70,11 +80,9 @@ public class Sftp {
             channel = session.openChannel("sftp");
             channel.connect();
             channelSftp = (ChannelSftp) channel;
-            channelSftp.mkdir(remotePath);
-            channelSftp.cd(remotePath);
+            channelSftp.mkdir(Global.c1Remotepath + "/" + datef.format(date));
+            channelSftp.cd(Global.c1Remotepath + "/" + datef.format(date));
 
-        if(cID==1)
-        {
             for(int i=0; i < cloud1.size(); i++ )
             {
                ftpFileNo=cloud1.get(i);
@@ -82,45 +90,156 @@ public class Sftp {
 
                 backplogger.info("File name :" + f );
                 channelSftp.put(new FileInputStream(f), f.getName());
+                backplogger.info("IP : " + Global.c1IPAddress + ", " + Global.c1Port + ", " + Global.c2UserName + ", "
+                        + Global.c1Password + ", " + file + " upload to " + Global.c1Remotepath + "/" + datef.format(date));
                 backplogger.info("Send the file.");
+                cloud1.remove(i);
+                // TODO UPDATE THE PATH IN DB
             }
+                channelSftp.exit();
+                session.disconnect();
+
+            return 0;
+        } catch (Exception ex) {
+            backplogger.error("Ftp upload error on IP : " + Global.c1IPAddress + " more details :" + ex);
+            //backplogger.error("IP : " + Global.c1IPAddress + ", " + Global.c1Port + ", " + Global.c2UserName + ", "
+                    //+ Global.c1Password + ", " + file + " upload to " + Global.c1Remotepath + "/" + datef.format(date));
+
+            backplogger.info("Retring to upload");
+            long startTime = System.currentTimeMillis();
+            while((System.currentTimeMillis()-startTime)< 120000)
+            {
+               boolean server = ping(Global.c1IPAddress,Global.c1Port);
+            if(server == true)
+            {
+                    backplogger.info("upload again");
+                    upload(file);
+                    break;
+            }
+            }
+            return 10;
         }
-        if(cID==2)
-        {
+
+    }
+
+    public static int upload1(String file)
+    {
+
+        Session session = null;
+        Channel channel = null;
+        ChannelSftp channelSftp = null;
+        int ftpFileNo=0;
+
+        try {
+            JSch jsch = new JSch();
+            session = jsch.getSession(Global.c2UserName, Global.c2IPAddress, Global.c2Port);
+            session.setPassword(Global.c2Password);
+            java.util.Properties config = new java.util.Properties();
+            config.put("StrictHostKeyChecking", "no");
+            session.setConfig(config);
+            session.connect();
+            channel = session.openChannel("sftp");
+            channel.connect();
+            channelSftp = (ChannelSftp) channel;
+            channelSftp.mkdir(Global.c2Remotepath + "/" + datef.format(date));
+            channelSftp.cd(Global.c2Remotepath + "/" + datef.format(date));
+
             for(int i=0; i < cloud2.size(); i++ )
             {
-                    ftpFileNo=cloud2.get(i);
-                    File f = new File(file + Split.createSuffix(ftpFileNo));
+                ftpFileNo=cloud2.get(i);
+                File f = new File(file + Split.createSuffix(ftpFileNo));
 
-                    backplogger.info("File name :" + f );
-                    channelSftp.put(new FileInputStream(f), f.getName());
-                    backplogger.info("Send the file.");
+                backplogger.info("File name :" + f );
+                channelSftp.put(new FileInputStream(f), f.getName());
+                backplogger.info("IP : " + Global.c2IPAddress + ", " + Global.c2Port + ", " + Global.c2UserName + ", "
+                        + Global.c2Password + ", " + file + " upload to " + Global.c2Remotepath + "/" + datef.format(date));
+                backplogger.info("Send the file.");
+                cloud2.remove(i);
+                // TODO UPDATE THE PATH IN DB
             }
+                channelSftp.exit();
+                session.disconnect();
+
+            return 0;
+        } catch (Exception ex) {
+            backplogger.error("Ftp upload error on IP : " + Global.c2IPAddress + " more details :" + ex);
+            //backplogger.error("IP : " + Global.c2IPAddress + ", " + Global.c2Port + ", " + Global.c2UserName + ", "
+                    //+ Global.c2Password + ", " + file + " upload to " + Global.c2Remotepath + "/" + datef.format(date));
+            backplogger.info("Retring to upload");
+            long startTime = System.currentTimeMillis();
+            while((System.currentTimeMillis()-startTime)< 120000)
+            {
+                boolean server = ping(Global.c2IPAddress,Global.c2Port);
+                if(server == true)
+                {
+                    backplogger.info("upload again");
+                    upload1(file);
+                    break;
+                }
+            }
+            return 10;
         }
-        if(cID==3)
-        {
-        for(int i=0; i < cloud3.size(); i++ )
-        {
+
+    }
+
+    public static int upload2(String file)
+    {
+
+        Session session = null;
+        Channel channel = null;
+        ChannelSftp channelSftp = null;
+        int ftpFileNo=0;
+
+        try {
+            JSch jsch = new JSch();
+            session = jsch.getSession(Global.c3UserName, Global.c3IPAddress, Global.c3Port);
+            session.setPassword(Global.c3Password);
+            java.util.Properties config = new java.util.Properties();
+            config.put("StrictHostKeyChecking", "no");
+            session.setConfig(config);
+            session.connect();
+            channel = session.openChannel("sftp");
+            channel.connect();
+            channelSftp = (ChannelSftp) channel;
+            channelSftp.mkdir(Global.c3Remotepath + "/" + datef.format(date));
+            channelSftp.cd(Global.c3Remotepath + "/" + datef.format(date));
+
+            for(int i=0; i < cloud3.size(); i++ )
+            {
                 ftpFileNo=cloud3.get(i);
                 File f = new File(file + Split.createSuffix(ftpFileNo));
 
                 backplogger.info("File name :" + f );
                 channelSftp.put(new FileInputStream(f), f.getName());
+                backplogger.info("IP : " + Global.c3IPAddress + ", " + Global.c3Port + ", " + Global.c3UserName + ", "
+                        + Global.c3Password + ", " + file + " upload to " + Global.c3Remotepath + "/" + datef.format(date));
                 backplogger.info("Send the file.");
-        }
-        }
-
+                cloud3.remove(i);
+                // TODO UPDATE THE PATH IN DB
+            }
                 channelSftp.exit();
-            session.disconnect();
-
+                session.disconnect();
 
             return 0;
         } catch (Exception ex) {
-            backplogger.error("Ftp upload error on IP : " + sftpIP + " more details :" + ex);
-            backplogger.error("IP : " + sftpIP + ", " + sftpPort + ", " + sftpUser + ", "
-                    + sftpPasswd + ", " + file + " upload to " + remotePath);
+            backplogger.error("Ftp upload error on IP : " + Global.c3IPAddress + " more details :" + ex);
+            //backplogger.error("IP : " + Global.c3IPAddress + ", " + Global.c3Port + ", " + Global.c3UserName + ", "
+                    //+ Global.c3Password + ", " + file + " upload to " + Global.c3Remotepath + "/" + datef.format(date));
+            backplogger.info("Retring to upload");
+            long startTime = System.currentTimeMillis();
+            while((System.currentTimeMillis()-startTime)< 120000)
+            {
+                boolean server = ping(Global.c3IPAddress,Global.c3Port);
+                if(server== true)
+                {
+                    backplogger.info("upload again");
+                    upload2(file);
+                    break;
+                }
+            }
             return 10;
         }
+
     }
 
     public static int download(String fileName, int cloud, String remotePath)
@@ -244,5 +363,23 @@ public class Sftp {
     private static int getRandomCloud(int numberOfClouds)
     {
         return (int) ((Math.random() * 10) % numberOfClouds) + 1;
+    }
+
+
+    // Check Server availability
+    public static boolean ping(String ip, int port)
+    {
+        boolean ping=false;
+        try
+        {
+            Socket mySocket = new Socket(ip,port);
+            backplogger.info("Connection to: " + mySocket.getInetAddress());
+            ping=true;
+        }
+        catch (Exception e)
+        {
+            backplogger.info("Site not found!");
+        }
+        return ping;
     }
 }

@@ -57,7 +57,7 @@ public class FileData {
         return fileList;
     }
 
-    public static List<MYSpFile> ReadSPFile(String path, int NoPackets, int[] raidArray, String rPath) {
+    public static List<MYSpFile> ReadSPFile(String path, int NoPackets, int[] raidArray) {
 
         int k = 0;
         int j = 0;
@@ -92,7 +92,7 @@ public class FileData {
                         mySPFile.setFile(sysFile);
                         mySPFile.setCloud(raidArray[m]);
                         mySPFile.setRcloud(raidArray[m + 1]);
-                        mySPFile.setRemotePath(rPath);
+                        //mySPFile.setRemotePath(rPath);
                         fileList.add(mySPFile);
                         m = m + 2;
                     } else {

@@ -165,10 +165,10 @@ public class DbConnect {
         return 1;
     }
 
-    public int saveSPFiles(long fid, String Fname, long Size, String Hash, int Cl_ID, int R_ID, String R_Path) throws SQLException {
+    public int saveSPFiles(long fid, String Fname, long Size, String Hash, int Cl_ID, int R_ID/*, String R_Path*/) throws SQLException {
 
 
-        String sql = "insert into Sp_File (F_ID,SP_FileName,F_Size,HashValue,Ref_Cloud_ID,Raid_Ref,Remote_path) values (?,?,?,?,?,?,?)";
+        String sql = "insert into Sp_File (F_ID,SP_FileName,F_Size,HashValue,Ref_Cloud_ID,Raid_Ref/*,Remote_path*/) values (?,?,?,?,?,?/*,?*/)";
         Connection connection = connect();
         PreparedStatement ps = connection.prepareStatement(sql);
 
@@ -183,7 +183,7 @@ public class DbConnect {
         //  ps.setString(4,mySFile.getcDate());
         ps.setInt(5, Cl_ID);
         ps.setInt(6, R_ID);
-        ps.setString(7, R_Path);
+        //ps.setString(7, R_Path);
         ps.addBatch();
         //}
         ps.executeBatch();
