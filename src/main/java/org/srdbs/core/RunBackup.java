@@ -52,6 +52,7 @@ public class RunBackup {
             //if both compression and encryption enable
             if((compress !=0)&&(encrypt !=0)){
 
+
                 String fzip= file.getName()+".zip";
 
                 try{
@@ -67,8 +68,8 @@ public class RunBackup {
 
                 try{
                 copy(Cipher.ENCRYPT_MODE, fileName, tempFileName, "password12345678");
-                    System.out.println("Success. Find encrypted and decripted files in current directory");
-                    logger.info("Success. Find encrypted and decripted files in current directory" + fzip);
+                    System.out.println("Success. Find encrypted and decrypted files in current directory");
+                    logger.info("Success. Find encrypted and decrypted files in current directory" + fzip);
                 }
                 catch (Exception e){
                     e.printStackTrace();
@@ -109,12 +110,13 @@ public class RunBackup {
             }
 
             //if compression is enabled.
-            if (compress != 0) {
+           else if ((compress != 0)&&(encrypt ==0)) {
 
                 String fzip= file.getName()+".zip";
                 
                 try{
                 compressFile(path+"/"+file.getName());
+
                 }
                 catch (Exception e){
                     e.printStackTrace();
@@ -153,7 +155,7 @@ public class RunBackup {
                  backplogger.info("Compressing the backup files : " + file.getName());
             }
             // if encryption is enabled.
-            if (encrypt != 0) {
+          else  if ((encrypt != 0)&&(compress ==0)) {
 
                 String fzip= file.getName();
 
@@ -337,6 +339,7 @@ public class RunBackup {
                 new File(strDirectoy)).mkdir();
         if (success) {
             System.out.println("Directory: " + strDirectoy + " created");
+            logger.info("Directory: " + strDirectoy + " created");
         }
 
         return strDirectoy;

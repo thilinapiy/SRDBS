@@ -322,6 +322,7 @@ public class RunRestore {
         }catch(Exception e)
         {
             e.printStackTrace();
+            logger.info("Decompression Fails in :" + Fname_full);
         }
 
     }
