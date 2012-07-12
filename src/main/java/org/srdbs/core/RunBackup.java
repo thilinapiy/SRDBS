@@ -33,7 +33,7 @@ public class RunBackup {
 
     private static final int IV_LENGTH=16;
     public static String Despath;
-    public  static int count;
+    public static int count=0;
 
     public static int runBackup(String path, final String dest, int compress, int encrypt) {
 
@@ -57,10 +57,14 @@ public class RunBackup {
 
                 try{
                 compressFile(path+"/"+file.getName());
+                    System.out.println("Your file is zipped:" + fzip);
+                    logger.info("Your file is zipped:"+fzip);
+
                 }
                 catch (Exception e){
-                     e.printStackTrace();
-                 }
+                    e.printStackTrace();
+                    logger.info("File Compression Fails on:"+fzip);
+                }
 
                 String fileName = path +"/"+fzip;
                 String tempFileName=fileName+".enc";
@@ -90,7 +94,7 @@ public class RunBackup {
                 int packetVal = (int) (FSize / bandwidthSum);
                 backplogger.info("Packet size : " + packetVal + " File size : " + file.getSize() + " c1 : " + Global.c1Bandwidth
                         + " c2 : " + Global.c2Bandwidth + " c3 : " + Global.c3Bandwidth);
-                int count = mySplit(path + Global.fs + fzipencrypt, Despath
+                count = mySplit(path + Global.fs + fzipencrypt, Despath
                         + Global.fs + fzipencrypt, packetVal);
 
                 backplogger.info("Split Files in the file path of : "
@@ -109,6 +113,7 @@ public class RunBackup {
                 backplogger.info("Compressing and Encrypting the backup files : " + file.getName());
             }
 
+
             //if compression is enabled.
            else if ((compress != 0)&&(encrypt ==0)) {
 
@@ -116,13 +121,13 @@ public class RunBackup {
                 
                 try{
                 compressFile(path+"/"+file.getName());
-
+                    System.out.println("Your file is zipped:" + fzip);
+                    logger.info("Your file is zipped:"+fzip);
                 }
                 catch (Exception e){
                     e.printStackTrace();
+                    logger.info("File Compression Fails on:"+fzip);
                 }
-
-
                 String fzipencrypt= file.getName()+".zip";
                 
                 try{
@@ -137,7 +142,7 @@ public class RunBackup {
                 int packetVal = (int) (file.getSize() / bandwidthSum);
                 backplogger.info("Packet size : " + packetVal + " File size : " + file.getSize() + " c1 : " + Global.c1Bandwidth
                         + " c2 : " + Global.c2Bandwidth + " c3 : " + Global.c3Bandwidth);
-                int count = mySplit(path + Global.fs + fzipencrypt, Despath
+                 count = mySplit(path + Global.fs + fzipencrypt, Despath
                         + Global.fs + fzipencrypt, packetVal);
 
                 backplogger.info("Split Files in the file path of : "
@@ -164,8 +169,8 @@ public class RunBackup {
 
                 try{
                 copy(Cipher.ENCRYPT_MODE, fileName, tempFileName, "password12345678");
-                    System.out.println("Success. Find encrypted and decripted files in current directory");
-                    logger.info("Success. Find encrypted and decripted files in current directory" + fzip);
+                    System.out.println("Success. Find encrypted and decrypted files in current directory");
+                    logger.info("Success. Find encrypted and decrypted files in current directory" + fzip);
                
                 }
                 catch (Exception e){
@@ -188,7 +193,7 @@ public class RunBackup {
                 int packetVal = (int) (FSize / bandwidthSum);
                 backplogger.info("Packet size : " + packetVal + " File size : " + file.getSize() + " c1 : " + Global.c1Bandwidth
                         + " c2 : " + Global.c2Bandwidth + " c3 : " + Global.c3Bandwidth);
-                int count = mySplit(path + Global.fs + fzipencrypt, Despath
+                 count = mySplit(path + Global.fs + fzipencrypt, Despath
                         + Global.fs + fzipencrypt, packetVal);
 
                 backplogger.info("Split Files in the file path of : "
@@ -206,7 +211,7 @@ public class RunBackup {
                 backplogger.info("Encrypting the backup files : " + file.getName());
             }
 
-         else{
+             else {
                 String fnormal= file.getName();
                 
                 try{
@@ -223,7 +228,7 @@ public class RunBackup {
                 int packetVal = (int) (file.getSize() / bandwidthSum);
                 backplogger.info("Packet size : " + packetVal + " File size : " + file.getSize() + " c1 : " + Global.c1Bandwidth
                         + " c2 : " + Global.c2Bandwidth + " c3 : " + Global.c3Bandwidth);
-                int count = mySplit(path + Global.fs + fnormal, Despath
+                 count = mySplit(path + Global.fs + fnormal, Despath
                         + Global.fs + fnormal, packetVal);
 
                 backplogger.info("Split Files in the file path of : "
@@ -238,29 +243,9 @@ public class RunBackup {
                     backplogger.error("Database connection error : " + e);
                 }
 
-
             }
 
-            /*
-            int bandwidthSum = 1024 * (((int) (Math.random() * 10) % 9) + 10);
-            int packetVal = (int) (file.getSize() / bandwidthSum);
-            backplogger.info("Packet size : " + packetVal + " File size : " + file.getSize() + " c1 : " + Global.c1Bandwidth
-                    + " c2 : " + Global.c2Bandwidth + " c3 : " + Global.c3Bandwidth);
-            int count = mySplit(path + Global.fs + file.getName(), dest
-                    + Global.fs + file.getName(), packetVal);
 
-            backplogger.info("Split Files in the file path of : "
-                    + path + Global.fs + file.getName()
-                    + " in to " + count + " parts.");
-            noOfFiles++;
-
-            try {
-                dbConnect.saveFiles(file.getName(), file.getSize(), file.getHash(), file.getcDate());
-                backplogger.info("Save full file details to the database.");
-            } catch (Exception e) {
-                backplogger.error("Database connection error : " + e);
-            }
-            */
 
             // RAID
             int[] raidArray = Sftp.raid(count);
@@ -278,6 +263,7 @@ public class RunBackup {
                 for (MYSpFile file2 : dListOfFiles) {
                     dbConnect.saveSPFiles(file2.getFid(), file2.getName(), file2.getSize(),
                             file2.getHash(), file2.getCloud(), file2.getRCloud()/*, file2.getRemotePath()*/);
+
                 }
                 backplogger.info("Save split file details to the database. ");
             } catch (Exception e) {
@@ -303,24 +289,23 @@ public class RunBackup {
         return 0;
     }
 
-    public static void compressFile(String path)throws Exception{
+    public static void compressFile(String path) throws Exception{
 
         String D_path  =path+ ".zip";
 
-        ZipOutputStream out = new ZipOutputStream(new
+        
+            ZipOutputStream out = new ZipOutputStream(new
                 BufferedOutputStream(new FileOutputStream(D_path)));
-        byte[] data = new byte[1000];
-        BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));
-        int count;
-        out.putNextEntry(new ZipEntry("outFile.zip"));
-        while((count = in.read(data,0,1000)) != -1)
-        {
-            out.write(data, 0, count);
-        }
-        in.close();
-        out.flush();
-
-        System.out.println("Your file is zipped");
+            byte[] data = new byte[1000];
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));
+            int count;
+            out.putNextEntry(new ZipEntry("outFile.zip"));
+            while((count = in.read(data,0,1000)) != -1)
+            {
+                out.write(data, 0, count);
+            }
+            in.close();
+            out.flush();
 
     }
 
@@ -332,7 +317,7 @@ public class RunBackup {
         java.util.Date date = new java.util.Date();
         fldate = dateFormat.format(date);
 
-        String strDirectoy =path+ "/" +fldate;
+        String strDirectoy =path+ Global.fs +fldate;
 
         // Create one directory
         boolean success = (

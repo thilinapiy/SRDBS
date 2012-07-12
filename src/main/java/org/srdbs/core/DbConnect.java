@@ -194,6 +194,26 @@ public class DbConnect {
 
     }
 
+    public int saveUploadSPFiles(long fid, String Fname, String path, int cloud ) throws SQLException {
+
+
+        String sql = "update Sp_File set Remote_path = ?  where F_ID = '" +fid +"' and SP_FileName ='" + Fname + "'";
+        Connection connection = connect();
+        PreparedStatement ps = connection.prepareStatement(sql);
+
+        MYSpFile mySfile = new MYSpFile();
+        ps.setString(1,path);
+
+        ps.addBatch();
+        ps.executeBatch();
+        ps.close();
+        connection.close();
+
+        return 1;
+
+
+    }
+
     public List<MyFile> selectFullQuery(int fid) {
 
 

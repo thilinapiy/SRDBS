@@ -282,7 +282,7 @@ public class RunRestore {
         for (MyFile myfile : listoffiles) {
             for (MyFile dbfile : list) {
                 if (myfile.getName().equalsIgnoreCase(dbfile.getName())
-                        && myfile.getHash().equalsIgnoreCase(dbfile.getHash())) {
+                        && myfile.getHash().equalsIgnoreCase(dbfile.getHash().replaceAll(".enc",""))) {
                     pass = true;
                     restoreLog.info("Pass : " + myfile.getName());
                 } else {
