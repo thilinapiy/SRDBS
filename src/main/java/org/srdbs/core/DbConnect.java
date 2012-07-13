@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.*;
 
 /**
  * Secure and Redundant Data Backup System.
@@ -196,13 +197,35 @@ public class DbConnect {
 
     public int saveUploadSPFiles(long fid, String Fname, String path, int cloud ) throws SQLException {
 
+        String sql = "update Sp_file set Remote_path = ?  where F_ID = '" +fid +"' and SP_FileName ='" + Fname + "'";
+		Connection connection = connect();
+        PreparedStatement ps = connection.prepareStatement(sql);
+		MYSpFile mySfile = new MYSpFile();
+		ps.setString(1,path);
+		
+		ps.addBatch();
+        ps.executeBatch();
+        ps.close();
+        connection.close();
 
-        String sql = "update Sp_File set Remote_path = ?  where F_ID = '" +fid +"' and SP_FileName ='" + Fname + "'";
+
+        return 1;
+
+
+    }
+
+    public int ErrorFiles(long fid, int CloudID, String filepath, String R_path) throws SQLException {
+
+
+        String sql = "insert into Fail_Upload (F_ID,CloudID,File_Source_path,Remote_path) values (?,?,?,?)";
         Connection connection = connect();
         PreparedStatement ps = connection.prepareStatement(sql);
 
-        MYSpFile mySfile = new MYSpFile();
-        ps.setString(1,path);
+        MYSpFile mySFile = new MYSpFile();
+        ps.setLong(1, fid);
+        ps.setInt(2, CloudID);
+        ps.setString(3, filepath);
+        ps.setString(4, R_path);
 
         ps.addBatch();
         ps.executeBatch();
@@ -210,7 +233,6 @@ public class DbConnect {
         connection.close();
 
         return 1;
-
 
     }
 
@@ -304,7 +326,6 @@ public class DbConnect {
 
         return fileList;
     }
-
 
     public List<Schedule> getSchedule() {
 

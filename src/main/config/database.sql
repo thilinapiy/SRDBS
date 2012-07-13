@@ -73,6 +73,15 @@ Constraint FK_SP_FileID_2 Foreign key (F_ID) References Full_File (F_ID)
 SELECT  * from Sp_File; SELECT  * from full_file;
 
 
+Create Table Fail_Upload(
+F_ID int,
+CloudID int,
+File_Source_path varchar(400),
+Remote_path varchar(400)
+);
+
+
+
 --
 -- Step 1
 --

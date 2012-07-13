@@ -8,6 +8,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.srdbs.core.Global;
 import org.srdbs.split.*;
+import org.srdbs.core.DbConnect;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +18,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.net.*;
+import java.lang.String;
 
 /**
  * Creating the secure ftp channels.
@@ -34,11 +36,10 @@ public class Sftp {
     public static List<Integer> cloud2 = new ArrayList<Integer>();
     public static List<Integer> cloud3 = new ArrayList<Integer>();
 
+
     public static Date date = new Date();
     public static DateFormat datef = new SimpleDateFormat("yyMMddHHmmss");
 
-   // public static String temp [];
-    //public static String delimiter = "/";
 
     /**
      * This is a test method
@@ -61,13 +62,15 @@ public class Sftp {
     }
 
 
-    public static int upload(String file)
+    public static int upload(String file, long fID)
     {
 
         Session session = null;
         Channel channel = null;
         ChannelSftp channelSftp = null;
         int ftpFileNo=0;
+        long fid=fID;
+
 
         try {
             JSch jsch = new JSch();
@@ -83,18 +86,25 @@ public class Sftp {
             channelSftp.mkdir(Global.c1Remotepath + "/" + datef.format(date));
             channelSftp.cd(Global.c1Remotepath + "/" + datef.format(date));
 
-            for(int i=0; i < cloud1.size(); i++ )
+            for(int i=cloud1.size()-1;i>=0;i--)
             {
                ftpFileNo=cloud1.get(i);
                File f = new File(file + Split.createSuffix(ftpFileNo));
 
                 backplogger.info("File name :" + f );
                 channelSftp.put(new FileInputStream(f), f.getName());
-                backplogger.info("IP : " + Global.c1IPAddress + ", " + Global.c1Port + ", " + Global.c2UserName + ", "
+                backplogger.info("IP : " + Global.c1IPAddress + ", " + Global.c1Port + ", " + Global.c1UserName + ", "
                         + Global.c1Password + ", " + file + " upload to " + Global.c1Remotepath + "/" + datef.format(date));
                 backplogger.info("Send the file.");
-                cloud1.remove(i);
-                // TODO UPDATE THE PATH IN DB
+
+               cloud1.remove(i);
+               backplogger.info(cloud1);
+
+                String temp []=f.toString().split("\\\\");
+                DbConnect dbconnect = new DbConnect();
+                dbconnect.saveUploadSPFiles(fid,temp[temp.length-1],datef.format(date),1 ) ;
+
+
             }
                 channelSftp.exit();
                 session.disconnect();
@@ -105,30 +115,36 @@ public class Sftp {
             //backplogger.error("IP : " + Global.c1IPAddress + ", " + Global.c1Port + ", " + Global.c2UserName + ", "
                     //+ Global.c1Password + ", " + file + " upload to " + Global.c1Remotepath + "/" + datef.format(date));
 
+
             backplogger.info("Retring to upload");
             long startTime = System.currentTimeMillis();
             while((System.currentTimeMillis()-startTime)< 120000)
             {
-               boolean server = ping(Global.c1IPAddress,Global.c1Port);
-            if(server == true)
-            {
-                    backplogger.info("upload again");
-                    upload(file);
-                    break;
+                boolean server = ping(Global.c1IPAddress,Global.c1Port);
+                if(server == true)
+                {
+                        backplogger.info("upload again");
+                        upload(file,fid);
+                        break;
+                }
             }
-            }
+            failUploadSave(fid,1,cloud1,file,datef.format(date));
             return 10;
         }
 
     }
 
-    public static int upload1(String file)
+    public static int upload1(String file, long fID)
     {
 
         Session session = null;
         Channel channel = null;
         ChannelSftp channelSftp = null;
         int ftpFileNo=0;
+        long fid=fID;
+        
+
+
 
         try {
             JSch jsch = new JSch();
@@ -144,7 +160,7 @@ public class Sftp {
             channelSftp.mkdir(Global.c2Remotepath + "/" + datef.format(date));
             channelSftp.cd(Global.c2Remotepath + "/" + datef.format(date));
 
-            for(int i=0; i < cloud2.size(); i++ )
+            for(int i=cloud2.size()-1;i>=0;i--)
             {
                 ftpFileNo=cloud2.get(i);
                 File f = new File(file + Split.createSuffix(ftpFileNo));
@@ -154,8 +170,14 @@ public class Sftp {
                 backplogger.info("IP : " + Global.c2IPAddress + ", " + Global.c2Port + ", " + Global.c2UserName + ", "
                         + Global.c2Password + ", " + file + " upload to " + Global.c2Remotepath + "/" + datef.format(date));
                 backplogger.info("Send the file.");
+
                 cloud2.remove(i);
-                // TODO UPDATE THE PATH IN DB
+                backplogger.info(cloud2);
+
+                String temp []=f.toString().split("\\\\");
+                DbConnect dbconnect = new DbConnect();
+                dbconnect.saveUploadSPFiles(fid,temp[temp.length-1],datef.format(date),2 ) ;
+
             }
                 channelSftp.exit();
                 session.disconnect();
@@ -165,6 +187,10 @@ public class Sftp {
             backplogger.error("Ftp upload error on IP : " + Global.c2IPAddress + " more details :" + ex);
             //backplogger.error("IP : " + Global.c2IPAddress + ", " + Global.c2Port + ", " + Global.c2UserName + ", "
                     //+ Global.c2Password + ", " + file + " upload to " + Global.c2Remotepath + "/" + datef.format(date));
+
+            String [] temp=file.split("/");
+            backplogger.info(temp[temp.length-1]);
+
             backplogger.info("Retring to upload");
             long startTime = System.currentTimeMillis();
             while((System.currentTimeMillis()-startTime)< 120000)
@@ -173,22 +199,24 @@ public class Sftp {
                 if(server == true)
                 {
                     backplogger.info("upload again");
-                    upload1(file);
+                    upload1(file,fid);
                     break;
                 }
             }
+            failUploadSave(fid,2,cloud2,file,datef.format(date));
             return 10;
         }
 
     }
 
-    public static int upload2(String file)
+    public static int upload2(String file, long fID)
     {
 
         Session session = null;
         Channel channel = null;
         ChannelSftp channelSftp = null;
         int ftpFileNo=0;
+        long fid=fID;
 
         try {
             JSch jsch = new JSch();
@@ -204,7 +232,7 @@ public class Sftp {
             channelSftp.mkdir(Global.c3Remotepath + "/" + datef.format(date));
             channelSftp.cd(Global.c3Remotepath + "/" + datef.format(date));
 
-            for(int i=0; i < cloud3.size(); i++ )
+            for(int i=cloud3.size()-1;i>=0;i--)
             {
                 ftpFileNo=cloud3.get(i);
                 File f = new File(file + Split.createSuffix(ftpFileNo));
@@ -214,8 +242,13 @@ public class Sftp {
                 backplogger.info("IP : " + Global.c3IPAddress + ", " + Global.c3Port + ", " + Global.c3UserName + ", "
                         + Global.c3Password + ", " + file + " upload to " + Global.c3Remotepath + "/" + datef.format(date));
                 backplogger.info("Send the file.");
+
                 cloud3.remove(i);
-                // TODO UPDATE THE PATH IN DB
+                backplogger.info(cloud3);
+
+                String temp []=f.toString().split("\\\\");
+                DbConnect dbconnect = new DbConnect();
+                dbconnect.saveUploadSPFiles(fid,temp[temp.length-1],datef.format(date),3 ) ;
             }
                 channelSftp.exit();
                 session.disconnect();
@@ -233,10 +266,11 @@ public class Sftp {
                 if(server== true)
                 {
                     backplogger.info("upload again");
-                    upload2(file);
+                    upload2(file, fid);
                     break;
                 }
             }
+            failUploadSave(fid,3,cloud3,file,datef.format(date));
             return 10;
         }
 
@@ -382,4 +416,24 @@ public class Sftp {
         }
         return ping;
     }
+
+    public static void failUploadSave(long FID, int CloudID, List cloud, String file, String path )
+    {
+        List<Integer> Ecloud3 = cloud;
+        DbConnect dbconnect = new DbConnect();
+     try
+     {
+        for(int l=0; l<cloud.size(); l++)
+        {
+            File source_file = new File(file + Split.createSuffix(Ecloud3.get(l)));
+            dbconnect.ErrorFiles(FID,CloudID,source_file.toString(),path);
+        }
+         backplogger.info("Save Fail file details to the database. ");
+     }catch (Exception ex)
+     {
+         backplogger.error("Database Error" + ex);
+     }
+
+    }
+
 }
