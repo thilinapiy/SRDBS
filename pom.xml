@@ -89,6 +89,11 @@
             <artifactId>quartz</artifactId>
             <version>2.1.5</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-core</artifactId>
+            <version>5.6.0</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
