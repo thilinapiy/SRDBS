@@ -236,6 +236,53 @@ public class DbConnect {
 
     }
 
+    //Fail_upload
+    public List selectLoadFailQuery() {
+
+        String sql = " select F_ID,CloudID,File_Source_path,Remote_path from fail_upload";
+        Connection connection = connect();
+        List fail = new ArrayList();
+
+        try{
+        Statement s = connection.createStatement();
+            ResultSet rs = s.executeQuery(sql);
+
+         while(rs.next())
+        {
+           fail.add(rs.getInt(1));
+           fail.add(rs.getInt(2));
+           fail.add(rs.getString(3));
+           fail.add(rs.getString(4));
+
+        }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return fail;
+
+    }
+     //TODO CHECK THIS NOT WORKING
+
+    public int DeleteFail(long fid, String file)
+    {
+        String sql = " delete from fail_upload where F_ID = '" + fid + "' and File_Source_path = '" +file +"' ";
+        Connection connection = connect();
+        try{
+            Statement s = connection.createStatement();
+            int delete = s.executeUpdate(sql);
+            System.out.println(delete);
+
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
+
     public List<MyFile> selectFullQuery(int fid) {
 
 

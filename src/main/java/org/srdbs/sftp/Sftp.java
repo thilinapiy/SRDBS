@@ -118,7 +118,7 @@ public class Sftp {
 
             backplogger.info("Retring to upload");
             long startTime = System.currentTimeMillis();
-            while((System.currentTimeMillis()-startTime)< 120000)
+            while((System.currentTimeMillis()-startTime)< 30000)
             {
                 boolean server = ping(Global.c1IPAddress,Global.c1Port);
                 if(server == true)
@@ -193,7 +193,7 @@ public class Sftp {
 
             backplogger.info("Retring to upload");
             long startTime = System.currentTimeMillis();
-            while((System.currentTimeMillis()-startTime)< 120000)
+            while((System.currentTimeMillis()-startTime)< 30000)
             {
                 boolean server = ping(Global.c2IPAddress,Global.c2Port);
                 if(server == true)
@@ -260,7 +260,7 @@ public class Sftp {
                     //+ Global.c3Password + ", " + file + " upload to " + Global.c3Remotepath + "/" + datef.format(date));
             backplogger.info("Retring to upload");
             long startTime = System.currentTimeMillis();
-            while((System.currentTimeMillis()-startTime)< 120000)
+            while((System.currentTimeMillis()-startTime)< 30000)
             {
                 boolean server = ping(Global.c3IPAddress,Global.c3Port);
                 if(server== true)

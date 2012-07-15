@@ -3,6 +3,7 @@ package org.srdbs.core;
 import org.apache.log4j.Logger;
 import org.srdbs.scheduler.RunScheduler;
 import org.srdbs.web.Web;
+import org.srdbs.sftp.FailUpload;
 
 /**
  * Main class of the system
@@ -74,6 +75,17 @@ public class Core {
         }
     }
 
+    private static class MyThread3 implements Runnable {
+
+        public void run() {
+
+            System.out.println("Starting thread 3 (scheduler) started.");
+            logger.info("Starting thread 3 (FailUpload) started.");
+            FailUpload.getFile();
+
+        }
+    }
+
     /**
      * This method will start the system.
      */
@@ -82,7 +94,9 @@ public class Core {
         try {
             Thread t1 = new Thread(new MyThread1());
             Thread t2 = new Thread(new MyThread2());
+            Thread t3 = new Thread(new MyThread3());
             t1.start();
+            t3.start();
             logger.info("Start the web dashboard.");
             if (Global.binaryConfigState.equalsIgnoreCase("TRUE")) {
                 t2.start();

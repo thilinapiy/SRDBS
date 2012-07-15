@@ -51,7 +51,7 @@ public class RunBackup {
         for (final MyFile file : listOfFiles) {
 
             //if both compression and encryption enable
-            if((compress !=0)&&(encrypt !=0)){
+           if((compress !=0)&&(encrypt !=0)){
 
                 String fzip= file.getName()+".zip";
 
@@ -92,7 +92,10 @@ public class RunBackup {
                         + " c2 : " + Global.c2Bandwidth + " c3 : " + Global.c3Bandwidth);
                 count = mySplit(path + Global.fs + fzipencrypt, Despath
                         + Global.fs + fzipencrypt, packetVal);
-
+                File f =new File(path + Global.fs + fzip) ;
+                File f1 =new File(path + Global.fs + fzipencrypt) ;
+                f.delete();
+                f1.delete();
                 backplogger.info("Split Files in the file path of : "
                         + path + Global.fs + file.getName()
                         + " in to " + count + " parts.");
@@ -110,7 +113,7 @@ public class RunBackup {
             }
 
             //if compression is enabled.
-            if (compress != 0) {
+            if ((compress != 0)&&(encrypt==0)) {
 
                 String fzip= file.getName()+".zip";
                 
@@ -138,12 +141,12 @@ public class RunBackup {
                         + " c2 : " + Global.c2Bandwidth + " c3 : " + Global.c3Bandwidth);
                 count = mySplit(path + Global.fs + fzipencrypt, Despath
                         + Global.fs + fzipencrypt, packetVal);
-
+                File f =new File(path + Global.fs + fzipencrypt) ;
+                f.delete();
                 backplogger.info("Split Files in the file path of : "
                         + path + Global.fs + file.getName()
                         + " in to " + count + " parts.");
                 noOfFiles++;
-
                 try {
                     dbConnect.saveFiles(fzip, file.getSize(), file.getHash(), file.getcDate());
                     backplogger.info("Save full file details to the database.");
@@ -154,7 +157,7 @@ public class RunBackup {
                  backplogger.info("Compressing the backup files : " + file.getName());
             }
             // if encryption is enabled.
-            if (encrypt != 0) {
+            if ((encrypt != 0)&&(compress==0)) {
 
                 String fzip= file.getName();
 
@@ -189,12 +192,12 @@ public class RunBackup {
                         + " c2 : " + Global.c2Bandwidth + " c3 : " + Global.c3Bandwidth);
                 count = mySplit(path + Global.fs + fzipencrypt, Despath
                         + Global.fs + fzipencrypt, packetVal);
-
+                File f =new File(path + Global.fs + fzipencrypt) ;
+                f.delete();
                 backplogger.info("Split Files in the file path of : "
                         + path + Global.fs + file.getName()
                         + " in to " + count + " parts.");
                 noOfFiles++;
-
                 try {
                     dbConnect.saveFiles(file.getName(), file.getSize(), file.getHash(), file.getcDate());
                     backplogger.info("Save full file details to the database.");
@@ -205,7 +208,7 @@ public class RunBackup {
                 backplogger.info("Encrypting the backup files : " + file.getName());
             }
 
-         else{
+         if((encrypt==0)&&(compress==0)){
                 String fnormal= file.getName();
                 
                 try{
@@ -268,13 +271,13 @@ public class RunBackup {
             
 
                     backplogger.info("Uploading " + file.getName() + " to cloud 1.");
-                    Sftp.upload(Despath + Global.fs + file.getName(),fid);
+                  Sftp.upload(Despath + Global.fs + file.getName(),fid);
 
                     backplogger.info("Uploading " + file.getName() + " to cloud 2.");
-                    Sftp.upload1(Despath + Global.fs + file.getName(),fid);
+                  Sftp.upload1(Despath + Global.fs + file.getName(),fid);
 
                     backplogger.info("Uploading " + file.getName() + " to cloud 3.");
-                    Sftp.upload2(Despath + Global.fs + file.getName(),fid);
+                  Sftp.upload2(Despath + Global.fs + file.getName(),fid);
 
 
         }
@@ -304,6 +307,10 @@ public class RunBackup {
         System.out.println("Your file is zipped");
 
     }
+
+
+
+
 
     public static String CreateFolder(String path)throws Exception{
 
