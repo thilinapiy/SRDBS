@@ -9,7 +9,6 @@ package org.srdbs.scheduler;
  */
 public class Schedule {
 
-
     private String location;
     private int frequency;
     private int StartHour;
@@ -64,6 +63,4 @@ public class Schedule {
     public void setCompress(int compress) {
         this.compress = compress;
     }
-
-
 }
