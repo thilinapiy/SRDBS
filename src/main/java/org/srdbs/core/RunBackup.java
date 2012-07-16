@@ -5,16 +5,18 @@ import org.srdbs.sftp.Sftp;
 import org.srdbs.split.FileData;
 import org.srdbs.split.MYSpFile;
 import org.srdbs.split.MyFile;
-import java.security.SecureRandom;
-import java.util.zip.*;
-import javax.crypto.*;
-import javax.crypto.spec.*;
+
+import javax.crypto.Cipher;
+import javax.crypto.CipherOutputStream;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
-import java.text.*;
-
-
-
+import java.security.SecureRandom;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import static org.srdbs.split.Split.mySplit;
 
@@ -30,11 +32,11 @@ public class RunBackup {
 
     public static Logger logger = Logger.getLogger("systemsLog");
     public static Logger backplogger = Logger.getLogger("backupLog");
-    public  static long fid;
+    public static long fid;
 
-    private static final int IV_LENGTH=16;
+    private static final int IV_LENGTH = 16;
     public static String Despath;
-    public  static int count;
+    public static int count;
 
     public static int runBackup(String path, final String dest, int compress, int encrypt) {
 
@@ -51,40 +53,37 @@ public class RunBackup {
         for (final MyFile file : listOfFiles) {
 
             //if both compression and encryption enable
-           if((compress !=0)&&(encrypt !=0)){
+            if ((compress != 0) && (encrypt != 0)) {
 
-                String fzip= file.getName()+".zip";
+                String fzip = file.getName() + ".zip";
 
-                try{
-                compressFile(path+"/"+file.getName());
+                try {
+                    compressFile(path + "/" + file.getName());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                catch (Exception e){
-                     e.printStackTrace();
-                 }
 
-                String fileName = path +"/"+fzip;
-                String tempFileName=fileName+".enc";
+                String fileName = path + "/" + fzip;
+                String tempFileName = fileName + ".enc";
 
 
-                try{
-                copy(Cipher.ENCRYPT_MODE, fileName, tempFileName, "password12345678");
+                try {
+                    copy(Cipher.ENCRYPT_MODE, fileName, tempFileName, "password12345678");
                     System.out.println("Success. Find encrypted and decripted files in current directory");
                     logger.info("Success. Find encrypted and decripted files in current directory" + fzip);
-                }
-                catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                String fzipencrypt= file.getName()+".zip.enc";
+                String fzipencrypt = file.getName() + ".zip.enc";
 
-                try{
-                Despath = CreateFolder(dest);
-                }
-                catch (Exception e){
+                try {
+                    Despath = CreateFolder(dest);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                long FSize = FileData.getFileSize(path+"/"+fzip);
+                long FSize = FileData.getFileSize(path + "/" + fzip);
 
                 int bandwidthSum = 1024 * (((int) (Math.random() * 10) % 9) + 10);
                 int packetVal = (int) (FSize / bandwidthSum);
@@ -92,8 +91,8 @@ public class RunBackup {
                         + " c2 : " + Global.c2Bandwidth + " c3 : " + Global.c3Bandwidth);
                 count = mySplit(path + Global.fs + fzipencrypt, Despath
                         + Global.fs + fzipencrypt, packetVal);
-                File f =new File(path + Global.fs + fzip) ;
-                File f1 =new File(path + Global.fs + fzipencrypt) ;
+                File f = new File(path + Global.fs + fzip);
+                File f1 = new File(path + Global.fs + fzipencrypt);
                 f.delete();
                 f1.delete();
                 backplogger.info("Split Files in the file path of : "
@@ -113,27 +112,25 @@ public class RunBackup {
             }
 
             //if compression is enabled.
-            if ((compress != 0)&&(encrypt==0)) {
+            if ((compress != 0) && (encrypt == 0)) {
 
-                String fzip= file.getName()+".zip";
-                
-                try{
-                compressFile(path+"/"+file.getName());
-                }
-                catch (Exception e){
+                String fzip = file.getName() + ".zip";
+
+                try {
+                    compressFile(path + "/" + file.getName());
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
 
-                String fzipencrypt= file.getName()+".zip";
-                
-                try{
-                Despath = CreateFolder(dest);
-                }
-                catch (Exception e){
+                String fzipencrypt = file.getName() + ".zip";
+
+                try {
+                    Despath = CreateFolder(dest);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                long FSize = FileData.getFileSize(path+"/"+fzip);
+                long FSize = FileData.getFileSize(path + "/" + fzip);
 
                 int bandwidthSum = 1024 * (((int) (Math.random() * 10) % 9) + 10);
                 int packetVal = (int) (file.getSize() / bandwidthSum);
@@ -141,7 +138,7 @@ public class RunBackup {
                         + " c2 : " + Global.c2Bandwidth + " c3 : " + Global.c3Bandwidth);
                 count = mySplit(path + Global.fs + fzipencrypt, Despath
                         + Global.fs + fzipencrypt, packetVal);
-                File f =new File(path + Global.fs + fzipencrypt) ;
+                File f = new File(path + Global.fs + fzipencrypt);
                 f.delete();
                 backplogger.info("Split Files in the file path of : "
                         + path + Global.fs + file.getName()
@@ -154,37 +151,35 @@ public class RunBackup {
                     backplogger.error("Database connection error : " + e);
                 }
 
-                 backplogger.info("Compressing the backup files : " + file.getName());
+                backplogger.info("Compressing the backup files : " + file.getName());
             }
             // if encryption is enabled.
-            if ((encrypt != 0)&&(compress==0)) {
+            if ((encrypt != 0) && (compress == 0)) {
 
-                String fzip= file.getName();
+                String fzip = file.getName();
 
-                String fileName = path+"/"+fzip;
-                String tempFileName=fileName+".enc";
+                String fileName = path + "/" + fzip;
+                String tempFileName = fileName + ".enc";
 
-                try{
-                copy(Cipher.ENCRYPT_MODE, fileName, tempFileName, "password12345678");
+                try {
+                    copy(Cipher.ENCRYPT_MODE, fileName, tempFileName, "password12345678");
                     System.out.println("Success. Find encrypted and decripted files in current directory");
                     logger.info("Success. Find encrypted and decripted files in current directory" + fzip);
-               
-                }
-                catch (Exception e){
+
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                
 
-                String fzipencrypt= file.getName()+".enc";
-               
-                try{
-                Despath = CreateFolder(dest);
+
+                String fzipencrypt = file.getName() + ".enc";
+
+                try {
+                    Despath = CreateFolder(dest);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                catch (Exception e){
-                     e.printStackTrace();
-                }
-             
-                long FSize =FileData.getFileSize(path+"/"+fzip);
+
+                long FSize = FileData.getFileSize(path + "/" + fzip);
 
                 int bandwidthSum = 1024 * (((int) (Math.random() * 10) % 9) + 10);
                 int packetVal = (int) (FSize / bandwidthSum);
@@ -192,7 +187,7 @@ public class RunBackup {
                         + " c2 : " + Global.c2Bandwidth + " c3 : " + Global.c3Bandwidth);
                 count = mySplit(path + Global.fs + fzipencrypt, Despath
                         + Global.fs + fzipencrypt, packetVal);
-                File f =new File(path + Global.fs + fzipencrypt) ;
+                File f = new File(path + Global.fs + fzipencrypt);
                 f.delete();
                 backplogger.info("Split Files in the file path of : "
                         + path + Global.fs + file.getName()
@@ -204,21 +199,20 @@ public class RunBackup {
                 } catch (Exception e) {
                     backplogger.error("Database connection error : " + e);
                 }
-               
+
                 backplogger.info("Encrypting the backup files : " + file.getName());
             }
 
-         if((encrypt==0)&&(compress==0)){
-                String fnormal= file.getName();
-                
-                try{
-                Despath = CreateFolder(dest);
-                }
-                catch (Exception e){
+            if ((encrypt == 0) && (compress == 0)) {
+                String fnormal = file.getName();
+
+                try {
+                    Despath = CreateFolder(dest);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                long FSize = FileData.getFileSize(path+"/"+fnormal);
+                long FSize = FileData.getFileSize(path + "/" + fnormal);
 
 
                 int bandwidthSum = 1024 * (((int) (Math.random() * 10) % 9) + 10);
@@ -260,7 +254,7 @@ public class RunBackup {
                     dbConnect.saveSPFiles(file2.getFid(), file2.getName(), file2.getSize(),
                             file2.getHash(), file2.getCloud(), file2.getRCloud()/*, file2.getRemotePath()*/);
 
-                    fid= file2.getFid();
+                    fid = file2.getFid();
 
                 }
                 backplogger.info("Save split file details to the database. ");
@@ -268,16 +262,15 @@ public class RunBackup {
                 backplogger.error("Database connection error : " + e);
             }
 
-            
 
-                    backplogger.info("Uploading " + file.getName() + " to cloud 1.");
-                  Sftp.upload(Despath + Global.fs + file.getName(),fid);
+            backplogger.info("Uploading " + file.getName() + " to cloud 1.");
+            Sftp.upload(Despath + Global.fs + file.getName(), fid);
 
-                    backplogger.info("Uploading " + file.getName() + " to cloud 2.");
-                  Sftp.upload1(Despath + Global.fs + file.getName(),fid);
+            backplogger.info("Uploading " + file.getName() + " to cloud 2.");
+            Sftp.upload1(Despath + Global.fs + file.getName(), fid);
 
-                    backplogger.info("Uploading " + file.getName() + " to cloud 3.");
-                  Sftp.upload2(Despath + Global.fs + file.getName(),fid);
+            backplogger.info("Uploading " + file.getName() + " to cloud 3.");
+            Sftp.upload2(Despath + Global.fs + file.getName(), fid);
 
 
         }
@@ -287,32 +280,32 @@ public class RunBackup {
         return 0;
     }
 
-    public static void compressFile(String path)throws Exception{
+    public static void compressFile(String path) {
 
-        String D_path  =path+ ".zip";
+        String D_path = path + ".zip";
 
-        ZipOutputStream out = new ZipOutputStream(new
-                BufferedOutputStream(new FileOutputStream(D_path)));
-        byte[] data = new byte[1000];
-        BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));
-        int count;
-        out.putNextEntry(new ZipEntry("outFile.zip"));
-        while((count = in.read(data,0,1000)) != -1)
-        {
-            out.write(data, 0, count);
+        try {
+            try (ZipOutputStream out = new ZipOutputStream(new
+                    BufferedOutputStream(new FileOutputStream(D_path)))) {
+                byte[] data = new byte[1000];
+                BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));
+                int count;
+                out.putNextEntry(new ZipEntry("outFile.zip"));
+                while ((count = in.read(data, 0, 1000)) != -1) {
+                    out.write(data, 0, count);
+                }
+                in.close();
+                out.flush();
+            }
+            System.out.println("Your file is zipped");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        in.close();
-        out.flush();
-
-        System.out.println("Your file is zipped");
 
     }
 
 
-
-
-
-    public static String CreateFolder(String path)throws Exception{
+    public static String CreateFolder(String path) throws Exception {
 
         String fldate;
 
@@ -320,7 +313,7 @@ public class RunBackup {
         java.util.Date date = new java.util.Date();
         fldate = dateFormat.format(date);
 
-        String strDirectoy =path+ "/" +fldate;
+        String strDirectoy = path + "/" + fldate;
 
         // Create one directory
         boolean success = (
@@ -336,18 +329,16 @@ public class RunBackup {
 
         BufferedInputStream is = new BufferedInputStream(new FileInputStream(inputFile));
         BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(outputFile));
-        if(mode==Cipher.ENCRYPT_MODE){
+        if (mode == Cipher.ENCRYPT_MODE) {
             encrypt(is, os, password);
-        }
-        else if(mode==Cipher.DECRYPT_MODE){
+        } else if (mode == Cipher.DECRYPT_MODE) {
             //decrypt(is, os, password);
-        }
-        else throw new Exception("unknown mode");
+        } else throw new Exception("unknown mode");
         is.close();
         os.close();
     }
 
-    public static void encrypt(InputStream in, OutputStream out, String password) throws Exception{
+    public static void encrypt(InputStream in, OutputStream out, String password) throws Exception {
 
         SecureRandom r = new SecureRandom();
         byte[] iv = new byte[IV_LENGTH];
