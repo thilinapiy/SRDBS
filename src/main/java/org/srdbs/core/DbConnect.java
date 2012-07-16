@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.*;
 
 /**
  * Secure and Redundant Data Backup System.
@@ -195,15 +194,15 @@ public class DbConnect {
 
     }
 
-    public int saveUploadSPFiles(long fid, String Fname, String path, int cloud ) throws SQLException {
+    public int saveUploadSPFiles(long fid, String Fname, String path, int cloud) throws SQLException {
 
-        String sql = "update Sp_file set Remote_path = ?  where F_ID = '" +fid +"' and SP_FileName ='" + Fname + "'";
-		Connection connection = connect();
+        String sql = "update Sp_file set Remote_path = ?  where F_ID = '" + fid + "' and SP_FileName ='" + Fname + "'";
+        Connection connection = connect();
         PreparedStatement ps = connection.prepareStatement(sql);
-		MYSpFile mySfile = new MYSpFile();
-		ps.setString(1,path);
-		
-		ps.addBatch();
+        MYSpFile mySfile = new MYSpFile();
+        ps.setString(1, path);
+
+        ps.addBatch();
         ps.executeBatch();
         ps.close();
         connection.close();
@@ -243,41 +242,44 @@ public class DbConnect {
         Connection connection = connect();
         List fail = new ArrayList();
 
-        try{
-        Statement s = connection.createStatement();
+        try {
+            Statement s = connection.createStatement();
             ResultSet rs = s.executeQuery(sql);
 
-         while(rs.next())
-        {
-           fail.add(rs.getInt(1));
-           fail.add(rs.getInt(2));
-           fail.add(rs.getString(3));
-           fail.add(rs.getString(4));
+            while (rs.next()) {
+                fail.add(rs.getInt(1));
+                fail.add(rs.getInt(2));
+                fail.add(rs.getString(3));
+                fail.add(rs.getString(4));
 
-        }
-        }
-        catch(Exception e)
-        {
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return fail;
 
     }
-     //TODO CHECK THIS NOT WORKING
+    //TODO CHECK THIS NOT WORKING
 
-    public int DeleteFail(long fid, String file)
-    {
-        String sql = " delete from fail_upload where F_ID = '" + fid + "' and File_Source_path = '" +file +"' ";
+    public int deleteFile(long fid, String Fpath) {
+
+        //String sql=("update sp_file set Rpath = '" + Flname +  "' where F_ID = '" + fid + "'");
+        String sql = "DELETE FROM fail_upload where F_ID = ? and File_Source_path = ?";
+
         Connection connection = connect();
-        try{
-            Statement s = connection.createStatement();
-            int delete = s.executeUpdate(sql);
-            System.out.println(delete);
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
 
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
+            ps.setLong(1, fid);
+            ps.setString(2, Fpath);
+
+            ps.executeUpdate();
+            ps.close();
+            connection.close();
+            logger.info("Delete file details from database successfully.");
+        } catch (Exception e) {
+
+            logger.error("Error on deleting file details from database : " + e);
         }
         return 1;
     }

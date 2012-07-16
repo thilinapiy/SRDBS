@@ -80,7 +80,7 @@ public class FailUpload {
             DbConnect dbconnect = new DbConnect();
             dbconnect.saveUploadSPFiles(Fid, temp[temp.length - 1], path, 1);
 
-            dbconnect.DeleteFail(Fid, file);
+            dbconnect.deleteFile(Fid, file);
 
             channelSftp.exit();
             session.disconnect();
@@ -120,7 +120,7 @@ public class FailUpload {
             String temp[] = f.toString().split("\\\\");
             DbConnect dbconnect = new DbConnect();
             dbconnect.saveUploadSPFiles(Fid, temp[temp.length - 1], path, 2);
-            dbconnect.DeleteFail(Fid, file);
+            dbconnect.deleteFile(Fid, file);
 
             channelSftp.exit();
             session.disconnect();
@@ -158,7 +158,7 @@ public class FailUpload {
             String temp[] = f.toString().split("\\\\");
             DbConnect dbconnect = new DbConnect();
             dbconnect.saveUploadSPFiles(Fid, temp[temp.length - 1], path, 3);
-            dbconnect.DeleteFail(Fid, file);
+            dbconnect.deleteFile(Fid, file);
 
             channelSftp.exit();
             session.disconnect();
