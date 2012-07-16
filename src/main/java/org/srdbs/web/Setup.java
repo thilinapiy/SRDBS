@@ -110,6 +110,11 @@ public class Setup {
         dbCon.updateQuery("CREATE TABLE sysconfig(" +
                 "sysid int NOT NULL PRIMARY KEY," +
                 "sysvalue VARCHAR (2048) NULL)");
+        dbCon.updateQuery("Create Table Fail_Upload(" +
+                "F_ID int," +
+                "CloudID int," +
+                "File_Source_path varchar(400)," +
+                "Remote_path varchar(400))");
         //dbCon.updateQuery("");
     }
 }
