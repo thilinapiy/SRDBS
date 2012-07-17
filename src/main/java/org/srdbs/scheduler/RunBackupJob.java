@@ -14,7 +14,7 @@ import java.util.Date;
  * Time: 12:05 PM
  * For more details visit : http://www.thilina.org
  */
-public class RunJob implements Job {
+public class RunBackupJob implements Job {
 
     public static Logger logger = Logger.getLogger("backupLog");
     public static Logger backplogger = Logger.getLogger("backupLog");

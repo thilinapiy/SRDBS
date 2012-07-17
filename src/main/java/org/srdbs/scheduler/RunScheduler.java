@@ -11,6 +11,7 @@ import java.util.List;
 
 import static org.quartz.CronScheduleBuilder.*;
 import static org.quartz.JobBuilder.newJob;
+import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
@@ -33,13 +34,42 @@ public class RunScheduler {
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
             scheduler.start();
 
+            //schedule of the messenger
+            JobDetail messengerJob = newJob(RunMessageJob.class)
+                    .withIdentity("Messenger Job", "Daily backup group")
+                    .build();
+            Trigger messengerTrigger = newTrigger().withIdentity("Messenger Trigger", "Daily backup group")
+                    .startNow()
+                    .withSchedule(simpleSchedule()
+                            .withIntervalInMinutes(2)
+                            .repeatForever())
+                    .build();
+
+            scheduler.scheduleJob(messengerJob, messengerTrigger);
+            backplogger.info("Create messenger schedule to run in every 2 min.");
+
+            //schedule for failed backups
+            JobDetail failedBackupsJob = newJob(RunFailedBackupsJob.class)
+                    .withIdentity("Run Failed Backups Job", "Daily backup group")
+                    .build();
+            Trigger failedBackupsTrigger = newTrigger().withIdentity("Run Failed Backups Trigger", "Daily backup group")
+                    .startNow()
+                    .withSchedule(simpleSchedule()
+                            .withIntervalInMinutes(10)
+                            .repeatForever())
+                    .build();
+
+            scheduler.scheduleJob(failedBackupsJob, failedBackupsTrigger);
+            backplogger.info("Create failed backup schedule to run in every 10 min.");
+
+
             int count = 1;
             for (Schedule one : scheduleList) {
 
                 backplogger.info("Schedule path : " + one.getLocation() + " and frequency : " + one.getFrequency());
                 Trigger trigger = null;
 
-                JobDetail job = newJob(RunJob.class)
+                JobDetail job = newJob(RunBackupJob.class)
                         .withIdentity("Job " + count, "Daily backup group")
                         .usingJobData("backupLocation", one.getLocation())
                         .usingJobData("compress", one.getCompress())

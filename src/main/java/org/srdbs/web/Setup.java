@@ -82,6 +82,7 @@ public class Setup {
         dbCon.updateQuery("DROP TABLE IF EXISTS full_File");
         dbCon.updateQuery("DROP TABLE IF EXISTS schedule");
         dbCon.updateQuery("DROP TABLE IF EXISTS sysconfig");
+        dbCon.updateQuery("DROP TABLE IF EXISTS Fail_Upload");
         dbCon.updateQuery("CREATE TABLE full_file(" +
                 "F_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY," +
                 "FName VARCHAR(100)," +

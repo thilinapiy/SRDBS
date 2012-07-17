@@ -48,11 +48,12 @@ CREATE TABLE schedule(
   StartHour int,
   StartMin int,
   compress int,
-  encrypt int,
+  encrypt int
 );
 
 DROP TABLE sp_File;
 DROP TABLE full_File;
+DROP TABLE Fail_Upload;
 
 CREATE TABLE full_file(
 	F_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -77,9 +78,6 @@ Constraint Pk_SP_FileID_1 Primary key(SP_FILE_ID),
 Constraint FK_SP_FileID_2 Foreign key (F_ID) References Full_File (F_ID)
 );
 
-SELECT  * from Sp_File; SELECT  * from full_file;
-
-
 Create Table Fail_Upload(
 F_ID int,
 CloudID int,
@@ -87,7 +85,7 @@ File_Source_path varchar(400),
 Remote_path varchar(400)
 );
 
-
+SELECT  * from Sp_File; SELECT  * from full_file;
 
 --
 -- Step 1
