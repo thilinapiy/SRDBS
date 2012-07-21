@@ -20,6 +20,7 @@ public class RunMessageJob implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
         try {
+            //TODO : change this.
             Sender.sendMessage("127.0.0.1", "55555", "request");
         } catch (Exception e) {
             logger.error("Error on the message service of the cloud : " + "127.0.0.1");

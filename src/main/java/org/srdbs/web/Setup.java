@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.srdbs.core.Configs;
 import org.srdbs.core.DbConnect;
 import org.srdbs.core.Global;
+import org.srdbs.scheduler.RunScheduler;
 
 import javax.servlet.http.HttpSession;
 
@@ -65,8 +66,21 @@ public class Setup {
         new Configs().finalizeConfig();
         new DbConnect().setScheduler(session);
 
+        Thread schedule = new Thread(new RunSchedulerThread());
+        schedule.start();
         logger.info("Setup is installing basic configurations of the system.");
         return true;
+    }
+
+    private static class RunSchedulerThread implements Runnable {
+
+        public void run() {
+
+            System.out.println("Starting scheduler thread.");
+            logger.info("Starting scheduler thread.");
+            new RunScheduler().initSchedule();
+
+        }
     }
 
     public static void initializeDatabase(HttpSession session) {
