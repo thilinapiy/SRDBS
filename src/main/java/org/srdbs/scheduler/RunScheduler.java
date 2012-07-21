@@ -41,7 +41,7 @@ public class RunScheduler {
             Trigger messengerTrigger = newTrigger().withIdentity("Messenger Trigger", "Daily backup group")
                     .startNow()
                     .withSchedule(simpleSchedule()
-                            .withIntervalInMinutes(2)
+                            .withIntervalInMinutes(10)
                             .repeatForever())
                     .build();
 
@@ -55,7 +55,7 @@ public class RunScheduler {
             Trigger failedBackupsTrigger = newTrigger().withIdentity("Run Failed Backups Trigger", "Daily backup group")
                     .startNow()
                     .withSchedule(simpleSchedule()
-                            .withIntervalInMinutes(10)
+                            .withIntervalInHours(6)
                             .repeatForever())
                     .build();
 
