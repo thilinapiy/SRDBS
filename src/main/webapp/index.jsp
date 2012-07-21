@@ -427,6 +427,110 @@
                             </form>
                         </div>
                         <!--  end table-content  -->
+                        <style type="text/css">
+                            .style1 {
+                                color: #0000FF;
+                            }
+                            .style3 {
+                                color: #CC0066;
+                            }
+
+                            img {border: none;}
+                            #targetDiv {
+                                float: right;
+                                border: 2px solid #AAA;
+                                padding: 0;
+                                width: 300px;
+                            }
+                            .message {
+                                border-bottom: 1px solid #AAA;
+                                padding: 5px;
+                            }
+
+                            .message:hover {
+                                background-color: #F5F5F5;
+                                cursor: pointer;
+                            }
+
+                            .content {
+                                float: left;
+                                padding: 0px;
+                                width: 248px;
+                            }
+                            .icon {
+                                float: left;
+                                width: 32px;
+                                padding: 0 5px;
+                            }
+                            .clear {clear:both;}
+
+                                /* #targetDiv {
+                                background-image: url(images/cancel2.png) no-repeat;
+                                padding-left: 34px;
+                                border-style:solid;
+                               border-width:5px;
+
+
+                               } */
+                        </style>
+
+                        <script type="text/javascript">
+
+                            function changeVal() {
+                                alert('Welcome to my page!');
+                            }
+
+
+
+                            var auto_refresh = setInterval(
+                                    function ()
+                                    {
+                                        $
+                                                .ajax({
+                                            method:'get',
+                                            url : "AjaxFromDB",
+                                            //	data : "data",
+                                            dataType: 'json',
+                                            success : function(json) {
+
+                                                var prop = 2;
+                                                var propCount = 0;
+
+                                                //	$('#targetDiv').hide();
+                                                $('#targetDiv').empty();
+                                                $.each(json[0], function(i, item) {
+
+                                                    $('#targetDiv').append('<div class="message"> <div class=\"content\">'+item+'</div><div class=\"icon\"><img src=\"images/red_ok2.png" width=\"32\" height=\"32\" /></div><div class="clear"></div></div>' ).show();
+
+                                                    propCount++;
+
+                                                });
+
+
+                                            }
+                                        });
+
+//    $('#responsecontainer').load('TestMethord?mode=mode2').fadeIn("slow");
+                                    }, 10000); // refresh every 10000 milliseconds
+
+
+
+                        </script>
+
+
+                        <!-- <body onLoad="test()"> -->
+
+                        <div>
+                            <form id="formL" name="formL" method="post" onsubmit="return false;">
+<span class="style3"><strong>Progress Bar
+</strong></span><br>
+                                <br>
+                                <br><input name="button" id="button" value="Submit" type="submit">
+                            </form>
+                        </div>
+                        <div id="targetDiv" style="display: none;">
+                        </div>
+
                         <div class="clear"></div>
                     </div>
                     <!--  end content-table-inner ............................................END  -->

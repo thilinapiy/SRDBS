@@ -97,6 +97,7 @@ public class Setup {
         dbCon.updateQuery("DROP TABLE IF EXISTS schedule");
         dbCon.updateQuery("DROP TABLE IF EXISTS sysconfig");
         dbCon.updateQuery("DROP TABLE IF EXISTS Fail_Upload");
+        dbCon.updateQuery("DROP TABLE IF EXISTS status");
         dbCon.updateQuery("CREATE TABLE full_file(" +
                 "F_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY," +
                 "FName VARCHAR(100)," +
@@ -130,6 +131,11 @@ public class Setup {
                 "CloudID int," +
                 "File_Source_path varchar(400)," +
                 "Remote_path varchar(400))");
+        dbCon.updateQuery("create table status(" +
+                "id   int(11) not null auto_increment Primary key," +
+                "name  varchar(100)," +
+                "status   varchar(100)," +
+                "mname  varchar(45))");
         //dbCon.updateQuery("");
     }
 }

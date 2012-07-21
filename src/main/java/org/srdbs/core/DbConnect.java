@@ -764,4 +764,34 @@ public class DbConnect {
             logger.error("Error in reading data from database. : " + e.getMessage());
         }
     }
+
+
+    public Connection getConnection() throws SQLException {
+
+        Connection conn = null;
+        //conn = DriverManager.getConnection(connectionUrl, dbUser,dbPwd);
+        conn = connect();
+        return conn;
+    }
+
+    public void InsertStatus(String name, String mname, String status) {
+
+        String sql = "insert into status (name,status,mname) VALUE (?,?,?)";
+        Connection con = connect();
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setString(2, mname);
+            ps.setString(3, status);
+            ps.execute();
+            ps.close();
+            con.close();
+
+        } catch (Exception e) {
+
+            logger.error("Error in inserting Status update  in to the database : " + e);
+        }
+    }
+
 }

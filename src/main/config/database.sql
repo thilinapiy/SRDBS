@@ -85,6 +85,13 @@ File_Source_path varchar(400),
 Remote_path varchar(400)
 );
 
+create table status(
+id   int(11) not null auto_increment Primary key,
+name  varchar(100),
+status   varchar(100),
+mname  varchar(45)
+);
+
 SELECT  * from Sp_File; SELECT  * from full_file;
 
 --
