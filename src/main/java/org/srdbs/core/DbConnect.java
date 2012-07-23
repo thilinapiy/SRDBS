@@ -32,7 +32,7 @@ public class DbConnect {
             Global.dbURL = "jdbc:mysql://" + Global.dbIPAddress + ":" + Global.dbPort + "/";
             conn = DriverManager.getConnection(Global.dbURL
                     + Global.dbName, Global.dbUserName, Global.dbPassword);
-            logger.info("Connected to the database");
+            //logger.info("Connected to the database");
         } catch (Exception e) {
             logger.error("Database connection error : " + e);
         }

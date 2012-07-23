@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.srdbs.core.Global;
 import org.srdbs.messenger.Sender;
 
 /**
@@ -20,10 +21,21 @@ public class RunMessageJob implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
         try {
-            //TODO : change this.
-            Sender.sendMessage("127.0.0.1", "55555", "request");
+            Sender.sendMessage(Global.c1IPAddress, Global.c1MessagePort, "request");
         } catch (Exception e) {
-            logger.error("Error on the message service of the cloud : " + "127.0.0.1");
+            logger.error("Error on the message service of the cloud : " + Global.c1IPAddress + e);
+        }
+
+        try {
+            Sender.sendMessage(Global.c2IPAddress, Global.c2MessagePort, "request");
+        } catch (Exception e) {
+            logger.error("Error on the message service of the cloud : " + Global.c2IPAddress + e);
+        }
+
+        try {
+            Sender.sendMessage(Global.c3IPAddress, Global.c3MessagePort, "request");
+        } catch (Exception e) {
+            logger.error("Error on the message service of the cloud : " + Global.c3IPAddress + e);
         }
     }
 }
