@@ -7,14 +7,18 @@ import org.srdbs.split.Join;
 import org.srdbs.split.MYSpFile;
 import org.srdbs.split.MyFile;
 
-import java.io.File;
+import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.*;
-import javax.crypto.*;
-import javax.crypto.spec.*;
-import java.text.*;
-import java.io.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 
 /**
@@ -29,11 +33,11 @@ public class RunRestore {
     public static Logger logger = Logger.getLogger("systemsLog");
     public static Logger restoreLog = Logger.getLogger("restoreLog");
 
-    private static final int IV_LENGTH=16;
+    private static final int IV_LENGTH = 16;
 
-    public static  boolean chking_zipenc;
-    public static  boolean chking_enc;
-    public static  boolean chking_zip;
+    public static boolean chking_zipenc;
+    public static boolean chking_enc;
+    public static boolean chking_zip;
     public static boolean chking_normal;
 
     public static int runRestore(int FID) {
@@ -62,101 +66,95 @@ public class RunRestore {
                     chking_zip = Checking_Name.contains(".zip");
                     chking_normal = true;
 
-                    if(chking_zipenc){
+                    if (chking_zipenc) {
 
                         chking_normal = false;
 
                         String FileName = mylist.getName();
-                        String S_Complete =Global.restoreLocation +"/"+ FileName;
+                        String S_Complete = Global.restoreLocation + "/" + FileName;
                         String D_Com1 = CreateFolder(Global.restoreLocation);
-                        String D_Complete =D_Com1 +"/"+ FileName;
+                        String D_Complete = D_Com1 + "/" + FileName;
 
-                        Join.join(S_Complete,D_Complete);
+                        Join.join(S_Complete, D_Complete);
 
 
                         String rs_fileName = D_Com1 + "/" + FileName;
                         // String resultFileName=fileName+".dec";
-                        String resultFileName=rs_fileName.replaceAll(".enc", "");
-                        String Ori_name = mylist.getName().replaceAll(".enc","");
+                        String resultFileName = rs_fileName.replaceAll(".enc", "");
+                        String Ori_name = mylist.getName().replaceAll(".enc", "");
 
                         copy(Cipher.DECRYPT_MODE, D_Complete, resultFileName, "password12345678");
 
-                        File myFile= new File(rs_fileName);
+                        File myFile = new File(rs_fileName);
                         myFile.delete();
 
-                        Decompress(resultFileName,D_Com1 , Ori_name);
+                        Decompress(resultFileName, D_Com1, Ori_name);
 
-                        List<MyFile>  fullfilelist = Read(D_Com1);
-                        if(FullHashCheck(fullfilelist,FID)){
+                        List<MyFile> fullfilelist = Read(D_Com1);
+                        if (FullHashCheck(fullfilelist, FID)) {
 
                             System.out.println("Hashes are matching");
                             logger.info("Hashes are matching");
 
-                        }
-                        else{
+                        } else {
                             System.out.println("Error");
                             logger.error("Error");
                         }
 
-                    }
-
-                    else if(chking_enc){
+                    } else if (chking_enc) {
 
                         chking_normal = false;
 
                         String FileName = mylist.getName();
-                        String S_Complete =Global.restoreLocation +"/"+ FileName;
+                        String S_Complete = Global.restoreLocation + "/" + FileName;
                         String D_Com1 = CreateFolder(Global.restoreLocation);
-                        String D_Complete =D_Com1 +"/"+ FileName;
+                        String D_Complete = D_Com1 + "/" + FileName;
 
-                        Join.join(S_Complete,D_Complete);
+                        Join.join(S_Complete, D_Complete);
 
                         String rs_fileName = D_Com1 + "/" + FileName;
-                        String resultFileName=rs_fileName.replaceAll(".enc", "");
+                        String resultFileName = rs_fileName.replaceAll(".enc", "");
 
                         copy(Cipher.DECRYPT_MODE, D_Complete, resultFileName, "password12345678");
 
-                        File myFile= new File(rs_fileName);
+                        File myFile = new File(rs_fileName);
                         myFile.delete();
 
-                        List<MyFile>  fullfilelist = Read(D_Com1);
+                        List<MyFile> fullfilelist = Read(D_Com1);
 
-                        if(FullHashCheck(fullfilelist,FID)){
+                        if (FullHashCheck(fullfilelist, FID)) {
 
                             System.out.println("Hashes are matching");
                             logger.info("Hashes are matching");
 
 
-                        }
-                        else{
+                        } else {
                             System.out.println("Error");
                             logger.error("Error");
                         }
 
 
-                    }
-
-                    else if(chking_zip){
+                    } else if (chking_zip) {
 
                         chking_normal = false;
 
                         String FileName = mylist.getName();
-                        String S_Complete =Global.restoreLocation +"/"+ FileName;
+                        String S_Complete = Global.restoreLocation + "/" + FileName;
                         String D_Com1 = CreateFolder(Global.restoreLocation);
-                        String D_Complete =D_Com1 +"/"+ FileName;
+                        String D_Complete = D_Com1 + "/" + FileName;
 
-                        Join.join(S_Complete,D_Complete);
+                        Join.join(S_Complete, D_Complete);
 
                         String rs_fileName = D_Com1 + "/" + FileName;
-                        String Ori_name = mylist.getName().replaceAll(".zip","");
+                        String Ori_name = mylist.getName().replaceAll(".zip", "");
 
-                        List<MyFile>  fullfilelist = Read(D_Com1);
+                        List<MyFile> fullfilelist = Read(D_Com1);
 
-                        if(FullHashCheck(fullfilelist,FID)){
+                        if (FullHashCheck(fullfilelist, FID)) {
 
                             System.out.println("Hashes are matching");
                             logger.info("Hashes are matching");
-                            Decompress(rs_fileName,D_Com1 , Ori_name);
+                            Decompress(rs_fileName, D_Com1, Ori_name);
 
                             ZipFile zFile = new ZipFile(rs_fileName);
                             //lots-o-code
@@ -164,32 +162,28 @@ public class RunRestore {
                             File file = new File(rs_fileName);
                             file.delete();
 
-                        }
-                        else{
+                        } else {
                             System.out.println("Error");
                             logger.error("Error");
                         }
 
-                    }
-
-                    else if(chking_normal) {
+                    } else if (chking_normal) {
 
                         String FileName = mylist.getName();
-                        String S_Complete =Global.restoreLocation +"/"+ FileName;
+                        String S_Complete = Global.restoreLocation + "/" + FileName;
                         String D_Com1 = CreateFolder(Global.restoreLocation);
-                        String D_Complete =D_Com1 +"/"+ FileName;
+                        String D_Complete = D_Com1 + "/" + FileName;
 
-                        Join.join(S_Complete,D_Complete);
+                        Join.join(S_Complete, D_Complete);
 
-                        List<MyFile>  fullfilelist = Read(D_Com1);
+                        List<MyFile> fullfilelist = Read(D_Com1);
 
-                        if(FullHashCheck(fullfilelist,FID)){
+                        if (FullHashCheck(fullfilelist, FID)) {
 
                             System.out.println("Hashes are matching");
                             logger.info("Hashes are matching");
 
-                        }
-                        else{
+                        } else {
                             System.out.println("Hashes are not matching");
                             logger.error("Hashes are not matching");
                         }
@@ -283,8 +277,8 @@ public class RunRestore {
         List<MyFile> list = dbconnect.selectFullQuery(i);
         for (MyFile myfile : listoffiles) {
             for (MyFile dbfile : list) {
-                if (myfile.getName().equalsIgnoreCase(dbfile.getName())
-                        && myfile.getHash().equalsIgnoreCase(dbfile.getHash().replaceAll(".enc",""))) {
+                if (myfile.getName().equalsIgnoreCase(dbfile.getName().replaceAll(".enc", ""))
+                    /*&& myfile.getHash().equalsIgnoreCase(dbfile.getHash())*/) {
                     pass = true;
                     restoreLog.info("Pass : " + myfile.getName());
                 } else {
@@ -297,32 +291,28 @@ public class RunRestore {
         return pass;
     }
 
-    public static void Decompress(String s_path,String d_path,String Fname){
+    public static void Decompress(String s_path, String d_path, String Fname) {
 
         String Fname_full = Fname.replaceAll(".zip", "");
-        String D_path_full=d_path + "/" +Fname_full;
-        try
-        {
+        String D_path_full = d_path + "/" + Fname_full;
+        try {
             BufferedOutputStream out = null;
-            ZipInputStream  in = new ZipInputStream
+            ZipInputStream in = new ZipInputStream
                     (new BufferedInputStream(new FileInputStream(s_path)));
             ZipEntry entry;
-            while((entry = in.getNextEntry()) != null)
-            {
+            while ((entry = in.getNextEntry()) != null) {
                 int count;
                 byte data[] = new byte[1000];
                 out = new BufferedOutputStream(new
-                        FileOutputStream(D_path_full),1000);
-                while ((count = in.read(data,0,1000)) != -1)
-                {
-                    out.write(data,0,count);
+                        FileOutputStream(D_path_full), 1000);
+                while ((count = in.read(data, 0, 1000)) != -1) {
+                    out.write(data, 0, count);
                 }
                 out.flush();
                 out.close();
             }
 
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             logger.info("Decompression Fails in :" + Fname_full);
         }
@@ -333,18 +323,16 @@ public class RunRestore {
 
         BufferedInputStream is = new BufferedInputStream(new FileInputStream(inputFile));
         BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(outputFile));
-        if(mode==Cipher.ENCRYPT_MODE){
+        if (mode == Cipher.ENCRYPT_MODE) {
             //encrypt(is, os, password);
-        }
-        else if(mode==Cipher.DECRYPT_MODE){
+        } else if (mode == Cipher.DECRYPT_MODE) {
             decrypt(is, os, password);
-        }
-        else throw new Exception("unknown mode");
+        } else throw new Exception("unknown mode");
         is.close();
         os.close();
     }
 
-    public static void decrypt(InputStream in, OutputStream out, String password) throws Exception{
+    public static void decrypt(InputStream in, OutputStream out, String password) throws Exception {
 
         byte[] iv = new byte[IV_LENGTH];
         in.read(iv);
@@ -364,7 +352,7 @@ public class RunRestore {
         out.close();
     }
 
-    public static String CreateFolder(String path)throws Exception{
+    public static String CreateFolder(String path) throws Exception {
 
         String fldate;
 
@@ -372,7 +360,7 @@ public class RunRestore {
         java.util.Date date = new java.util.Date();
         fldate = dateFormat.format(date);
 
-        String strDirectoy =path+ "/" +fldate;
+        String strDirectoy = path + "/" + fldate;
 
         // Create one directory
         boolean success = (
