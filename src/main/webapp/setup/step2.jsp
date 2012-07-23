@@ -153,7 +153,7 @@
         </tr>
         <tr>
             <th valign="top">DB password</th>
-            <td><input type="text" class="inp-form" name="dbpassword"
+            <td><input type="password" class="inp-form" name="dbpassword"
                        value="<% if(session.getAttribute("dbpassword")!=null) { out.println(session.getAttribute("dbpassword")); } %>"/>
             </td>
         </tr>
