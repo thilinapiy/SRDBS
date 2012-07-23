@@ -794,4 +794,161 @@ public class DbConnect {
         }
     }
 
+    public int SaveCloud1(long fid, String Fname, String R_Path) throws SQLException {
+
+        String sql = "insert into Cloud1 (f_ID,FileName,Remote_Path) values (?,?,?)";
+        Connection connection = connect();
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            MYSpFile mySFile = new MYSpFile();
+            ps.setLong(1, fid);
+            ps.setString(2, Fname);
+            ps.setString(3, R_Path);
+            ps.addBatch();
+
+            ps.executeBatch();
+            ps.close();
+            connection.close();
+        } catch (Exception e) {
+            System.out.print(e);
+        }
+        return 1;
+    }
+
+    public int SaveCloud2(long fid, String Fname, String R_Path) throws SQLException {
+
+        String sql = "insert into Cloud2 (f_ID,FileName,Remote_Path) values (?,?,?)";
+        Connection connection = connect();
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            MYSpFile mySFile = new MYSpFile();
+            ps.setLong(1, fid);
+            ps.setString(2, Fname);
+            ps.setString(3, R_Path);
+            ps.addBatch();
+
+            ps.executeBatch();
+            ps.close();
+            connection.close();
+        } catch (Exception e) {
+            System.out.print(e);
+        }
+        return 1;
+    }
+
+    public int SaveCloud3(long fid, String Fname, String R_Path) throws SQLException {
+
+        String sql = "insert into Cloud3 (f_ID,FileName,Remote_Path) values (?,?,?)";
+        Connection connection = connect();
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            MYSpFile mySFile = new MYSpFile();
+            ps.setLong(1, fid);
+            ps.setString(2, Fname);
+            ps.setString(3, R_Path);
+            ps.addBatch();
+
+            ps.executeBatch();
+            ps.close();
+            connection.close();
+        } catch (Exception e) {
+            System.out.print(e);
+        }
+        return 1;
+    }
+
+
+    //Change CLoud
+    public List ChangeC1() {
+
+        String sql = " select f_ID,FileName from Cloud1";
+        Connection connection = connect();
+        List change1 = new ArrayList();
+
+        try {
+            Statement s = connection.createStatement();
+            ResultSet rs = s.executeQuery(sql);
+
+            while (rs.next()) {
+                change1.add(rs.getInt(1));
+                change1.add(rs.getString(2));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return change1;
+
+    }
+
+    public List ChangeC2() {
+
+        String sql = " select f_ID,FileName from Cloud2";
+        Connection connection = connect();
+        List change2 = new ArrayList();
+
+        try {
+            Statement s = connection.createStatement();
+            ResultSet rs = s.executeQuery(sql);
+
+            while (rs.next()) {
+                change2.add(rs.getInt(1));
+                change2.add(rs.getString(2));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return change2;
+
+    }
+
+    public List ChangeC3() {
+
+        String sql = " select f_ID,FileName from Cloud3";
+        Connection connection = connect();
+        List change3 = new ArrayList();
+
+        try {
+            Statement s = connection.createStatement();
+            ResultSet rs = s.executeQuery(sql);
+
+            while (rs.next()) {
+                change3.add(rs.getInt(1));
+                change3.add(rs.getString(2));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return change3;
+
+    }
+
+
+    public List CheckSP(long f_id, String file) {
+
+        String sql = " select Ref_Cloud_ID,Raid_ref,Remote_path from sp_file where F_ID = '" + f_id + "' and SP_FileName ='" + file + "'";
+        Connection connection = connect();
+        List check = new ArrayList();
+
+        try {
+            Statement s = connection.createStatement();
+            ResultSet rs = s.executeQuery(sql);
+
+            while (rs.next()) {
+                // check.add(rs.getLong("Ref_Cloud_ID"));
+                // check.add(rs.getString("Raid_ref"));
+                // check.add(rs.getString("Remote_path"));
+                check.add(rs.getInt(1));
+                check.add(rs.getInt(2));
+                check.add(rs.getString(3));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return check;
+
+
+    }
 }

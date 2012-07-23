@@ -17,6 +17,9 @@ DROP TABLE schedule;
 DROP TABLE backup_locations;
 DROP TABLE sp_File;
 DROP TABLE full_File;
+DROP TABLE Cloud1;
+DROP TABLE Cloud2;
+DROP TABLE Cloud3;
 
 CREATE TABLE sysconfig(
 	sysid int NOT NULL PRIMARY KEY,
@@ -90,6 +93,31 @@ id   int(11) not null auto_increment Primary key,
 name  varchar(100),
 status   varchar(100),
 mname  varchar(45)
+);
+
+Create Table Cloud1(
+f_ID int,
+FileName varchar(400),
+Remote_Path varchar(400)
+);
+
+Create Table Cloud2(
+f_ID int,
+FileName varchar(400),
+Remote_Path varchar(400)
+);
+
+Create Table Cloud3(
+f_ID int,
+FileName varchar(400),
+Remote_Path varchar(400)
+);
+
+create table status(
+  id   int(11) not null auto_increment Primary key,
+  name  varchar(100),
+  status   varchar(100),
+  mname  varchar(45)
 );
 
 SELECT  * from Sp_File; SELECT  * from full_file;

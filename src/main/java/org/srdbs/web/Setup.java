@@ -98,6 +98,9 @@ public class Setup {
         dbCon.updateQuery("DROP TABLE IF EXISTS sysconfig");
         dbCon.updateQuery("DROP TABLE IF EXISTS Fail_Upload");
         dbCon.updateQuery("DROP TABLE IF EXISTS status");
+        dbCon.updateQuery("DROP TABLE IF EXISTS Cloud1");
+        dbCon.updateQuery("DROP TABLE IF EXISTS Cloud2");
+        dbCon.updateQuery("DROP TABLE IF EXISTS Cloud3");
         dbCon.updateQuery("CREATE TABLE full_file(" +
                 "F_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY," +
                 "FName VARCHAR(100)," +
@@ -136,6 +139,18 @@ public class Setup {
                 "name  varchar(100)," +
                 "status   varchar(100)," +
                 "mname  varchar(45))");
+        dbCon.updateQuery("Create Table Cloud1(" +
+                "f_ID int," +
+                "FileName varchar(400)," +
+                "Remote_Path varchar(400))");
+        dbCon.updateQuery("Create Table Cloud2(" +
+                "f_ID int," +
+                "FileName varchar(400)," +
+                "Remote_Path varchar(400))");
+        dbCon.updateQuery("Create Table Cloud3(" +
+                "f_ID int," +
+                "FileName varchar(400)," +
+                "Remote_Path varchar(400))");
         //dbCon.updateQuery("");
     }
 }
