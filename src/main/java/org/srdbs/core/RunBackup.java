@@ -201,6 +201,7 @@ public class RunBackup {
                 }
 
                 backplogger.info("Encrypting the backup files : " + file.getName());
+                dbConnect.InsertStatus("test4","done","Encryption done.");
             }
 
             if ((encrypt == 0) && (compress == 0)) {
@@ -214,7 +215,7 @@ public class RunBackup {
 
                 long FSize = FileData.getFileSize(path + "/" + fnormal);
 
-
+                dbConnect.InsertStatus("test2","done","splitting start.");
                 int bandwidthSum = 1024 * (((int) (Math.random() * 10) % 9) + 10);
                 int packetVal = (int) (file.getSize() / bandwidthSum);
                 backplogger.info("Packet size : " + packetVal + " File size : " + file.getSize() + " c1 : " + Global.c1Bandwidth
@@ -240,6 +241,7 @@ public class RunBackup {
             // RAID
             int[] raidArray = Sftp.raid(count);
             backplogger.info("Raid is done.");
+            dbConnect.InsertStatus("test1","done","raid is done.");
 
             //TODO remove this
             for (int j = 0; j < raidArray.length; ) {
@@ -255,8 +257,8 @@ public class RunBackup {
                             file2.getHash(), file2.getCloud(), file2.getRCloud()/*, file2.getRemotePath()*/);
 
                     fid = file2.getFid();
-
                 }
+                dbConnect.InsertStatus("isankatest","isankatest","Save split file details to the database.");
                 backplogger.info("Save split file details to the database. ");
             } catch (Exception e) {
                 backplogger.error("Database connection error : " + e);
@@ -271,6 +273,7 @@ public class RunBackup {
 
             backplogger.info("Uploading " + file.getName() + " to cloud 3.");
             Sftp.upload2(Despath + Global.fs + file.getName(), fid);
+            dbConnect.InsertStatus("test2","done","raid is done.");
 
 
         }
