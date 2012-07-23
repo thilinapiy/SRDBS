@@ -73,7 +73,7 @@ public class RunRestore {
 
                         Join.join(S_Complete,D_Complete);
 
-                        /*
+
                         String rs_fileName = D_Com1 + "/" + FileName;
                         // String resultFileName=fileName+".dec";
                         String resultFileName=rs_fileName.replaceAll(".enc", "");
@@ -83,26 +83,14 @@ public class RunRestore {
 
                         File myFile= new File(rs_fileName);
                         myFile.delete();
-                        */
+
+                        Decompress(resultFileName,D_Com1 , Ori_name);
 
                         List<MyFile>  fullfilelist = Read(D_Com1);
                         if(FullHashCheck(fullfilelist,FID)){
 
-                            String rs_fileName = D_Com1 + "/" + FileName;
-                            // String resultFileName=fileName+".dec";
-                            String resultFileName=rs_fileName.replaceAll(".enc", "");
-                            String Ori_name = mylist.getName().replaceAll(".enc","");
-
-                            copy(Cipher.DECRYPT_MODE, D_Complete, resultFileName, "password12345678");
-
                             System.out.println("Hashes are matching");
-                            Decompress(resultFileName,D_Com1 , Ori_name);
                             logger.info("Hashes are matching");
-
-                            File myFile= new File(rs_fileName);
-                            myFile.delete();
-
-
 
                         }
                         else{
