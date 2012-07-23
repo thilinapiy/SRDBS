@@ -37,6 +37,7 @@ public class RunBackup {
     private static final int IV_LENGTH = 16;
     public static String Despath;
     public static int count;
+    public static String newFileName;
 
     public static int runBackup(String path, final String dest, int compress, int encrypt) {
 
@@ -76,6 +77,7 @@ public class RunBackup {
                 }
 
                 String fzipencrypt = file.getName() + ".zip.enc";
+                newFileName = fzipencrypt;
 
                 try {
                     Despath = CreateFolder(dest);
@@ -109,6 +111,7 @@ public class RunBackup {
 
 
                 backplogger.info("Compressing and Encrypting the backup files : " + file.getName());
+                newFileName = file.getName() + "";
             }
 
             //if compression is enabled.
@@ -124,6 +127,7 @@ public class RunBackup {
 
 
                 String fzipencrypt = file.getName() + ".zip";
+                newFileName = fzipencrypt;
 
                 try {
                     Despath = CreateFolder(dest);
@@ -172,6 +176,7 @@ public class RunBackup {
 
 
                 String fzipencrypt = file.getName() + ".enc";
+                newFileName = fzipencrypt;
 
                 try {
                     Despath = CreateFolder(dest);
@@ -206,6 +211,7 @@ public class RunBackup {
 
             if ((encrypt == 0) && (compress == 0)) {
                 String fnormal = file.getName();
+                newFileName = fnormal;
 
                 try {
                     Despath = CreateFolder(dest);
@@ -257,6 +263,7 @@ public class RunBackup {
                             file2.getHash(), file2.getCloud(), file2.getRCloud()/*, file2.getRemotePath()*/);
 
                     fid = file2.getFid();
+
                 }
                 dbConnect.InsertStatus("isankatest","isankatest","Save split file details to the database.");
                 backplogger.info("Save split file details to the database. ");
@@ -265,14 +272,14 @@ public class RunBackup {
             }
 
 
-            backplogger.info("Uploading " + file.getName() + " to cloud 1.");
-            Sftp.upload(Despath + Global.fs + file.getName(), fid);
+            backplogger.info("Uploading " + newFileName + " to cloud 1.");
+            Sftp.upload(Despath + Global.fs + newFileName, fid);
 
-            backplogger.info("Uploading " + file.getName() + " to cloud 2.");
-            Sftp.upload1(Despath + Global.fs + file.getName(), fid);
+            backplogger.info("Uploading " + newFileName + " to cloud 2.");
+            Sftp.upload1(Despath + Global.fs + newFileName, fid);
 
-            backplogger.info("Uploading " + file.getName() + " to cloud 3.");
-            Sftp.upload2(Despath + Global.fs + file.getName(), fid);
+            backplogger.info("Uploading " + newFileName + " to cloud 3.");
+            Sftp.upload2(Despath + Global.fs + newFileName, fid);
             dbConnect.InsertStatus("test2","done","raid is done.");
 
 
