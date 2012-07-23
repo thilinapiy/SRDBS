@@ -109,9 +109,7 @@ public class RunBackup {
                     backplogger.error("Database connection error : " + e);
                 }
 
-
                 backplogger.info("Compressing and Encrypting the backup files : " + file.getName());
-                newFileName = file.getName() + "";
             }
 
             //if compression is enabled.
