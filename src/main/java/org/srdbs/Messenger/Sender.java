@@ -68,9 +68,9 @@ public class Sender implements MessageListener {
         }
     }
 
-    public static void sendMessage(String ip, String port, String message) throws Exception {
+    public static void sendMessage(String ip, int port, String message) throws Exception {
 
-        brokerUrl = "tcp://" + ip + ":" + port;
+        brokerUrl = "tcp://" + ip + ":" + String.valueOf(port);
 
         Sender sender = new Sender();
         sender.start();
