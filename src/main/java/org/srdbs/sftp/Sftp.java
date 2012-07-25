@@ -36,10 +36,13 @@ public class Sftp {
     public static List<Integer> cloud2 = new ArrayList<Integer>();
     public static List<Integer> cloud3 = new ArrayList<Integer>();
 
+    public static int count1=0;
+    public static int count2=0;
+    public static int count3=0;
+
 
     public static Date date = new Date();
     public static DateFormat datef = new SimpleDateFormat("yyMMddHHmmss");
-
 
     /**
      * This is a test method
@@ -71,7 +74,6 @@ public class Sftp {
         int ftpFileNo=0;
         long fid=fID;
 
-
         try {
             JSch jsch = new JSch();
             session = jsch.getSession(Global.c1UserName, Global.c1IPAddress, Global.c1Port);
@@ -83,30 +85,31 @@ public class Sftp {
             channel = session.openChannel("sftp");
             channel.connect();
             channelSftp = (ChannelSftp) channel;
-            channelSftp.mkdir(Global.c1Remotepath + "/" + datef.format(date));
-            channelSftp.cd(Global.c1Remotepath + "/" + datef.format(date));
+           // channelSftp.mkdir(Global.c1Remotepath + "/" + datef.format(date));
+           // channelSftp.cd(Global.c1Remotepath + "/" + datef.format(date));
+            channelSftp.cd(Global.c1Remotepath);
 
             for(int i=cloud1.size()-1;i>=0;i--)
             {
                ftpFileNo=cloud1.get(i);
                File f = new File(file + Split.createSuffix(ftpFileNo));
-
                 backplogger.info("File name :" + f );
                 channelSftp.put(new FileInputStream(f), f.getName());
+
                 backplogger.info("IP : " + Global.c1IPAddress + ", " + Global.c1Port + ", " + Global.c1UserName + ", "
                         + Global.c1Password + ", " + file + " upload to " + Global.c1Remotepath + "/" + datef.format(date));
                 backplogger.info("Send the file.");
 
-               cloud1.remove(i);
+                cloud1.remove(i);
                backplogger.info(cloud1);
 
                 String temp []=f.toString().split("\\\\");
                 DbConnect dbconnect = new DbConnect();
-                dbconnect.saveUploadSPFiles(fid,temp[temp.length-1],datef.format(date),1 ) ;
-
+                //dbconnect.saveUploadSPFiles(fid,temp[temp.length-1],datef.format(date),1 ) ;
+                dbconnect.SaveCloud1(fid, temp[temp.length-1],Global.c1Remotepath /*+ "/" + datef.format(date)*/);
 
             }
-                channelSftp.exit();
+                channelSftp.disconnect();
                 session.disconnect();
 
             return 0;
@@ -120,15 +123,22 @@ public class Sftp {
             long startTime = System.currentTimeMillis();
             while((System.currentTimeMillis()-startTime)< 30000)
             {
-                boolean server = ping(Global.c1IPAddress,Global.c1Port);
-                if(server == true)
+                if(count1 < 3)
                 {
+                    boolean server = ping(Global.c1IPAddress,Global.c1Port);
+                    if(server == true)
+                    {
+
                         backplogger.info("upload again");
+                        backplogger.info(count1);
+                        count1++;
                         upload(file,fid);
                         break;
+                    }
                 }
+
             }
-            failUploadSave(fid,1,cloud1,file,datef.format(date));
+            failUploadSave(fid, 1, cloud1, file, datef.format(date));
             return 10;
         }
 
@@ -157,8 +167,9 @@ public class Sftp {
             channel = session.openChannel("sftp");
             channel.connect();
             channelSftp = (ChannelSftp) channel;
-            channelSftp.mkdir(Global.c2Remotepath + "/" + datef.format(date));
-            channelSftp.cd(Global.c2Remotepath + "/" + datef.format(date));
+           // channelSftp.mkdir(Global.c2Remotepath + "/" + datef.format(date));
+           // channelSftp.cd(Global.c2Remotepath + "/" + datef.format(date));
+            channelSftp.cd(Global.c2Remotepath);
 
             for(int i=cloud2.size()-1;i>=0;i--)
             {
@@ -176,10 +187,11 @@ public class Sftp {
 
                 String temp []=f.toString().split("\\\\");
                 DbConnect dbconnect = new DbConnect();
-                dbconnect.saveUploadSPFiles(fid,temp[temp.length-1],datef.format(date),2 ) ;
+                //dbconnect.saveUploadSPFiles(fid,temp[temp.length-1],datef.format(date), 2);
+                dbconnect.SaveCloud2(fid,temp[temp.length-1],Global.c2Remotepath /*+ "/" + datef.format(date)*/);
 
             }
-                channelSftp.exit();
+                channelSftp.disconnect();
                 session.disconnect();
 
             return 0;
@@ -195,15 +207,22 @@ public class Sftp {
             long startTime = System.currentTimeMillis();
             while((System.currentTimeMillis()-startTime)< 30000)
             {
-                boolean server = ping(Global.c2IPAddress,Global.c2Port);
-                if(server == true)
+                if(count2 < 3)
                 {
-                    backplogger.info("upload again");
-                    upload1(file,fid);
-                    break;
+                    boolean server = ping(Global.c2IPAddress,Global.c2Port);
+                    if(server == true)
+                    {
+
+                            backplogger.info("upload again");
+                            count2++;
+                            upload1(file,fid);
+                            break;
+                        }
                 }
+
             }
-            failUploadSave(fid,2,cloud2,file,datef.format(date));
+
+            failUploadSave(fid, 2, cloud2, file, datef.format(date));
             return 10;
         }
 
@@ -229,8 +248,9 @@ public class Sftp {
             channel = session.openChannel("sftp");
             channel.connect();
             channelSftp = (ChannelSftp) channel;
-            channelSftp.mkdir(Global.c3Remotepath + "/" + datef.format(date));
-            channelSftp.cd(Global.c3Remotepath + "/" + datef.format(date));
+            //channelSftp.mkdir(Global.c3Remotepath + "/" + datef.format(date));
+            //channelSftp.cd(Global.c3Remotepath + "/" + datef.format(date));
+            channelSftp.cd(Global.c3Remotepath);
 
             for(int i=cloud3.size()-1;i>=0;i--)
             {
@@ -248,9 +268,10 @@ public class Sftp {
 
                 String temp []=f.toString().split("\\\\");
                 DbConnect dbconnect = new DbConnect();
-                dbconnect.saveUploadSPFiles(fid,temp[temp.length-1],datef.format(date),3 ) ;
+               // dbconnect.saveUploadSPFiles(fid,temp[temp.length - 1], datef.format(date), 3);
+                dbconnect.SaveCloud3(fid,temp[temp.length-1],Global.c3Remotepath/* + "/" + datef.format(date)*/);
             }
-                channelSftp.exit();
+                channelSftp.disconnect();
                 session.disconnect();
 
             return 0;
@@ -262,15 +283,21 @@ public class Sftp {
             long startTime = System.currentTimeMillis();
             while((System.currentTimeMillis()-startTime)< 30000)
             {
-                boolean server = ping(Global.c3IPAddress,Global.c3Port);
-                if(server== true)
+                if(count3 < 3)
                 {
-                    backplogger.info("upload again");
-                    upload2(file, fid);
-                    break;
+                    boolean server = ping(Global.c3IPAddress,Global.c3Port);
+                    if(server== true)
+                    {
+
+                            backplogger.info("upload again");
+                            count3++;
+                            upload2(file, fid);
+                            break;
+                    }
                 }
             }
-            failUploadSave(fid,3,cloud3,file,datef.format(date));
+
+            failUploadSave(fid, 3, cloud3, file, datef.format(date));
             return 10;
         }
 
@@ -321,7 +348,7 @@ public class Sftp {
             Channel channel = session.openChannel("sftp");
             channel.connect();
             ChannelSftp sftpChannel = (ChannelSftp) channel;
-            sftpChannel.get(serverPath + "/" + remotePath + "/" + fileName, Global.restoreLocation);
+            sftpChannel.get(serverPath /*+ "/" + remotePath*/ + "/" + fileName, Global.restoreLocation);
             sftpChannel.exit();
             session.disconnect();
             restoreLog.info("Successfully download the file : " + serverPath + "/" + remotePath + "/" + fileName);

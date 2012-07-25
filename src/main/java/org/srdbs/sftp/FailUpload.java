@@ -72,14 +72,15 @@ public class FailUpload {
             channel = session.openChannel("sftp");
             channel.connect();
             channelSftp = (ChannelSftp) channel;
-            channelSftp.cd(Global.c1Remotepath + "/" + path);
+            channelSftp.cd(Global.c1Remotepath /*+ "/" + path*/);
 
             File f = new File(file);
             channelSftp.put(new FileInputStream(f), f.getName());
             String temp[] = f.toString().split("\\\\");
+
             DbConnect dbconnect = new DbConnect();
             dbconnect.saveUploadSPFiles(Fid, temp[temp.length - 1], path, 1);
-
+            dbconnect.SaveCloud1(Fid,temp[temp.length-1],Global.c1Remotepath /*+ "/" + path*/);
             dbconnect.deleteFile(Fid, file);
 
             channelSftp.exit();
@@ -112,14 +113,15 @@ public class FailUpload {
             channel = session.openChannel("sftp");
             channel.connect();
             channelSftp = (ChannelSftp) channel;
-            channelSftp.cd(Global.c2Remotepath + "/" + path);
+            channelSftp.cd(Global.c2Remotepath /*+ "/" + path*/);
 
             File f = new File(file);
             channelSftp.put(new FileInputStream(f), f.getName());
-
             String temp[] = f.toString().split("\\\\");
+
             DbConnect dbconnect = new DbConnect();
             dbconnect.saveUploadSPFiles(Fid, temp[temp.length - 1], path, 2);
+            dbconnect.SaveCloud2(Fid,temp[temp.length-1],Global.c2Remotepath /*+ "/" + path*/);
             dbconnect.deleteFile(Fid, file);
 
             channelSftp.exit();
@@ -150,14 +152,15 @@ public class FailUpload {
             channel = session.openChannel("sftp");
             channel.connect();
             channelSftp = (ChannelSftp) channel;
-            channelSftp.cd(Global.c3Remotepath + "/" + path);
+            channelSftp.cd(Global.c3Remotepath /*+ "/" + path*/);
 
             File f = new File(file);
             channelSftp.put(new FileInputStream(f), f.getName());
-
             String temp[] = f.toString().split("\\\\");
+
             DbConnect dbconnect = new DbConnect();
-            dbconnect.saveUploadSPFiles(Fid, temp[temp.length - 1], path, 3);
+            //dbconnect.saveUploadSPFiles(Fid, temp[temp.length - 1], path, 3);
+            dbconnect.SaveCloud1(Fid,temp[temp.length-1],Global.c3Remotepath /*+ "/" + path*/);
             dbconnect.deleteFile(Fid, file);
 
             channelSftp.exit();

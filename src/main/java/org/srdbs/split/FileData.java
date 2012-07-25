@@ -92,7 +92,6 @@ public class FileData {
                         mySPFile.setFile(sysFile);
                         mySPFile.setCloud(raidArray[m]);
                         mySPFile.setRcloud(raidArray[m + 1]);
-                        //mySPFile.setRemotePath(rPath);
                         fileList.add(mySPFile);
                         m = m + 2;
                     } else {

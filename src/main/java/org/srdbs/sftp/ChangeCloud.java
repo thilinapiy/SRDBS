@@ -16,76 +16,89 @@ import java.util.List;
  * User: Prabodha
  * Date: 7/18/12
  * Time: 1:52 PM
+ * To change this template use File | Settings | File Templates.
  */
 public class ChangeCloud {
 
-    public static List ChangeFiles;
-    ;
+    public static List ChangeFiles;;
 
-    public static void ChangeCloud(int cloudID) {
-        if (cloudID == 1) {
-            List getChangeFiles = new DbConnect().ChangeC1();
+    public static void ChangeCloud(int cloudID)
+    {
+        if(cloudID == 1)
+        {
+            List getChangeFiles =  new DbConnect().ChangeC1();
 
-            for (int i = 0; i < getChangeFiles.size(); ) {
+            for(int i=0; i<getChangeFiles.size();)
+            {
+                ChangeFiles =  new DbConnect().CheckSP(Long.parseLong(getChangeFiles.get(i).toString()),getChangeFiles.get(i+1).toString());
 
-                ChangeFiles = new DbConnect().CheckSP(Long.parseLong(getChangeFiles.get(i).toString()), getChangeFiles.get(i + 1).toString());
-
-                if (Integer.parseInt(ChangeFiles.get(0).toString()) == 1) {
-                    ChangeDownload(getChangeFiles.get(i + 1).toString(), Integer.parseInt(ChangeFiles.get(1).toString()), ChangeFiles.get(2).toString());
+                if(Integer.parseInt(ChangeFiles.get(0).toString())== 1)
+                {
+                    ChangeDownload(getChangeFiles.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(1).toString()),ChangeFiles.get(2).toString());
                 }
 
-                if (Integer.parseInt(ChangeFiles.get(1).toString()) == 1) {
-                    ChangeDownload(getChangeFiles.get(i + 1).toString(), Integer.parseInt(ChangeFiles.get(0).toString()), ChangeFiles.get(2).toString());
+                if(Integer.parseInt(ChangeFiles.get(1).toString())== 1)
+                {
+                    ChangeDownload(getChangeFiles.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(0).toString()),ChangeFiles.get(2).toString());
                 }
 
-                i = i + 2;
+                 i=i+2;
             }
-            ChangeUpload(getChangeFiles, 1, ChangeFiles.get(2).toString());
+            ChangeUpload(getChangeFiles,1,ChangeFiles.get(2).toString());
 
 
         }
 
-        if (cloudID == 2) {
-            List getChangeFiles = new DbConnect().ChangeC2();
-            for (int i = 0; i < getChangeFiles.size(); ) {
-                List ChangeFiles = new DbConnect().CheckSP(Long.parseLong(getChangeFiles.get(i).toString()), getChangeFiles.get(i + 1).toString());
+        if(cloudID == 2)
+        {
+            List getChangeFiles =  new DbConnect().ChangeC2();
+            for(int i=0; i<getChangeFiles.size();)
+            {
+                List ChangeFiles =  new DbConnect().CheckSP(Long.parseLong(getChangeFiles.get(i).toString()),getChangeFiles.get(i+1).toString());
 
-                if (Integer.parseInt(ChangeFiles.get(0).toString()) == 2) {
-                    ChangeDownload(getChangeFiles.get(i + 1).toString(), Integer.parseInt(ChangeFiles.get(1).toString()), ChangeFiles.get(2).toString());
+                if(Integer.parseInt(ChangeFiles.get(0).toString())== 2)
+                {
+                    ChangeDownload(getChangeFiles.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(1).toString()),ChangeFiles.get(2).toString());
                 }
 
-                if (Integer.parseInt(ChangeFiles.get(1).toString()) == 2) {
-                    ChangeDownload(getChangeFiles.get(i + 1).toString(), Integer.parseInt(ChangeFiles.get(0).toString()), ChangeFiles.get(2).toString());
+                if(Integer.parseInt(ChangeFiles.get(1).toString())== 2)
+                {
+                    ChangeDownload(getChangeFiles.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(0).toString()),ChangeFiles.get(2).toString());
                 }
 
-                i = i + 2;
+                i=i+2;
             }
-            ChangeUpload(getChangeFiles, 2, ChangeFiles.get(2).toString());
+            ChangeUpload(getChangeFiles,2,ChangeFiles.get(2).toString());
         }
 
-        if (cloudID == 3) {
-            List getChangeFiles = new DbConnect().ChangeC3();
-            for (int i = 0; i < getChangeFiles.size(); ) {
-                List ChangeFiles = new DbConnect().CheckSP(Long.parseLong(getChangeFiles.get(i).toString()), getChangeFiles.get(i + 1).toString());
+        if(cloudID == 3)
+        {
+            List getChangeFiles =  new DbConnect().ChangeC3();
+            for(int i=0; i<getChangeFiles.size();)
+            {
+                List ChangeFiles =  new DbConnect().CheckSP(Long.parseLong(getChangeFiles.get(i).toString()),getChangeFiles.get(i+1).toString());
 
-                if (Integer.parseInt(ChangeFiles.get(0).toString()) == 3) {
-                    ChangeDownload(getChangeFiles.get(i + 1).toString(), Integer.parseInt(ChangeFiles.get(1).toString()), ChangeFiles.get(2).toString());
+                if(Integer.parseInt(ChangeFiles.get(0).toString())== 3)
+                {
+                    ChangeDownload(getChangeFiles.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(1).toString()),ChangeFiles.get(2).toString());
                 }
 
-                if (Integer.parseInt(ChangeFiles.get(1).toString()) == 3) {
-                    ChangeDownload(getChangeFiles.get(i + 1).toString(), Integer.parseInt(ChangeFiles.get(0).toString()), ChangeFiles.get(2).toString());
+                if(Integer.parseInt(ChangeFiles.get(1).toString())== 3)
+                {
+                    ChangeDownload(getChangeFiles.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(0).toString()),ChangeFiles.get(2).toString());
                 }
 
-                i = i + 2;
+                i=i+2;
             }
-            ChangeUpload(getChangeFiles, 3, ChangeFiles.get(2).toString());
+            ChangeUpload(getChangeFiles,3,ChangeFiles.get(2).toString());
         }
 
 
     }
 
 
-    public static int ChangeDownload(String fileName, int cloud, String remotePath) {
+    public static int ChangeDownload(String fileName, int cloud, String remotePath)
+    {
 
 
         String uName = "";
@@ -141,7 +154,8 @@ public class ChangeCloud {
     }
 
 
-    public static int ChangeUpload(List fileName, int cloud, String remotePath) {
+    public static int  ChangeUpload(List fileName, int cloud, String remotePath)
+    {
         System.out.print("=============================");
         System.out.print(fileName);
         Session session = null;
@@ -192,13 +206,14 @@ public class ChangeCloud {
             channelSftp.mkdir(serverPath + "/" + remotePath);
             channelSftp.cd(serverPath + "/" + remotePath);
 
-            for (int k = 0; k < fileName.size(); ) {
-                File f = new File(Global.restoreLocation + "/" + fileName.get(k + 1));
-                channelSftp.put(new FileInputStream(f), f.getName());
-                System.out.print(f);
-                f.delete();
-                k = k + 2;
-            }
+        for(int k=0; k<fileName.size();)
+        {
+            File f = new File(Global.restoreLocation + "/" + fileName.get(k+1));
+            channelSftp.put(new FileInputStream(f), f.getName());
+            System.out.print(f);
+            f.delete();
+            k=k+2;
+        }
 
             channelSftp.exit();
             session.disconnect();

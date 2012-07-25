@@ -5,7 +5,8 @@ import org.srdbs.sftp.Sftp;
 import org.srdbs.split.FileData;
 import org.srdbs.split.MYSpFile;
 import org.srdbs.split.MyFile;
-
+import java.text.DateFormat;
+import java.util.Date;
 import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.spec.IvParameterSpec;
@@ -197,7 +198,7 @@ public class RunBackup {
                         + " in to " + count + " parts.");
                 noOfFiles++;
                 try {
-                    dbConnect.saveFiles(file.getName(), file.getSize(), file.getHash(), file.getcDate());
+                    dbConnect.saveFiles(fzipencrypt, file.getSize(), file.getHash(), file.getcDate());
                     backplogger.info("Save full file details to the database.");
                 } catch (Exception e) {
                     backplogger.error("Database connection error : " + e);
@@ -258,7 +259,7 @@ public class RunBackup {
 
                 for (MYSpFile file2 : dListOfFiles) {
                     dbConnect.saveSPFiles(file2.getFid(), file2.getName(), file2.getSize(),
-                            file2.getHash(), file2.getCloud(), file2.getRCloud()/*, file2.getRemotePath()*/);
+                            file2.getHash(), file2.getCloud(), file2.getRCloud());
 
                     fid = file2.getFid();
 

@@ -3,7 +3,7 @@ package org.srdbs.core;
 import org.apache.log4j.Logger;
 import org.srdbs.scheduler.RunScheduler;
 import org.srdbs.web.Web;
-
+import org.srdbs.sftp.ChangeCloud;
 /**
  * Main class of the system
  *
@@ -54,22 +54,33 @@ public class Core {
     }
 
 
-    private static class RunDashboardThread implements Runnable {
+    private static class MyThread1 implements Runnable {
         public void run() {
 
-            System.out.println("Starting the dashboard thread.");
-            logger.info("Starting the dashboard Started.");
+            System.out.println("Starting thread 2 (web dashboard) Started.");
+            logger.info("Starting thread 2 (web dashboard) Started.");
             Web.runWebDashboard();
         }
     }
 
-    private static class RunSchedulerThread implements Runnable {
+    private static class MyThread2 implements Runnable {
 
         public void run() {
 
-            System.out.println("Starting scheduler thread.");
-            logger.info("Starting scheduler thread.");
+            System.out.println("Starting thread 1 (scheduler) started.");
+            logger.info("Starting thread 1 (scheduler) started.");
             new RunScheduler().initSchedule();
+
+        }
+    }
+
+    private static class MyThread3 implements Runnable {
+
+        public void run() {
+
+            System.out.println("Starting thread 3 (scheduler) started.");
+            logger.info("Starting thread 3 (ChangeCloud) started.");
+            ChangeCloud.ChangeCloud(1);
 
         }
     }
@@ -80,9 +91,11 @@ public class Core {
     protected static void start() {
 
         try {
-            Thread t1 = new Thread(new RunDashboardThread());
-            Thread t2 = new Thread(new RunSchedulerThread());
+            Thread t1 = new Thread(new MyThread1());
+            Thread t2 = new Thread(new MyThread2());
+            Thread t3 = new Thread(new MyThread3());
             t1.start();
+            //t3.start();
             logger.info("Start the web dashboard.");
             if (Global.binaryConfigState.equalsIgnoreCase("TRUE")) {
                 t2.start();
