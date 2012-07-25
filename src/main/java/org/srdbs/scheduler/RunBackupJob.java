@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.quartz.*;
 import org.srdbs.core.Global;
 import org.srdbs.core.RunBackup;
-
 import java.util.Date;
 
 /**

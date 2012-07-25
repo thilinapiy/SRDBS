@@ -20,7 +20,7 @@ DROP TABLE full_File;
 DROP TABLE Cloud1;
 DROP TABLE Cloud2;
 DROP TABLE Cloud3;
-DROP TABLE Fail_Upload
+DROP TABLE Fail_Upload;
 
 CREATE TABLE sysconfig(
 	sysid int NOT NULL PRIMARY KEY,

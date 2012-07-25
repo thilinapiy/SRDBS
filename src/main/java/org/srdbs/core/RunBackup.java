@@ -1,6 +1,8 @@
 package org.srdbs.core;
 
 import org.apache.log4j.Logger;
+import org.srdbs.scheduler.RunBackupJob;
+import org.srdbs.scheduler.RunScheduler;
 import org.srdbs.sftp.Sftp;
 import org.srdbs.split.FileData;
 import org.srdbs.split.MYSpFile;
@@ -39,6 +41,9 @@ public class RunBackup {
     public static String Despath;
     public static int count;
     public static String newFileName;
+
+    public static Date date;
+    public static DateFormat datef;
 
     public static int runBackup(String path, final String dest, int compress, int encrypt) {
 
@@ -270,15 +275,17 @@ public class RunBackup {
                 backplogger.error("Database connection error : " + e);
             }
 
+            date = new Date();
+            datef = new SimpleDateFormat("yyMMddHHmmss");
 
             backplogger.info("Uploading " + newFileName + " to cloud 1.");
-            Sftp.upload(Despath + Global.fs + newFileName, fid);
+            Sftp.upload(Despath + Global.fs + newFileName, fid, datef.format(date));
 
             backplogger.info("Uploading " + newFileName + " to cloud 2.");
-            Sftp.upload1(Despath + Global.fs + newFileName, fid);
+            Sftp.upload1(Despath + Global.fs + newFileName, fid, datef.format(date));
 
             backplogger.info("Uploading " + newFileName + " to cloud 3.");
-            Sftp.upload2(Despath + Global.fs + newFileName, fid);
+            Sftp.upload2(Despath + Global.fs + newFileName, fid, datef.format(date));
             dbConnect.InsertStatus("test2","done","raid is done.");
 
 
