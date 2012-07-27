@@ -89,6 +89,12 @@ public class RunRestore {
                         myFile.delete();
 
                         Decompress(resultFileName, D_Com1, Ori_name);
+                        logger.info("File is DeCompressed Successfully :" + Ori_name);
+
+                        File zipfile = new File(resultFileName);
+                        boolean isDelete = zipfile.delete();
+                        System.out.println("Zip File is Deleted :" + isDelete);
+                        logger.info("Zip File is Deleted :" + isDelete);
 
                         List<MyFile> fullfilelist = Read(D_Com1);
                         if (FullHashCheck(fullfilelist, FID)) {
@@ -148,19 +154,20 @@ public class RunRestore {
                         String rs_fileName = D_Com1 + "/" + FileName;
                         String Ori_name = mylist.getName().replaceAll(".zip", "");
 
+                        Decompress(rs_fileName,D_Com1 , Ori_name);
+                        logger.info("File is DeCompressed Successfully :" + FileName);
+
+                        File zipfile = new File(rs_fileName);
+                        boolean isDelete = zipfile.delete();
+                        System.out.println("Zip File is Deleted :" + isDelete);
+                        logger.info("Zip File is Deleted :" + isDelete);
+
                         List<MyFile> fullfilelist = Read(D_Com1);
 
                         if (FullHashCheck(fullfilelist, FID)) {
 
                             System.out.println("Hashes are matching");
                             logger.info("Hashes are matching");
-                            Decompress(rs_fileName, D_Com1, Ori_name);
-
-                            ZipFile zFile = new ZipFile(rs_fileName);
-                            //lots-o-code
-                            zFile.close();
-                            File file = new File(rs_fileName);
-                            file.delete();
 
                         } else {
                             System.out.println("Error");
@@ -190,12 +197,6 @@ public class RunRestore {
 
                     }
 
-                    /*
-                     String FileName = mylist.getName();
-                     String S_Complete = Global.restoreLocation + "/" + FileName;
-                     String D_Complete = Global.restoreLocation + "/" + FileName;
-                     Join.join(S_Complete, D_Complete);
-                    */
 
                 } else {
                     restoreLog.error("Error in split part hash.");
@@ -277,14 +278,66 @@ public class RunRestore {
         List<MyFile> list = dbconnect.selectFullQuery(i);
         for (MyFile myfile : listoffiles) {
             for (MyFile dbfile : list) {
-                if (myfile.getName().equalsIgnoreCase(dbfile.getName().replaceAll(".enc", ""))
-                    /*&& myfile.getHash().equalsIgnoreCase(dbfile.getHash())*/) {
-                    pass = true;
-                    restoreLog.info("Pass : " + myfile.getName());
-                } else {
-                    pass = false;
-                    //restoreLog.info("Fail");
+
+                if(chking_zipenc){
+
+
+                    if(myfile.getName().equalsIgnoreCase(dbfile.getName().replaceAll(".zip.enc",""))
+                            && myfile.getHash().equalsIgnoreCase(dbfile.getHash())){
+                        pass = true;
+                        restoreLog.info("Pass : " + myfile.getName());
+                    }
+                    else{
+                        pass = false;
+                        restoreLog.info("Fail :" + myfile.getName());
+                    }
+
                 }
+                else if(chking_enc){
+
+                    if(myfile.getName().equalsIgnoreCase(dbfile.getName().replaceAll(".enc",""))
+                            && myfile.getHash().equalsIgnoreCase(dbfile.getHash())){
+
+                        pass = true;
+                        restoreLog.info("Pass : " + myfile.getName());
+                    }
+                    else{
+                        pass = false;
+                        restoreLog.info("Fail :" + myfile.getName());
+
+                    }
+
+                }
+                else if(chking_zip){
+
+                    if(myfile.getName().equalsIgnoreCase(dbfile.getName().replaceAll(".zip",""))
+                            && myfile.getHash().equalsIgnoreCase(dbfile.getHash())){
+
+                        pass = true;
+                        restoreLog.info("Pass : " + myfile.getName());
+                    }
+                    else{
+                        pass = false;
+                        restoreLog.info("Fail :" + myfile.getName());
+
+                    }
+
+                }
+                else if(chking_normal){
+
+                    if(myfile.getName().equalsIgnoreCase(dbfile.getName())
+                            && myfile.getHash().equalsIgnoreCase(dbfile.getHash())){
+                        pass = true;
+                        restoreLog.info("Pass : " + myfile.getName());
+                    }
+                    else{
+                        pass = false;
+                        restoreLog.info("Fail :" + myfile.getName());
+
+                    }
+
+                }
+
             }
         }
 
@@ -310,7 +363,10 @@ public class RunRestore {
                 }
                 out.flush();
                 out.close();
+
             }
+
+            in.close();
 
         } catch (Exception e) {
             e.printStackTrace();

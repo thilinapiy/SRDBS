@@ -141,7 +141,7 @@ public class RunBackup {
                 long FSize = FileData.getFileSize(path + "/" + fzip);
 
                 int bandwidthSum = 1024 * (((int) (Math.random() * 10) % 9) + 10);
-                int packetVal = (int) (file.getSize() / bandwidthSum);
+                int packetVal = (int) (FSize / bandwidthSum);
                 backplogger.info("Packet size : " + packetVal + " File size : " + file.getSize() + " c1 : " + Global.c1Bandwidth
                         + " c2 : " + Global.c2Bandwidth + " c3 : " + Global.c3Bandwidth);
                 count = mySplit(path + Global.fs + fzipencrypt, Despath
@@ -227,7 +227,7 @@ public class RunBackup {
 
                 dbConnect.InsertStatus("test2","done","splitting start.");
                 int bandwidthSum = 1024 * (((int) (Math.random() * 10) % 9) + 10);
-                int packetVal = (int) (file.getSize() / bandwidthSum);
+                int packetVal = (int) (FSize / bandwidthSum);
                 backplogger.info("Packet size : " + packetVal + " File size : " + file.getSize() + " c1 : " + Global.c1Bandwidth
                         + " c2 : " + Global.c2Bandwidth + " c3 : " + Global.c3Bandwidth);
                 count = mySplit(path + Global.fs + fnormal, Despath
