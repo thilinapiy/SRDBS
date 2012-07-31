@@ -142,6 +142,7 @@ public class FileData {
             }
             backplogger.info("Digest in hex format :: " + sb.toString());
             hashValue = sb.toString();
+            fis.close();
         } catch (Exception e) {
             backplogger.error("Error in hashing : " + e);
         }

@@ -268,6 +268,7 @@ public class RunBackup {
 
                     fid = file2.getFid();
 
+
                 }
                 dbConnect.InsertStatus("isankatest","isankatest","Save split file details to the database.");
                 backplogger.info("Save split file details to the database. ");
@@ -288,6 +289,11 @@ public class RunBackup {
             Sftp.upload2(Despath + Global.fs + newFileName, fid, datef.format(date));
             dbConnect.InsertStatus("test2","done","raid is done.");
 
+
+            File delfol = new File(Despath);
+            boolean isDeleted = deleteDir(delfol);
+            System.out.println("Folder is Deleted : "+ isDeleted);
+            backplogger.info("Folder is Deleted : "+ isDeleted);
 
         }
 
@@ -377,5 +383,24 @@ public class RunBackup {
         out.close();
     }
 
+      public static boolean deleteDir(File dir) {
+
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i=0; i<children.length; i++) {
+
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+
+                    System.out.println("Folder is not Deleted : "+ dir);
+                    backplogger.error("Folder is not Deleted : " + dir);
+                    return false;
+                }
+            }
+        }
+
+        // The directory is now empty so delete it
+        return dir.delete();
+    }
 
 }

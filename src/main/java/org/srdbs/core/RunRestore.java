@@ -76,6 +76,9 @@ public class RunRestore {
                         String D_Complete = D_Com1 + "/" + FileName;
 
                         Join.join(S_Complete, D_Complete);
+                        boolean isFilesDeleted = delete(Global.restoreLocation);
+                        System.out.print("All Downloaded parts Are Delete :" + isFilesDeleted);
+                        logger.info("All Downloaded parts Are Delete :" + isFilesDeleted);
 
 
                         String rs_fileName = D_Com1 + "/" + FileName;
@@ -117,6 +120,9 @@ public class RunRestore {
                         String D_Complete = D_Com1 + "/" + FileName;
 
                         Join.join(S_Complete, D_Complete);
+                        boolean isFilesDeleted = delete(Global.restoreLocation);
+                        System.out.print("All Downloaded parts Are Delete :" + isFilesDeleted);
+                        logger.info("All Downloaded parts Are Delete :" + isFilesDeleted);
 
                         String rs_fileName = D_Com1 + "/" + FileName;
                         String resultFileName = rs_fileName.replaceAll(".enc", "");
@@ -150,6 +156,9 @@ public class RunRestore {
                         String D_Complete = D_Com1 + "/" + FileName;
 
                         Join.join(S_Complete, D_Complete);
+                        boolean isFilesDeleted = delete(Global.restoreLocation);
+                        System.out.print("All Downloaded parts Are Delete :" + isFilesDeleted);
+                        logger.info("All Downloaded parts Are Delete :" + isFilesDeleted);
 
                         String rs_fileName = D_Com1 + "/" + FileName;
                         String Ori_name = mylist.getName().replaceAll(".zip", "");
@@ -182,6 +191,9 @@ public class RunRestore {
                         String D_Complete = D_Com1 + "/" + FileName;
 
                         Join.join(S_Complete, D_Complete);
+                        boolean isFilesDeleted = delete(Global.restoreLocation);
+                        System.out.print("All Downloaded parts Are Delete :" + isFilesDeleted);
+                        logger.info("All Downloaded parts Are Delete :" + isFilesDeleted);
 
                         List<MyFile> fullfilelist = Read(D_Com1);
 
@@ -427,6 +439,39 @@ public class RunRestore {
         }
 
         return strDirectoy;
+    }
+
+    public static boolean delete(String path)
+    {
+
+        boolean DeleteCheck = false;
+
+        File folder = new File(path);
+        String files1;
+
+        File[] listOfFiles = folder.listFiles();
+        for (int i = 0; i < listOfFiles.length; i++)
+        {
+            files1 = listOfFiles[i].getName();
+            String Full_path = path +"/"+files1;
+            File DelFile = new File(Full_path);
+            DeleteCheck = DelFile.delete();
+
+            if(!DeleteCheck){
+
+                System.out.println("File is not Deleted :" + files1);
+                logger.error("File is not Deleted :" + files1);
+            }
+            else{
+
+                System.out.println("Delete File :" + files1);
+                logger.info("Delete File :" + files1);
+            }
+
+
+        }
+
+        return DeleteCheck;
     }
 
 }
