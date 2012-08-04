@@ -958,5 +958,21 @@ public class DbConnect {
         }
     }
 
+    public void deleteStatus() {
 
+        String sql = "delete from status ";
+        Connection con = connect();
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.execute();
+            ps.close();
+            con.close();
+
+        } catch (Exception e) {
+
+            logger.error("Error in deleting Status update  in to the database : " + e);
+        }
+    }
 }

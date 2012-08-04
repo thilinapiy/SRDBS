@@ -205,12 +205,14 @@ public class RunBackup {
                 try {
                     dbConnect.saveFiles(fzipencrypt, file.getSize(), file.getHash(), file.getcDate());
                     backplogger.info("Save full file details to the database.");
+                    dbConnect.InsertStatus("test1","done","Save Full file details to the database.");
                 } catch (Exception e) {
                     backplogger.error("Database connection error : " + e);
+                    dbConnect.InsertStatus("test1","done","Save fail details to the database.");
                 }
 
                 backplogger.info("Encrypting the backup files : " + file.getName());
-                dbConnect.InsertStatus("test4","done","Encryption done.");
+
             }
 
             if ((encrypt == 0) && (compress == 0)) {
@@ -225,7 +227,7 @@ public class RunBackup {
 
                 long FSize = FileData.getFileSize(path + "/" + fnormal);
 
-                dbConnect.InsertStatus("test2","done","splitting start.");
+
                 int bandwidthSum = 1024 * (((int) (Math.random() * 10) % 9) + 10);
                 int packetVal = (int) (FSize / bandwidthSum);
                 backplogger.info("Packet size : " + packetVal + " File size : " + file.getSize() + " c1 : " + Global.c1Bandwidth
@@ -240,8 +242,12 @@ public class RunBackup {
 
                 try {
                     dbConnect.saveFiles(file.getName(), file.getSize(), file.getHash(), file.getcDate());
+                    dbConnect.deleteStatus();
                     backplogger.info("Save full file details to the database.");
+                    dbConnect.deleteStatus();
+                    dbConnect.InsertStatus("test1","done","Save full file details to the database.");
                 } catch (Exception e) {
+                    dbConnect.InsertStatus("test1","done","Save fail details to the database.");
                     backplogger.error("Database connection error : " + e);
                 }
 
@@ -250,6 +256,7 @@ public class RunBackup {
 
             // RAID
             int[] raidArray = Sftp.raid(count);
+            dbConnect.deleteStatus();
             backplogger.info("Raid is done.");
             dbConnect.InsertStatus("test1","done","raid is done.");
 
@@ -271,9 +278,13 @@ public class RunBackup {
 
                 }
                 dbConnect.InsertStatus("isankatest","isankatest","Save split file details to the database.");
+                dbConnect.InsertStatus("isankatest","isankatest","save to database");
+
                 backplogger.info("Save split file details to the database. ");
             } catch (Exception e) {
                 backplogger.error("Database connection error : " + e);
+                dbConnect.InsertStatus("isankatest","isankatest","fail Save split file details to the database.");
+                dbConnect.InsertStatus("isankatest","isankatest","fail some operations.");
             }
 
             date = new Date();
@@ -288,7 +299,7 @@ public class RunBackup {
             backplogger.info("Uploading " + newFileName + " to cloud 3.");
             Sftp.upload2(Despath + Global.fs + newFileName, fid, datef.format(date));
             dbConnect.InsertStatus("test2","done","raid is done.");
-
+            dbConnect.InsertStatus("isankatest","isankatest","upload done");
 
             File delfol = new File(Despath);
             boolean isDeleted = deleteDir(delfol);
@@ -298,6 +309,7 @@ public class RunBackup {
         }
 
         backplogger.info("Split " + noOfFiles + " Files in the file path of : " + path);
+        dbConnect.InsertStatus("isankatest","isankatest","All operation done.");
 
         return 0;
     }
@@ -320,6 +332,8 @@ public class RunBackup {
                 out.flush();
             }
             System.out.println("Your file is zipped");
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
