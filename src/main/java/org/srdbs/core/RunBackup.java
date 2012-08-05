@@ -299,10 +299,11 @@ public class RunBackup {
             backplogger.info("Uploading " + newFileName + " to cloud 3.");
             Sftp.upload2(Despath + Global.fs + newFileName, fid, datef.format(date));
             dbConnect.InsertStatus("test2","done","raid is done.");
-            dbConnect.InsertStatus("isankatest","isankatest","upload done");
 
             File delfol = new File(Despath);
             boolean isDeleted = deleteDir(delfol);
+            dbConnect.InsertStatus("isankatest","isankatest","upload done");
+
             System.out.println("Folder is Deleted : "+ isDeleted);
             backplogger.info("Folder is Deleted : "+ isDeleted);
 
