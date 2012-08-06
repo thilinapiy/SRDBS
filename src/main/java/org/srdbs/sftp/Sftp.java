@@ -91,7 +91,9 @@ public class Sftp {
                ftpFileNo=cloud1.get(i);
                File f = new File(file + Split.createSuffix(ftpFileNo));
                 backplogger.info("File name :" + f );
-                channelSftp.put(new FileInputStream(f), f.getName());
+
+                FileInputStream F1 = new FileInputStream(f);
+                channelSftp.put(F1, f.getName());
 
                 backplogger.info("IP : " + Global.c1IPAddress + ", " + Global.c1Port + ", " + Global.c1UserName + ", "
                         + Global.c1Password + ", " + file + " upload to " + Global.c1Remotepath + "/" + rPath);
@@ -104,8 +106,11 @@ public class Sftp {
                 DbConnect dbconnect = new DbConnect();
                 dbconnect.saveUploadSPFiles(fid,temp[temp.length-1],rPath,1 ) ;
                 dbconnect.SaveCloud1(fid, temp[temp.length-1],Global.c1Remotepath + "/" + rPath);
+                
+                F1.close();
 
             }
+                
                 channelSftp.disconnect();
                 session.disconnect();
 
@@ -173,7 +178,9 @@ public class Sftp {
                 File f = new File(file + Split.createSuffix(ftpFileNo));
 
                 backplogger.info("File name :" + f );
-                channelSftp.put(new FileInputStream(f), f.getName());
+
+                FileInputStream F1 = new FileInputStream(f);
+                channelSftp.put(F1, f.getName());
                 backplogger.info("IP : " + Global.c2IPAddress + ", " + Global.c2Port + ", " + Global.c2UserName + ", "
                         + Global.c2Password + ", " + file + " upload to " + Global.c2Remotepath + "/" + rPath);
                 backplogger.info("Send the file.");
@@ -186,6 +193,7 @@ public class Sftp {
                 dbconnect.saveUploadSPFiles(fid,temp[temp.length-1],rPath, 2);
                 dbconnect.SaveCloud2(fid,temp[temp.length-1],Global.c2Remotepath + "/" + rPath);
 
+                F1.close();
             }
                 channelSftp.disconnect();
                 session.disconnect();
@@ -253,7 +261,9 @@ public class Sftp {
                 File f = new File(file + Split.createSuffix(ftpFileNo));
 
                 backplogger.info("File name :" + f );
-                channelSftp.put(new FileInputStream(f), f.getName());
+
+                FileInputStream F1 = new FileInputStream(f);
+                channelSftp.put(F1, f.getName());
                 backplogger.info("IP : " + Global.c3IPAddress + ", " + Global.c3Port + ", " + Global.c3UserName + ", "
                         + Global.c3Password + ", " + file + " upload to " + Global.c3Remotepath + "/" + rPath);
                 backplogger.info("Send the file.");
@@ -265,6 +275,8 @@ public class Sftp {
                 DbConnect dbconnect = new DbConnect();
                 dbconnect.saveUploadSPFiles(fid,temp[temp.length - 1], rPath, 3);
                 dbconnect.SaveCloud3(fid,temp[temp.length-1],Global.c3Remotepath + "/" + rPath);
+
+                F1.close();
             }
                 channelSftp.disconnect();
                 session.disconnect();

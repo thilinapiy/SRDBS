@@ -297,8 +297,11 @@ public class RunBackup {
             Sftp.upload1(Despath + Global.fs + newFileName, fid, datef.format(date));
 
             backplogger.info("Uploading " + newFileName + " to cloud 3.");
-            Sftp.upload2(Despath + Global.fs + newFileName, fid, datef.format(date));
+             Sftp.upload2(Despath + Global.fs + newFileName, fid, datef.format(date));
             dbConnect.InsertStatus("test2","done","raid is done.");
+
+            boolean isFilesDeleted = delete(Despath);
+            System.out.print("All Split parts Are Delete :" + isFilesDeleted);
 
             File delfol = new File(Despath);
             boolean isDeleted = deleteDir(delfol);
@@ -398,11 +401,46 @@ public class RunBackup {
         out.close();
     }
 
+    public static boolean delete(String path)
+    {
+
+        boolean DeleteCheck = false;
+
+        File folder = new File(path);
+        String files1;
+
+        File[] listOfFiles = folder.listFiles();
+        for (int i = 0; i < listOfFiles.length; i++)
+        {
+            files1 = listOfFiles[i].getName();
+            String Full_path = path +"/"+files1;
+            File DelFile = new File(Full_path);
+            DeleteCheck = DelFile.delete();
+
+            if(!DeleteCheck){
+
+                System.out.println("File is not Deleted :" + files1);
+                logger.error("File is not Deleted :" + files1);
+            }
+            else{
+
+                System.out.println("Delete File :" + files1);
+                logger.info("Delete File :" + files1);
+            }
+
+
+        }
+
+        return DeleteCheck;
+    }
+
       public static boolean deleteDir(File dir) {
 
         if (dir.isDirectory()) {
+
             String[] children = dir.list();
             for (int i=0; i<children.length; i++) {
+
 
                 boolean success = deleteDir(new File(dir, children[i]));
                 if (!success) {
@@ -417,5 +455,6 @@ public class RunBackup {
         // The directory is now empty so delete it
         return dir.delete();
     }
+
 
 }
