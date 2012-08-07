@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.srdbs.scheduler.RunScheduler;
 import org.srdbs.web.Web;
 import org.srdbs.sftp.ChangeCloud;
+
 /**
  * Main class of the system
  *
@@ -69,7 +70,7 @@ public class Core {
 
             System.out.println("Starting thread 1 (scheduler) started.");
             logger.info("Starting thread 1 (scheduler) started.");
-            new RunScheduler().initSchedule();
+            RunScheduler.initSchedule();
 
         }
     }
@@ -119,7 +120,7 @@ public class Core {
         logger.info("Finalizing the binary configurations file.");
         logger.info("Restarting the configurations.");
         new Configs().initConfigs();
-        //TODO restart the scheduler.
+        RunScheduler.restartScheduler();
     }
 
     /**

@@ -25,13 +25,14 @@ public class RunScheduler {
 
     public static Logger logger = Logger.getLogger("systemsLog");
     public static Logger backplogger = Logger.getLogger("backupLog");
+    private static Scheduler scheduler = null;
 
-    public void initSchedule() {
+    public static void initSchedule() {
 
         try {
 
             List<Schedule> scheduleList = new DbConnect().getSchedule();
-            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+            scheduler = StdSchedulerFactory.getDefaultScheduler();
             scheduler.start();
 
             //schedule of the messenger
@@ -41,7 +42,7 @@ public class RunScheduler {
             Trigger messengerTrigger = newTrigger().withIdentity("Messenger Trigger", "Daily backup group")
                     .startNow()
                     .withSchedule(simpleSchedule()
-                            .withIntervalInMinutes(10)
+                            .withIntervalInMinutes(2) //.withIntervalInSeconds(30)
                             .repeatForever())
                     .build();
 
@@ -124,5 +125,17 @@ public class RunScheduler {
         } catch (Exception e) {
             backplogger.error("Error creating the job : " + e);
         }
+    }
+
+    public static void restartScheduler() {
+
+        try {
+            scheduler.shutdown();
+            backplogger.info("Stop the scheduler.");
+            Thread.sleep(1000);
+        } catch (Exception e) {
+            backplogger.error("Error stopping the scheduler : " + e.getMessage());
+        }
+        initSchedule();
     }
 }
