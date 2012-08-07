@@ -1,5 +1,6 @@
 <%@ page import="org.srdbs.web.Api" %>
 <%@ page import="org.srdbs.core.RunRestore" %>
+<%@ page import="org.srdbs.core.DbConnect" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.sql.*" %>
@@ -39,13 +40,10 @@
 
             try {
 
-                String connectionURL = "jdbc:mysql://localhost:3306/srdbsdb";
-                Class.forName("com.mysql.jdbc.Driver").newInstance();
-                Connection connection = DriverManager.getConnection(connectionURL, "SRDBS", "password");
+                Connection connection = new DbConnect().webDbConnect();
                 Statement statement = connection.createStatement();
                 String QueryString = "SELECT * from Full_File";
                 ResultSet rs = statement.executeQuery(QueryString);
-
 
                 while (rs.next()) {
         %>
@@ -70,8 +68,6 @@
             } catch (Exception ex) {
                 out.println("Unable to connect to database.");
             }
-
-
         %>
         <tr>
             <td>

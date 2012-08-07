@@ -40,6 +40,11 @@ public class DbConnect {
         return conn;
     }
 
+    public Connection webDbConnect() throws Exception {
+
+        return connect();
+    }
+
     public int insertQuery(String query) {
 
         Statement statement = null;
@@ -198,22 +203,21 @@ public class DbConnect {
 
         String sql = "insert into Cloud1 (f_ID,FileName,Remote_Path) values (?,?,?)";
         Connection connection = connect();
-     try{   
-        PreparedStatement ps = connection.prepareStatement(sql);
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
 
-        MYSpFile mySFile = new MYSpFile();
-        ps.setLong(1, fid);
-        ps.setString(2, Fname);
-        ps.setString(3, R_Path);
-        ps.addBatch();
+            MYSpFile mySFile = new MYSpFile();
+            ps.setLong(1, fid);
+            ps.setString(2, Fname);
+            ps.setString(3, R_Path);
+            ps.addBatch();
 
-        ps.executeBatch();
-        ps.close();
-        connection.close();
-     }catch (Exception e)
-     {
-              System.out.print(e);
-     }
+            ps.executeBatch();
+            ps.close();
+            connection.close();
+        } catch (Exception e) {
+            System.out.print(e);
+        }
         return 1;
     }
 
@@ -221,22 +225,21 @@ public class DbConnect {
 
         String sql = "insert into Cloud2 (f_ID,FileName,Remote_Path) values (?,?,?)";
         Connection connection = connect();
-    try{ 
-        PreparedStatement ps = connection.prepareStatement(sql);
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
 
-        MYSpFile mySFile = new MYSpFile();
-        ps.setLong(1, fid);
-        ps.setString(2, Fname);
-        ps.setString(3, R_Path);
-        ps.addBatch();
+            MYSpFile mySFile = new MYSpFile();
+            ps.setLong(1, fid);
+            ps.setString(2, Fname);
+            ps.setString(3, R_Path);
+            ps.addBatch();
 
-        ps.executeBatch();
-        ps.close();
-        connection.close();
-    } catch (Exception e)
-    {
-        System.out.print(e);
-    }
+            ps.executeBatch();
+            ps.close();
+            connection.close();
+        } catch (Exception e) {
+            System.out.print(e);
+        }
         return 1;
     }
 
@@ -244,22 +247,21 @@ public class DbConnect {
 
         String sql = "insert into Cloud3 (f_ID,FileName,Remote_Path) values (?,?,?)";
         Connection connection = connect();
-    try{    
-        PreparedStatement ps = connection.prepareStatement(sql);
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
 
-        MYSpFile mySFile = new MYSpFile();
-        ps.setLong(1, fid);
-        ps.setString(2, Fname);
-        ps.setString(3, R_Path);
-        ps.addBatch();
+            MYSpFile mySFile = new MYSpFile();
+            ps.setLong(1, fid);
+            ps.setString(2, Fname);
+            ps.setString(3, R_Path);
+            ps.addBatch();
 
-        ps.executeBatch();
-        ps.close();
-        connection.close();
-    } catch (Exception e)
-    {
-        System.out.print(e); 
-    }
+            ps.executeBatch();
+            ps.close();
+            connection.close();
+        } catch (Exception e) {
+            System.out.print(e);
+        }
         return 1;
     }
 
@@ -331,7 +333,7 @@ public class DbConnect {
 
     public List CheckSP(long f_id, String file) {
 
-        String sql = " select Ref_Cloud_ID,Raid_ref,Remote_path from sp_file where F_ID = '" + f_id + "' and SP_FileName ='" + file + "'" ;
+        String sql = " select Ref_Cloud_ID,Raid_ref,Remote_path from sp_file where F_ID = '" + f_id + "' and SP_FileName ='" + file + "'";
         Connection connection = connect();
         List check = new ArrayList();
 
@@ -340,9 +342,9 @@ public class DbConnect {
             ResultSet rs = s.executeQuery(sql);
 
             while (rs.next()) {
-               // check.add(rs.getLong("Ref_Cloud_ID"));
-               // check.add(rs.getString("Raid_ref"));
-               // check.add(rs.getString("Remote_path"));
+                // check.add(rs.getLong("Ref_Cloud_ID"));
+                // check.add(rs.getString("Raid_ref"));
+                // check.add(rs.getString("Remote_path"));
                 check.add(rs.getInt(1));
                 check.add(rs.getInt(2));
                 check.add(rs.getString(3));
@@ -354,9 +356,6 @@ public class DbConnect {
 
 
     }
-
-
-
 
 
     public int saveUploadSPFiles(long fid, String Fname, String path, int cloud) throws SQLException {
