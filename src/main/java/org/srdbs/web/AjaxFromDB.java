@@ -29,7 +29,7 @@ public class AjaxFromDB extends HttpServlet {
             out = response.getWriter();
             out.print("[");
 
-            String queryString = "select * from status";           
+            String queryString = "select * from status ";
 
             DbConnect DB = new DbConnect();
             connection = DB.getConnection();

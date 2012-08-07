@@ -6,7 +6,7 @@ import org.srdbs.split.FileData;
 import org.srdbs.split.Join;
 import org.srdbs.split.MYSpFile;
 import org.srdbs.split.MyFile;
-
+import org.srdbs.core.DbConnect;
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.spec.IvParameterSpec;
@@ -43,6 +43,7 @@ public class RunRestore {
     public static int runRestore(int FID) {
 
         //Download files
+        DbConnect dbConnect2 = new DbConnect();
         List<MYSpFile> getSPFiles = new DbConnect().selectLoadSpQuery(FID);
         for (MYSpFile spfile : getSPFiles) {
 
@@ -57,6 +58,7 @@ public class RunRestore {
             DbConnect dbconnection = new DbConnect();
             List<MYSpFile> listofFiles = ReadSPFile(Global.restoreLocation);
             List<MyFile> listofrecords = dbconnection.selectFullQuery(FID);
+            dbConnect2.InsertStatus("test2","restore","db connection succeeded");
             for (MyFile mylist : listofrecords) {
                 if (HashCheck(listofFiles, FID)) {
 
@@ -79,7 +81,8 @@ public class RunRestore {
                         boolean isFilesDeleted = delete(Global.restoreLocation);
                         System.out.print("All Downloaded parts Are Delete :" + isFilesDeleted);
                         logger.info("All Downloaded parts Are Delete :" + isFilesDeleted);
-
+                              dbConnect2.deleteStatus();
+                          dbConnect2.InsertStatus("test2","restore","deleted downloaded parts");
 
                         String rs_fileName = D_Com1 + "/" + FileName;
                         // String resultFileName=fileName+".dec";
@@ -104,6 +107,7 @@ public class RunRestore {
 
                             System.out.println("Hashes are matching");
                             logger.info("Hashes are matching");
+                            dbConnect2.InsertStatus("test2","restore","Hashes matched");
 
                         } else {
                             System.out.println("Error");
@@ -165,6 +169,7 @@ public class RunRestore {
 
                         Decompress(rs_fileName,D_Com1 , Ori_name);
                         logger.info("File is DeCompressed Successfully :" + FileName);
+                        dbConnect2.InsertStatus("test2","restore","File decompressed");
 
                         File zipfile = new File(rs_fileName);
                         boolean isDelete = zipfile.delete();
@@ -194,6 +199,7 @@ public class RunRestore {
                         boolean isFilesDeleted = delete(Global.restoreLocation);
                         System.out.print("All Downloaded parts Are Delete :" + isFilesDeleted);
                         logger.info("All Downloaded parts Are Delete :" + isFilesDeleted);
+                        dbConnect2.InsertStatus("test2","restore","Restoration done :");
 
                         List<MyFile> fullfilelist = Read(D_Com1);
 

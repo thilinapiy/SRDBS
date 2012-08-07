@@ -35,6 +35,7 @@ public class RunBackup {
 
     public static Logger logger = Logger.getLogger("systemsLog");
     public static Logger backplogger = Logger.getLogger("backupLog");
+
     public static long fid;
 
     private static final int IV_LENGTH = 16;
@@ -256,9 +257,10 @@ public class RunBackup {
 
             // RAID
             int[] raidArray = Sftp.raid(count);
-            dbConnect.deleteStatus();
+
             backplogger.info("Raid is done.");
-            dbConnect.InsertStatus("test1","done","raid is done.");
+
+            dbConnect.InsertStatus("test1","done","raid is done for:."+ file.getName());
 
             //TODO remove this
             for (int j = 0; j < raidArray.length; ) {
@@ -277,13 +279,14 @@ public class RunBackup {
 
 
                 }
-                dbConnect.InsertStatus("isankatest","isankatest","Save split file details to the database.");
+                dbConnect.InsertStatus("isankatest","isankatest","Save split file details to the db."+ file.getName());
                 dbConnect.InsertStatus("isankatest","isankatest","save to database");
 
                 backplogger.info("Save split file details to the database. ");
             } catch (Exception e) {
                 backplogger.error("Database connection error : " + e);
-                dbConnect.InsertStatus("isankatest","isankatest","fail Save split file details to the database.");
+                dbConnect.deleteStatus();
+                dbConnect.InsertStatus("isankatest","isankatest","fail Save split file details to the db.");
                 dbConnect.InsertStatus("isankatest","isankatest","fail some operations.");
             }
 
@@ -298,7 +301,7 @@ public class RunBackup {
 
             backplogger.info("Uploading " + newFileName + " to cloud 3.");
              Sftp.upload2(Despath + Global.fs + newFileName, fid, datef.format(date));
-            dbConnect.InsertStatus("test2","done","raid is done.");
+
 
             boolean isFilesDeleted = delete(Despath);
             System.out.print("All Split parts Are Delete :" + isFilesDeleted);
@@ -313,7 +316,7 @@ public class RunBackup {
         }
 
         backplogger.info("Split " + noOfFiles + " Files in the file path of : " + path);
-        dbConnect.InsertStatus("isankatest","isankatest","All operation done.");
+        dbConnect.InsertStatus("isankatest","isankatest","All operation done ");
 
         return 0;
     }

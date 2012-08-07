@@ -187,9 +187,17 @@
         $(document).ready(function () {
             $(document).pngFix();
         });
+
+        function load()
+        {
+            document.getElementById('div4').style.visibility = 'hidden';
+            document.getElementById('div3').style.visibility = 'hidden';
+            document.getElementById('div2').style.visibility = 'hidden';
+            document.getElementById('div1').style.visibility = 'hidden';
+        }
     </script>
 </head>
-<body>
+<body onload="load()">
 <!-- Start: page-top-outer -->
 <div id="page-top-outer">
     <!-- Start: page-top -->
@@ -425,7 +433,30 @@
                                 <input type="submit" name="restartbtn" value="restart">
                                 <input type="submit" name="stopbtn" value="stop">
                             </form>
-
+                            <table width="350" align="center" cellpadding="0" cellspacing="0" >
+                                <tr>
+                                    <th height="30" scope="col">
+                                        <div id="div1" style="background-color:#0C3">
+                                            <h2>25%</h2>
+                                        </div>
+                                    </th>
+                                    <th scope="col">
+                                        <div id="div2" style="background-color:#0C3">
+                                            <h2>50%</h2>
+                                        </div>
+                                    </th>
+                                    <th scope="col">
+                                        <div id="div3" style="background-color:#0C3">
+                                            <h2>75%</h2>
+                                        </div>
+                                    </th>
+                                    <th scope="col">
+                                        <div id="div4" style="background-color:#0C3">
+                                            <h2>100%</h2>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </table>
 
 
 
@@ -481,6 +512,24 @@
 
                             <script type="text/javascript">
 
+
+                                function div1enable(){
+                                    document.getElementById('div1').style.visibility = 'visible';
+                                    //alert("Page is loaded");
+                                }
+                                function div2enable(){
+                                    document.getElementById('div2').style.visibility = 'visible';
+                                    //alert("Page is loaded");
+                                }
+                                function div3enable(){
+                                    document.getElementById('div3').style.visibility = 'visible';
+                                    //alert("Page is loaded");
+                                }
+                                function div4enable(){
+                                    document.getElementById('div4').style.visibility = 'visible';
+                                    //alert("Page is loaded");
+                                }
+
                                 function changeVal() {
                                     alert('Welcome to my page!');
                                 }
@@ -516,6 +565,22 @@
 
 
                                                         $('#targetDiv').append('<div class="message"> <div class=\"content\">'+item+'</div><div class=\"icon\"><img src=\"images/red_ok2.png" width=\"32\" height=\"32\" /></div><div class="clear"></div></div>' ).show();
+                                                            div1 = item.match("split");
+                                                            if (div1 != null ) {
+                                                                div1enable();
+                                                            }
+                                                            div2 = item.match("database");
+                                                            if (div2 != null ) {
+                                                                div2enable();
+                                                            }
+                                                            div3 = item.match("upload");
+                                                            if (div3 != null ) {
+                                                                div3enable();
+                                                            }
+                                                            div4 = item.match("operation");
+                                                            if (div4 != null ) {
+                                                                div4enable();
+                                                            }
                                                         }
                                                         propCount++;
 
