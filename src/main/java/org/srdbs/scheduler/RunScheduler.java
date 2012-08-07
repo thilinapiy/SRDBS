@@ -42,7 +42,7 @@ public class RunScheduler {
             Trigger messengerTrigger = newTrigger().withIdentity("Messenger Trigger", "Daily backup group")
                     .startNow()
                     .withSchedule(simpleSchedule()
-                            .withIntervalInMinutes(2) //.withIntervalInSeconds(30)
+                            .withIntervalInMinutes(5)
                             .repeatForever())
                     .build();
 

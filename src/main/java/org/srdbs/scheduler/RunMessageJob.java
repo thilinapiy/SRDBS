@@ -20,22 +20,49 @@ public class RunMessageJob implements Job {
 
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
+        logger.info("Sending periodic message to check the availability of the messaging service on clouds.");
         try {
-            Sender.sendMessage(Global.c1IPAddress, Global.c1MessagePort, "request");
+            Sender.sendMessage(Global.c1IPAddress, Global.c1MessagePort, "status");
         } catch (Exception e) {
-            logger.error("Error on the message service of the cloud : " + Global.c1IPAddress + e);
+            retryStatus(Global.c1IPAddress, Global.c1MessagePort);
         }
 
         try {
-            Sender.sendMessage(Global.c2IPAddress, Global.c2MessagePort, "request");
+            Sender.sendMessage(Global.c2IPAddress, Global.c2MessagePort, "status");
         } catch (Exception e) {
-            logger.error("Error on the message service of the cloud : " + Global.c2IPAddress + e);
+            retryStatus(Global.c2IPAddress, Global.c2MessagePort);
         }
 
         try {
-            Sender.sendMessage(Global.c3IPAddress, Global.c3MessagePort, "request");
+            Sender.sendMessage(Global.c3IPAddress, Global.c3MessagePort, "status");
         } catch (Exception e) {
-            logger.error("Error on the message service of the cloud : " + Global.c3IPAddress + e);
+            retryStatus(Global.c3IPAddress, Global.c3MessagePort);
+        }
+    }
+
+    public void retryStatus(String cloudIPAddress, int messagePort) {
+
+        int count = 1;
+        boolean status = false;
+
+        while (count <= 5 && !status) {
+            try {
+                Thread.sleep(20 * 1000);  // in milliseconds
+                logger.info("trying to resend message to : " + cloudIPAddress + ":"
+                        + messagePort + " attempt : " + count + " after 20 sec.");
+                Sender.sendMessage(cloudIPAddress, messagePort, "status");
+                status = true; // if there's no exception, change the status in to true.
+            } catch (Exception e) {
+                count++;
+            }
+        }
+
+        if (status) {
+            logger.info("Cloud message service on : " + cloudIPAddress + ":"
+                    + messagePort + " is up after " + count + " attempts.");
+        } else {
+            logger.error("Cloud message service on : " + cloudIPAddress + ":"
+                    + messagePort + " failed after " + (count - 1) + " attempts.");
         }
     }
 }
