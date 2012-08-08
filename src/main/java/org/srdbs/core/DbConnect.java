@@ -614,7 +614,7 @@ public class DbConnect {
     public void finaliseSystemConfig() {
 
         logger.info("Inserting configurations into the database.");
-        String sql = "insert into sysconfig (sysid,sysvalue) values (?,?)";
+        String sql = "insert into sysconfig (sysid,sysvalue) values (?,?) ON DUPLICATE KEY UPDATE sysvalue = ?";
         Connection con = connect();
 
         try {
@@ -622,182 +622,227 @@ public class DbConnect {
 
             ps.setInt(1, 1);
             ps.setString(2, String.valueOf(Global.webPort));
+            ps.setString(3, String.valueOf(Global.webPort));
             ps.addBatch();
 
             ps.setInt(1, 2);
             ps.setString(2, Global.SysUserName);
+            ps.setString(3, Global.SysUserName);
             ps.addBatch();
 
             ps.setInt(1, 3);
             ps.setString(2, Global.SysUserPassword);
+            ps.setString(3, Global.SysUserPassword);
             ps.addBatch();
 
             ps.setInt(1, 4);
             ps.setString(2, Global.c1IPAddress);
+            ps.setString(3, Global.c1IPAddress);
             ps.addBatch();
 
             ps.setInt(1, 5);
             ps.setString(2, String.valueOf(Global.c1Port));
+            ps.setString(3, String.valueOf(Global.c1Port));
             ps.addBatch();
 
             ps.setInt(1, 6);
             ps.setString(2, Global.c1Remotepath);
+            ps.setString(3, Global.c1Remotepath);
             ps.addBatch();
 
             ps.setInt(1, 7);
             ps.setString(2, Global.c1UserName);
+            ps.setString(3, Global.c1UserName);
             ps.addBatch();
 
             ps.setInt(1, 8);
             ps.setString(2, Global.c1Password);
+            ps.setString(3, Global.c1Password);
             ps.addBatch();
 
             ps.setInt(1, 9);
             ps.setString(2, String.valueOf(Global.c1MessagePort));
+            ps.setString(3, String.valueOf(Global.c1MessagePort));
             ps.addBatch();
 
             ps.setInt(1, 10);
             ps.setString(2, String.valueOf(Global.c1Bandwidth));
+            ps.setString(3, String.valueOf(Global.c1Bandwidth));
             ps.addBatch();
 
             ps.setInt(1, 11);
             ps.setString(2, Global.c1Cost);
+            ps.setString(3, Global.c1Cost);
             ps.addBatch();
 
             ps.setInt(1, 12);
             ps.setString(2, Global.c2IPAddress);
+            ps.setString(3, Global.c2IPAddress);
             ps.addBatch();
 
             ps.setInt(1, 13);
             ps.setString(2, String.valueOf(Global.c2Port));
+            ps.setString(3, String.valueOf(Global.c2Port));
             ps.addBatch();
 
             ps.setInt(1, 14);
             ps.setString(2, Global.c2Remotepath);
+            ps.setString(3, Global.c2Remotepath);
             ps.addBatch();
 
             ps.setInt(1, 15);
             ps.setString(2, Global.c2UserName);
+            ps.setString(3, Global.c2UserName);
             ps.addBatch();
 
             ps.setInt(1, 16);
             ps.setString(2, Global.c2Password);
+            ps.setString(3, Global.c2Password);
             ps.addBatch();
 
             ps.setInt(1, 17);
             ps.setString(2, String.valueOf(Global.c2MessagePort));
+            ps.setString(3, String.valueOf(Global.c2MessagePort));
             ps.addBatch();
 
             ps.setInt(1, 18);
             ps.setString(2, String.valueOf(Global.c2Bandwidth));
+            ps.setString(3, String.valueOf(Global.c2Bandwidth));
             ps.addBatch();
 
             ps.setInt(1, 19);
             ps.setString(2, Global.c2Cost);
+            ps.setString(3, Global.c2Cost);
             ps.addBatch();
 
             ps.setInt(1, 20);
             ps.setString(2, Global.c3IPAddress);
+            ps.setString(3, Global.c3IPAddress);
             ps.addBatch();
 
             ps.setInt(1, 21);
             ps.setString(2, String.valueOf(Global.c3Port));
+            ps.setString(3, String.valueOf(Global.c3Port));
             ps.addBatch();
 
             ps.setInt(1, 22);
             ps.setString(2, Global.c3Remotepath);
+            ps.setString(3, Global.c3Remotepath);
             ps.addBatch();
 
             ps.setInt(1, 23);
             ps.setString(2, Global.c3UserName);
+            ps.setString(3, Global.c3UserName);
             ps.addBatch();
 
             ps.setInt(1, 24);
             ps.setString(2, Global.c3Password);
+            ps.setString(3, Global.c3Password);
             ps.addBatch();
 
             ps.setInt(1, 25);
             ps.setString(2, String.valueOf(Global.c3MessagePort));
+            ps.setString(3, String.valueOf(Global.c3MessagePort));
             ps.addBatch();
 
             ps.setInt(1, 26);
             ps.setString(2, String.valueOf(Global.c3Bandwidth));
+            ps.setString(3, String.valueOf(Global.c3Bandwidth));
             ps.addBatch();
 
             ps.setInt(1, 27);
             ps.setString(2, Global.c3Cost);
+            ps.setString(3, Global.c3Cost);
             ps.addBatch();
 
             ps.setInt(1, 28);
             ps.setString(2, Global.c4IPAddress);
+            ps.setString(3, Global.c4IPAddress);
             ps.addBatch();
 
             ps.setInt(1, 29);
             ps.setString(2, String.valueOf(Global.c4Port));
+            ps.setString(3, String.valueOf(Global.c4Port));
             ps.addBatch();
 
             ps.setInt(1, 30);
             ps.setString(2, Global.c4Remotepath);
+            ps.setString(3, Global.c4Remotepath);
             ps.addBatch();
 
             ps.setInt(1, 31);
             ps.setString(2, Global.c4UserName);
+            ps.setString(3, Global.c4UserName);
             ps.addBatch();
 
             ps.setInt(1, 32);
             ps.setString(2, Global.c4Password);
+            ps.setString(3, Global.c4Password);
             ps.addBatch();
 
             ps.setInt(1, 33);
             ps.setString(2, String.valueOf(Global.c4MessagePort));
+            ps.setString(3, String.valueOf(Global.c4MessagePort));
             ps.addBatch();
 
             ps.setInt(1, 34);
             ps.setString(2, String.valueOf(Global.c4Bandwidth));
+            ps.setString(3, String.valueOf(Global.c4Bandwidth));
             ps.addBatch();
 
             ps.setInt(1, 35);
             ps.setString(2, Global.c4Cost);
+            ps.setString(3, Global.c4Cost);
             ps.addBatch();
 
             ps.setInt(1, 36);
             ps.setString(2, Global.c5IPAddress);
+            ps.setString(3, Global.c5IPAddress);
             ps.addBatch();
 
             ps.setInt(1, 37);
             ps.setString(2, String.valueOf(Global.c5Port));
+            ps.setString(3, String.valueOf(Global.c5Port));
             ps.addBatch();
 
             ps.setInt(1, 38);
             ps.setString(2, Global.c5Remotepath);
+            ps.setString(3, Global.c5Remotepath);
             ps.addBatch();
 
             ps.setInt(1, 39);
             ps.setString(2, Global.c5UserName);
+            ps.setString(3, Global.c5UserName);
             ps.addBatch();
 
             ps.setInt(1, 40);
             ps.setString(2, Global.c5Password);
+            ps.setString(3, Global.c5Password);
             ps.addBatch();
 
             ps.setInt(1, 41);
             ps.setString(2, String.valueOf(Global.c5MessagePort));
+            ps.setString(3, String.valueOf(Global.c5MessagePort));
             ps.addBatch();
 
             ps.setInt(1, 42);
             ps.setString(2, String.valueOf(Global.c5Bandwidth));
+            ps.setString(3, String.valueOf(Global.c5Bandwidth));
             ps.addBatch();
 
             ps.setInt(1, 43);
             ps.setString(2, Global.c5Cost);
+            ps.setString(3, Global.c5Cost);
             ps.addBatch();
 
             ps.setInt(1, 44);
             ps.setString(2, Global.tempLocation);
+            ps.setString(3, Global.tempLocation);
             ps.addBatch();
 
             ps.setInt(1, 45);
             ps.setString(2, Global.restoreLocation);
+            ps.setString(3, Global.restoreLocation);
             ps.addBatch();
 
             ps.executeBatch();
@@ -973,5 +1018,61 @@ public class DbConnect {
 
             logger.error("Error in deleting Status update  in to the database : " + e);
         }
+    }
+
+    public String getFullFileFromDb(long fid) {
+
+        String sql = "SELECT * FROM Full_File WHERE F_ID=" + fid + "";
+        Connection connection = connect();
+        String message = "";
+        try {
+            Statement s = connection.createStatement();
+            ResultSet rs = s.executeQuery(sql);
+
+            while (rs.next()) {
+                message += rs.getLong("F_ID");
+                message += ",";
+                message += rs.getString("FName");
+                message += ",";
+                message += rs.getInt("FSize");
+                message += ",";
+                message += rs.getString("HashValue");
+                message += ",";
+                message += rs.getString("Up_Date");
+            }
+        } catch (Exception e) {
+            backplogger.error("Error in getFullFileFromDb : " + e);
+        }
+        return message;
+
+    }
+
+    public List<MYSpFile> getSPFileFromDb(long fid) {
+
+        String sql = "SELECT * FROM SP_File WHERE F_ID=" + fid + "";
+        Connection connection = connect();
+        List<MYSpFile> fileList = new ArrayList<MYSpFile>();
+        try {
+            Statement s = connection.createStatement();
+            ResultSet rs = s.executeQuery(sql);
+
+            while (rs.next()) {
+                MYSpFile myFile = new MYSpFile();
+
+                myFile.setId(rs.getLong("SP_FILE_ID"));
+                myFile.setFid(rs.getLong("F_ID"));
+                myFile.setName(rs.getString("SP_FileName"));
+                myFile.setSize(rs.getInt("F_Size"));
+                myFile.setHash(rs.getString("HashValue"));
+                myFile.setCloud(rs.getInt("Ref_Cloud_ID"));
+                myFile.setRcloud(rs.getInt("Raid_Ref"));
+                myFile.setRemotePath(rs.getString("Remote_Path"));
+                fileList.add(myFile);
+
+            }
+        } catch (Exception e) {
+            backplogger.error("Error in getSPFileFromDb : " + e);
+        }
+        return fileList;
     }
 }
