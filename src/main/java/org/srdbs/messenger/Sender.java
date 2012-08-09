@@ -1,6 +1,7 @@
 package org.srdbs.messenger;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.log4j.Logger;
 
 import javax.jms.*;
 import java.util.UUID;
@@ -13,6 +14,8 @@ import java.util.UUID;
  * For more details visit : http://www.thilina.org
  */
 public class Sender implements MessageListener {
+
+    public static Logger logger = Logger.getLogger("systemsLog");
 
     private static String brokerUrl;
     private String requestQueue = "requests";
@@ -48,7 +51,7 @@ public class Sender implements MessageListener {
     }
 
     public void request(String request) throws JMSException {
-        System.out.println("Requesting: " + request);
+        logger.info("Sending: " + request);
         TextMessage txtMessage = session.createTextMessage();
         txtMessage.setText(request);
 
@@ -61,10 +64,10 @@ public class Sender implements MessageListener {
 
     public void onMessage(Message message) {
         try {
-            System.out.println("Received response for: "
+            logger.info("Received response for: "
                     + ((TextMessage) message).getText());
         } catch (JMSException e) {
-            e.printStackTrace();
+            logger.error("Error on received message : " + e);
         }
     }
 
