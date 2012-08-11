@@ -91,7 +91,7 @@ public class Sftp {
                 channelSftp.put(F1, f.getName());
 
                 backplogger.info("IP : " + Global.c1IPAddress + ", " + Global.c1Port + ", " + Global.c1UserName + ", "
-                        + Global.c1Password + ", " + file + " upload to " + Global.c1Remotepath + "/" + rPath);
+                        + ", " + file + " upload to " + Global.c1Remotepath + "/" + rPath);
                 backplogger.info("Send the file.");
 
                 cloud1.remove(i);
@@ -115,9 +115,6 @@ public class Sftp {
             return 0;
         } catch (Exception ex) {
             backplogger.error("Ftp upload error on IP : " + Global.c1IPAddress + " more details :" + ex);
-            //backplogger.error("IP : " + Global.c1IPAddress + ", " + Global.c1Port + ", " + Global.c2UserName + ", "
-            //+ Global.c1Password + ", " + file + " upload to " + Global.c1Remotepath + "/" + datef.format(date));
-
 
             backplogger.info("Retring to upload");
             long startTime = System.currentTimeMillis();
@@ -355,8 +352,6 @@ public class Sftp {
         }
     }
 
-
-    // TODO write method 3 methods for RAID. Prabodha
     public static int[] raid(int pNumber) {
 
         int numberOfClouds = 3;
@@ -398,17 +393,16 @@ public class Sftp {
                 cloud2.add(((i + 2)) / 2);
             }
             i = i + 2;
-
-
         }
+
         while (i < (pNumber * 2));
         backplogger.info("Raid array completed successfully.");
 
         return raidArray;
-
     }
 
     private static int getRandomCloud(int numberOfClouds) {
+
         return (int) ((Math.random() * 10) % numberOfClouds) + 1;
     }
 
