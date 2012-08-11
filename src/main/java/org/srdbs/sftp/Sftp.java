@@ -446,40 +446,44 @@ public class Sftp {
         // sending full file details.
         String message = "upload:Full:";
         message += new DbConnect().getFullFileFromDb(fid);
+
         try {
             backplogger.info("Trying to send the message : " + message + " to : "
                     + cloudIPAddress + ":" + messagePort);
             Sender.sendMessage(cloudIPAddress, messagePort, message);
+
+            // Sending SP file details.
+            List<MYSpFile> spFileData = new DbConnect().getSPFileFromDb(fid);
+
+            for (MYSpFile row : spFileData) {
+                message = "upload:SP:";
+                message += row.getId() + ",";
+                message += row.getFid() + ",";
+                message += row.getName() + ",";
+                message += row.getSize() + ",";
+                message += row.getHash() + ",";
+                message += row.getCloud() + ",";
+                message += row.getRCloud() + ",";
+                message += row.getRemotePath();
+
+                try {
+                    backplogger.info("Trying to send the message : " + message + " to : "
+                            + cloudIPAddress + ":" + messagePort);
+                    Sender.sendMessage(cloudIPAddress, messagePort, message);
+                } catch (Exception e) {
+                    backplogger.error("Failed to send the upload full_file details to the cloud : " + e
+                            + cloudIPAddress + ":" + messagePort);
+                    // todo : retry.
+                }
+            }
+
         } catch (Exception e) {
-            backplogger.error("Failed to send the upload full_file details to the cloud : "
+            backplogger.error("Failed to send the upload full_file details to the cloud : " + e
                     + cloudIPAddress + ":" + messagePort);
             // todo : retry.
         }
 
-        // Sending SP file details.
-        List<MYSpFile> spFileData = new DbConnect().getSPFileFromDb(fid);
 
-        for (MYSpFile row : spFileData) {
-            message = "upload:SP:";
-            message += row.getId() + ",";
-            message += row.getFid() + ",";
-            message += row.getName() + ",";
-            message += row.getSize() + ",";
-            message += row.getHash() + ",";
-            message += row.getCloud() + ",";
-            message += row.getRCloud() + ",";
-            message += row.getRemotePath();
-
-            try {
-                backplogger.info("Trying to send the message : " + message + " to : "
-                        + cloudIPAddress + ":" + messagePort);
-                Sender.sendMessage(cloudIPAddress, messagePort, message);
-            } catch (Exception e) {
-                backplogger.error("Failed to send the upload full_file details to the cloud : "
-                        + cloudIPAddress + ":" + messagePort);
-                // todo : retry.
-            }
-        }
     }
 
 }
