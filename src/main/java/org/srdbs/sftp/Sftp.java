@@ -89,10 +89,10 @@ public class Sftp {
                 backplogger.info("File name :" + f);
 
                 FileInputStream F1 = new FileInputStream(f);
-                channelSftp.put(F1, f.getName(),new SystemOutProgressMonitor1());
+                channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor1());
 
                 backplogger.info("IP : " + Global.c1IPAddress + ", " + Global.c1Port + ", " + Global.c1UserName + ", "
-                        + Global.c1Password + ", " + file + " upload to " + Global.c1Remotepath + "/" + rPath);
+                        + ", " + file + " upload to " + Global.c1Remotepath + "/" + rPath);
                 backplogger.info("Send the file.");
 
                 cloud1.remove(i);
@@ -111,14 +111,11 @@ public class Sftp {
             session.disconnect();
 
             // sending the message.
-            //sendUploadDetails(fid, Global.c1IPAddress, Global.c1MessagePort);
+            sendUploadDetails(fid, Global.c1IPAddress, Global.c1MessagePort);
 
             return 0;
         } catch (Exception ex) {
             backplogger.error("Ftp upload error on IP : " + Global.c1IPAddress + " more details :" + ex);
-            //backplogger.error("IP : " + Global.c1IPAddress + ", " + Global.c1Port + ", " + Global.c2UserName + ", "
-            //+ Global.c1Password + ", " + file + " upload to " + Global.c1Remotepath + "/" + datef.format(date));
-
 
             backplogger.info("Retring to upload");
             long startTime = System.currentTimeMillis();
@@ -171,7 +168,7 @@ public class Sftp {
                 backplogger.info("File name :" + f);
 
                 FileInputStream F1 = new FileInputStream(f);
-                channelSftp.put(F1, f.getName(),new SystemOutProgressMonitor1());
+                channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor1());
                 backplogger.info("IP : " + Global.c2IPAddress + ", " + Global.c2Port + ", " + Global.c2UserName + ", "
                         + Global.c2Password + ", " + file + " upload to " + Global.c2Remotepath + "/" + rPath);
                 backplogger.info("Send the file.");
@@ -190,7 +187,7 @@ public class Sftp {
             session.disconnect();
 
             // sending the message.
-            //sendUploadDetails(fid, Global.c2IPAddress, Global.c2MessagePort);
+            sendUploadDetails(fid, Global.c2IPAddress, Global.c2MessagePort);
 
             return 0;
         } catch (Exception ex) {
@@ -252,7 +249,7 @@ public class Sftp {
                 backplogger.info("File name :" + f);
 
                 FileInputStream F1 = new FileInputStream(f);
-                channelSftp.put(F1, f.getName(),new SystemOutProgressMonitor1());
+                channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor1());
                 backplogger.info("IP : " + Global.c3IPAddress + ", " + Global.c3Port + ", " + Global.c3UserName + ", "
                         + Global.c3Password + ", " + file + " upload to " + Global.c3Remotepath + "/" + rPath);
                 backplogger.info("Send the file.");
@@ -271,7 +268,7 @@ public class Sftp {
             session.disconnect();
 
             // sending the message.
-            //sendUploadDetails(fid, Global.c3IPAddress, Global.c3MessagePort);
+            sendUploadDetails(fid, Global.c3IPAddress, Global.c3MessagePort);
 
             return 0;
         } catch (Exception ex) {
@@ -299,26 +296,24 @@ public class Sftp {
 
     }
 
-    public static class SystemOutProgressMonitor1 implements SftpProgressMonitor
-    {
-        public SystemOutProgressMonitor1() {;}
-
-        public void init(int op, java.lang.String src, java.lang.String dest, long max)
-        {
-            System.out.println("STARTING: "+op+" "+src+" -> "+dest+" total: "+max);
+    public static class SystemOutProgressMonitor1 implements SftpProgressMonitor {
+        public SystemOutProgressMonitor1() {
+            ;
         }
 
-        public boolean count(long bytes)
-        {
-            for(int x=0;x<bytes;) {
+        public void init(int op, java.lang.String src, java.lang.String dest, long max) {
+            System.out.println("STARTING: " + op + " " + src + " -> " + dest + " total: " + max);
+        }
+
+        public boolean count(long bytes) {
+            for (int x = 0; x < bytes; ) {
                 System.out.print("#");
-                x=x+5000000;
+                x = x + 5000000;
             }
-            return(true);
+            return (true);
         }
 
-        public void end()
-        {
+        public void end() {
             System.out.println("\nFINISHED!");
         }
 
@@ -368,7 +363,7 @@ public class Sftp {
             Channel channel = session.openChannel("sftp");
             channel.connect();
             ChannelSftp sftpChannel = (ChannelSftp) channel;
-            sftpChannel.get(serverPath + "/" + remotePath + "/" + fileName, Global.restoreLocation,new SystemOutProgressMonitor());
+            sftpChannel.get(serverPath + "/" + remotePath + "/" + fileName, Global.restoreLocation, new SystemOutProgressMonitor());
             sftpChannel.exit();
             session.disconnect();
             restoreLog.info("Successfully download the file : " + serverPath + "/" + remotePath + "/" + fileName);
@@ -381,26 +376,24 @@ public class Sftp {
         }
     }
 
-    public static class SystemOutProgressMonitor implements SftpProgressMonitor
-    {
-        public SystemOutProgressMonitor() {;}
-
-        public void init(int op, java.lang.String src, java.lang.String dest, long max)
-        {
-            System.out.println("STARTING: "+op+" "+src+" -> "+dest+" total: "+max);
+    public static class SystemOutProgressMonitor implements SftpProgressMonitor {
+        public SystemOutProgressMonitor() {
+            ;
         }
 
-        public boolean count(long bytes)
-        {
-            for(int x=0;x<bytes;) {
+        public void init(int op, java.lang.String src, java.lang.String dest, long max) {
+            System.out.println("STARTING: " + op + " " + src + " -> " + dest + " total: " + max);
+        }
+
+        public boolean count(long bytes) {
+            for (int x = 0; x < bytes; ) {
                 System.out.print("#");
-                x=x+5000000;
+                x = x + 5000000;
             }
-            return(true);
+            return (true);
         }
 
-        public void end()
-        {
+        public void end() {
             System.out.println("\nFINISHED!");
         }
 
@@ -497,39 +490,41 @@ public class Sftp {
         // sending full file details.
         String message = "upload:Full:";
         message += new DbConnect().getFullFileFromDb(fid);
+
         try {
             backplogger.info("Trying to send the message : " + message + " to : "
                     + cloudIPAddress + ":" + messagePort);
             Sender.sendMessage(cloudIPAddress, messagePort, message);
+
+            // Sending SP file details.
+            List<MYSpFile> spFileData = new DbConnect().getSPFileFromDb(fid);
+
+            for (MYSpFile row : spFileData) {
+                message = "upload:SP:";
+                message += row.getId() + ",";
+                message += row.getFid() + ",";
+                message += row.getName() + ",";
+                message += row.getSize() + ",";
+                message += row.getHash() + ",";
+                message += row.getCloud() + ",";
+                message += row.getRCloud() + ",";
+                message += row.getRemotePath();
+
+                try {
+                    backplogger.info("Trying to send the message : " + message + " to : "
+                            + cloudIPAddress + ":" + messagePort);
+                    Sender.sendMessage(cloudIPAddress, messagePort, message);
+                } catch (Exception e) {
+                    backplogger.error("Failed to send the upload full_file details to the cloud : " + e
+                            + cloudIPAddress + ":" + messagePort);
+                    // todo : retry.
+                }
+            }
+
         } catch (Exception e) {
-            backplogger.error("Failed to send the upload full_file details to the cloud : "
+            backplogger.error("Failed to send the upload full_file details to the cloud : " + e
                     + cloudIPAddress + ":" + messagePort);
             // todo : retry.
-        }
-
-        // Sending SP file details.
-        List<MYSpFile> spFileData = new DbConnect().getSPFileFromDb(fid);
-
-        for (MYSpFile row : spFileData) {
-            message = "upload:SP:";
-            message += row.getId() + ",";
-            message += row.getFid() + ",";
-            message += row.getName() + ",";
-            message += row.getSize() + ",";
-            message += row.getHash() + ",";
-            message += row.getCloud() + ",";
-            message += row.getRCloud() + ",";
-            message += row.getRemotePath();
-
-            try {
-                backplogger.info("Trying to send the message : " + message + " to : "
-                        + cloudIPAddress + ":" + messagePort);
-                Sender.sendMessage(cloudIPAddress, messagePort, message);
-            } catch (Exception e) {
-                backplogger.error("Failed to send the upload full_file details to the cloud : "
-                        + cloudIPAddress + ":" + messagePort);
-                // todo : retry.
-            }
         }
     }
 
