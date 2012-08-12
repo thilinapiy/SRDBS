@@ -166,7 +166,6 @@ public class Sftp {
                 File f = new File(file + Split.createSuffix(ftpFileNo));
 
                 backplogger.info("File name :" + f);
-
                 FileInputStream F1 = new FileInputStream(f);
                 channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor1());
                 backplogger.info("IP : " + Global.c2IPAddress + ", " + Global.c2Port + ", " + Global.c2UserName + ", "
@@ -192,9 +191,6 @@ public class Sftp {
             return 0;
         } catch (Exception ex) {
             backplogger.error("Ftp upload error on IP : " + Global.c2IPAddress + " more details :" + ex);
-            //backplogger.error("IP : " + Global.c2IPAddress + ", " + Global.c2Port + ", " + Global.c2UserName + ", "
-            //+ Global.c2Password + ", " + file + " upload to " + Global.c2Remotepath + "/" + datef.format(date));
-
             String[] temp = file.split("/");
             backplogger.info(temp[temp.length - 1]);
 
@@ -211,7 +207,6 @@ public class Sftp {
                         break;
                     }
                 }
-
             }
 
             failUploadSave(fid, 2, cloud2, file, rPath);
@@ -247,7 +242,6 @@ public class Sftp {
                 File f = new File(file + Split.createSuffix(ftpFileNo));
 
                 backplogger.info("File name :" + f);
-
                 FileInputStream F1 = new FileInputStream(f);
                 channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor1());
                 backplogger.info("IP : " + Global.c3IPAddress + ", " + Global.c3Port + ", " + Global.c3UserName + ", "
@@ -273,8 +267,6 @@ public class Sftp {
             return 0;
         } catch (Exception ex) {
             backplogger.error("Ftp upload error on IP : " + Global.c3IPAddress + " more details :" + ex);
-            //backplogger.error("IP : " + Global.c3IPAddress + ", " + Global.c3Port + ", " + Global.c3UserName + ", "
-            //+ Global.c3Password + ", " + file + " upload to " + Global.c3Remotepath + "/" + datef.format(date));
             backplogger.info("Retring to upload");
             long startTime = System.currentTimeMillis();
             while ((System.currentTimeMillis() - startTime) < 30000) {
@@ -298,7 +290,6 @@ public class Sftp {
 
     public static class SystemOutProgressMonitor1 implements SftpProgressMonitor {
         public SystemOutProgressMonitor1() {
-            ;
         }
 
         public void init(int op, java.lang.String src, java.lang.String dest, long max) {
@@ -316,7 +307,6 @@ public class Sftp {
         public void end() {
             System.out.println("\nFINISHED!");
         }
-
     }
 
     public static int download(String fileName, int cloud, String remotePath) {
@@ -399,8 +389,6 @@ public class Sftp {
 
     }
 
-
-    // TODO write method 3 methods for RAID. Prabodha
     public static int[] raid(int pNumber) {
 
         int numberOfClouds = 3;
@@ -513,7 +501,10 @@ public class Sftp {
                 try {
                     backplogger.info("Trying to send the message : " + message + " to : "
                             + cloudIPAddress + ":" + messagePort);
+                    // send details as a message.
                     Sender.sendMessage(cloudIPAddress, messagePort, message);
+                    // send the message to start the validation process.
+                    Sender.sendMessage(cloudIPAddress, messagePort, "validate:" + fid);
                 } catch (Exception e) {
                     backplogger.error("Failed to send the upload full_file details to the cloud : " + e
                             + cloudIPAddress + ":" + messagePort);
