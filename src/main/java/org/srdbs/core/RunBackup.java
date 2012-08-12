@@ -35,7 +35,6 @@ public class RunBackup {
 
     public static Logger logger = Logger.getLogger("systemsLog");
     public static Logger backplogger = Logger.getLogger("backupLog");
-
     public static long fid;
 
     private static final int IV_LENGTH = 16;
@@ -300,11 +299,7 @@ public class RunBackup {
             Sftp.upload1(Despath + Global.fs + newFileName, fid, datef.format(date));
 
             backplogger.info("Uploading " + newFileName + " to cloud 3.");
-             Sftp.upload2(Despath + Global.fs + newFileName, fid, datef.format(date));
-
-
-            boolean isFilesDeleted = delete(Despath);
-            System.out.print("All Split parts Are Delete :" + isFilesDeleted);
+            Sftp.upload2(Despath + Global.fs + newFileName, fid, datef.format(date));
 
             File delfol = new File(Despath);
             boolean isDeleted = deleteDir(delfol);
@@ -316,7 +311,7 @@ public class RunBackup {
         }
 
         backplogger.info("Split " + noOfFiles + " Files in the file path of : " + path);
-        dbConnect.InsertStatus("isankatest","isankatest","All operation done ");
+        dbConnect.InsertStatus("isankatest","isankatest","All operation done.");
 
         return 0;
     }

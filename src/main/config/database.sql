@@ -1,25 +1,50 @@
-CREATE DATABASE srdbsdb;
-CREATE USER srdbs;
-GRANT ALL PRIVILEGES ON srdbsdb.* TO 'srdbs'@'127.0.0.1' IDENTIFIED BY 'password';
+CREATE DATABASE SRDBSDB;
 
-CREATE DATABASE srdbsclientdb;
-CREATE USER srdbsclient;
-GRANT ALL PRIVILEGES ON srdbsclientdb.* TO 'srdbsclient'@'127.0.0.1' IDENTIFIED BY 'password';
+CREATE USER SRDBS;
+
+GRANT ALL PRIVILEGES ON SRDBSDB.* TO 'SRDBS'@'127.0.0.1' IDENTIFIED BY 'password';
+
+CREATE DATABASE SRDBSCLIENTDB;
+
+CREATE USER SRDBSCLIENT;
+
+GRANT ALL PRIVILEGES ON SRDBSCLIENTDB.* TO 'SRDBSCLIENT'@'127.0.0.1' IDENTIFIED BY 'password';
+
 
 DROP TABLE sysconfig;
+DROP TABLE clouds;
 DROP TABLE schedule;
-
+DROP TABLE backup_locations;
 DROP TABLE sp_File;
 DROP TABLE full_File;
 DROP TABLE Cloud1;
 DROP TABLE Cloud2;
 DROP TABLE Cloud3;
 DROP TABLE Fail_Upload;
+DROP TABLE status;
 
 CREATE TABLE sysconfig(
-  sysid int NOT NULL PRIMARY KEY,
-  sysvalue VARCHAR (2048)  null
+	sysid int NOT NULL PRIMARY KEY,
+	sysvalue VARCHAR (2048)  null
+	-- sysvalue VARBINARY (2048)
 );
+
+
+CREATE TABLE clouds(
+  cloudID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  IPaddress VARCHAR(15),
+  port INT,
+  username VARCHAR(30),
+  password VARBINARY(2048),
+  bandwidth VARCHAR(30),
+  cost VARCHAR(30)
+);
+
+-- CREATE TABLE schedule(
+--  backupID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+--  starttime
+--  location varchar (2048)
+-- );
 
 CREATE TABLE schedule(
   backupID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -28,58 +53,92 @@ CREATE TABLE schedule(
   StartHour int,
   StartMin int,
   compress int,
-  encrypt int
+  encrypt int,
 );
 
+DROP TABLE sp_File;
+DROP TABLE full_File;
 
 CREATE TABLE full_file(
-  F_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  FName VARCHAR(100),
-  FSize BIGINT,
-  HashValue VARCHAR(100),
-  Up_Date VARCHAR(100)
+	F_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	FName VARCHAR(100),
+	FSize BIGINT,
+	HashValue VARCHAR(100),
+	Up_Date VARCHAR(100)
 );
 
 
 Create Table Sp_File(
-  SP_FILE_ID int not null auto_increment,
-  F_ID int,
-  SP_FileName varchar(400),
-  F_SIZE Bigint,
-  HashValue varchar(200),
-  Ref_Cloud_ID int,
-  Raid_Ref int,
-  Remote_path varchar(400),
+SP_FILE_ID int not null auto_increment,
+F_ID int,
+SP_FileName varchar(400),
+F_SIZE Bigint,
+HashValue varchar(200),
+Ref_Cloud_ID int,
+Raid_Ref int,
+Remote_path varchar(400),
 
-  Constraint Pk_SP_FileID_1 Primary key(SP_FILE_ID),
-  Constraint FK_SP_FileID_2 Foreign key (F_ID) References Full_File (F_ID)
-);
-
-Create Table Fail_Upload(
-  F_ID int,
-  CloudID int,
-  File_Source_path varchar(400),
-  Remote_path varchar(400)
-);
-
-Create Table Cloud1(
-  f_ID int,
-  FileName varchar(400),
-  Remote_Path varchar(400)
-);
-
-Create Table Cloud2(
-  f_ID int,
-  FileName varchar(400),
-  Remote_Path varchar(400)
-);
-
-Create Table Cloud3(
-  f_ID int,
-  FileName varchar(400),
-  Remote_Path varchar(400)
+Constraint Pk_SP_FileID_1 Primary key(SP_FILE_ID),
+Constraint FK_SP_FileID_2 Foreign key (F_ID) References Full_File (F_ID)
 );
 
 SELECT  * from Sp_File; SELECT  * from full_file;
 
-update schedule set starthour= , startmin= , compress=0, encrypt=0 where backupid=1;
+
+Create Table Fail_Upload(
+F_ID int,
+CloudID int,
+File_Source_path varchar(400),
+Remote_path varchar(400)
+);
+
+
+Create Table Cloud1(
+f_ID int,
+FileName varchar(400),
+Remote_Path varchar(400)
+);
+
+Create Table Cloud2(
+f_ID int,
+FileName varchar(400),
+Remote_Path varchar(400)
+);
+
+Create Table Cloud3(
+f_ID int,
+FileName varchar(400),
+Remote_Path varchar(400)
+);
+
+CREATE TABLE status(
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50),
+  status VARCHAR(50),
+  mname VARCHAR(50)
+);
+
+
+--
+-- Step 1
+--
+INSERT INTO sysconfig (sysname, sysvalue) VALUE ('INIT_CONFIG','falls');
+INSERT INTO sysconfig (sysname, sysvalue) VALUE ('ADMIN_NAME','admin');
+INSERT INTO sysconfig (sysname, sysvalue) VALUE ('PASSWORD',MD5('password'));
+INSERT INTO sysconfig (sysname, sysvalue) VALUE ('TEMP_LOCATION', 'E:\\copytest\\');
+INSERT INTO sysconfig (sysname, sysvalue) VALUE ('SYSLOG_MAIN','');
+INSERT INTO sysconfig (sysname, sysvalue) VALUE ('SYSLOG_BACKUP','');
+INSERT INTO sysconfig (sysname, sysvalue) VALUE ('BACKUPLOG_MAIN','');
+INSERT INTO sysconfig (sysname, sysvalue) VALUE ('BACKUPLOG_BACKUP','');
+INSERT INTO sysconfig (sysname, sysvalue) VALUE ('RESTORELOG_MAIN','');
+INSERT INTO sysconfig (sysname, sysvalue) VALUE ('RESTORELOG_BACKUP','');
+--
+-- Step 2
+--
+INSERT INTO clouds (IPaddress, port, username, password, bandwidth, cost)
+             VALUE ('192.168.222.141',22,'prabodha','prabodha','1024','300');
+--
+-- Step 3
+--
+--
+INSERT INTO backup_Locations (location, frequency, StartHour, StartMin) VALUE ('C:\\Users\\Thilina\\Desktop\\movie\\',1,00,00);
