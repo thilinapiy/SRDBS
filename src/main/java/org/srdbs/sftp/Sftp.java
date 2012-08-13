@@ -115,7 +115,8 @@ public class Sftp {
 
             return 0;
         } catch (Exception ex) {
-            backplogger.error("Ftp upload error on IP : " + Global.c1IPAddress + " more details :" + ex);
+            backplogger.error("Ftp upload error on IP : " + Global.c1IPAddress + ":" + Global.c1Port
+                    + " more details :" + ex);
 
             backplogger.info("Retring to upload");
             long startTime = System.currentTimeMillis();
@@ -190,7 +191,8 @@ public class Sftp {
 
             return 0;
         } catch (Exception ex) {
-            backplogger.error("Ftp upload error on IP : " + Global.c2IPAddress + " more details :" + ex);
+            backplogger.error("Ftp upload error on IP : " + Global.c2IPAddress + ":" + Global.c2Port
+                    + " more details :" + ex);
             String[] temp = file.split("/");
             backplogger.info(temp[temp.length - 1]);
 
@@ -266,7 +268,8 @@ public class Sftp {
 
             return 0;
         } catch (Exception ex) {
-            backplogger.error("Ftp upload error on IP : " + Global.c3IPAddress + " more details :" + ex);
+            backplogger.error("Ftp upload error on IP : " + Global.c3IPAddress + ":" + Global.c3Port
+                    + " more details :" + ex);
             backplogger.info("Retring to upload");
             long startTime = System.currentTimeMillis();
             while ((System.currentTimeMillis() - startTime) < 30000) {
@@ -487,8 +490,9 @@ public class Sftp {
             // Sending SP file details.
             List<MYSpFile> spFileData = new DbConnect().getSPFileFromDb(fid);
 
+            message = "upload";
             for (MYSpFile row : spFileData) {
-                message = "upload:SP:";
+                message += ":SP:";
                 message += row.getId() + ",";
                 message += row.getFid() + ",";
                 message += row.getName() + ",";
@@ -497,19 +501,18 @@ public class Sftp {
                 message += row.getCloud() + ",";
                 message += row.getRCloud() + ",";
                 message += row.getRemotePath();
-
-                try {
-                    backplogger.info("Trying to send the message : " + message + " to : "
-                            + cloudIPAddress + ":" + messagePort);
-                    // send details as a message.
-                    Sender.sendMessage(cloudIPAddress, messagePort, message);
-                    // send the message to start the validation process.
-                    Sender.sendMessage(cloudIPAddress, messagePort, "validate:" + fid);
-                } catch (Exception e) {
-                    backplogger.error("Failed to send the upload full_file details to the cloud : " + e
-                            + cloudIPAddress + ":" + messagePort);
-                    // todo : retry.
-                }
+            }
+            try {
+                backplogger.info("Trying to send the message : " + message + " to : "
+                        + cloudIPAddress + ":" + messagePort);
+                // send details as a message.
+                Sender.sendMessage(cloudIPAddress, messagePort, message);
+                // send the message to start the validation process.
+                Sender.sendMessage(cloudIPAddress, messagePort, "validate:" + fid);
+            } catch (Exception e) {
+                backplogger.error("Failed to send the upload full_file details to the cloud : " + e
+                        + cloudIPAddress + ":" + messagePort);
+                // todo : retry.
             }
 
         } catch (Exception e) {
