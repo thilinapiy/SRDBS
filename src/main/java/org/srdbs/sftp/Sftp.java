@@ -479,7 +479,7 @@ public class Sftp {
     private static void sendUploadDetails(long fid, String cloudIPAddress, int messagePort) {
 
         // sending full file details.
-        String message = "upload:Full:";
+        String message = "upload:Full:1:";
         message += new DbConnect().getFullFileFromDb(fid);
 
         try {
@@ -490,9 +490,8 @@ public class Sftp {
             // Sending SP file details.
             List<MYSpFile> spFileData = new DbConnect().getSPFileFromDb(fid);
 
-            message = "upload";
+            message = "upload:SP:" + spFileData.size() + ":";
             for (MYSpFile row : spFileData) {
-                message += ":SP:";
                 message += row.getId() + ",";
                 message += row.getFid() + ",";
                 message += row.getName() + ",";
@@ -501,6 +500,7 @@ public class Sftp {
                 message += row.getCloud() + ",";
                 message += row.getRCloud() + ",";
                 message += row.getRemotePath();
+                message += ";";
             }
             try {
                 backplogger.info("Trying to send the message : " + message + " to : "
