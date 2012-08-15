@@ -29,6 +29,20 @@ body {
     padding: 10px;
 }
 
+#schedule-table {
+    border: 2px;
+}
+
+#schedule-table  td {
+    margin: 10px;
+    padding: 10px;
+}
+
+#schedule-table  th {
+    margin: 10px;
+    padding: 10px;
+}
+
 #page-top-outer {
     background: url(/images/shared/top_bg.jpg) top center repeat-x;
     border-bottom: 1px solid #7e7e7e;

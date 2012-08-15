@@ -60,76 +60,7 @@
         }
     }
 %>
-<%!
 
-    String getFreq(int fq) {
-
-        String value = "";
-        switch (fq) {
-            case 1:
-                value = "Daily";
-                break;
-            case 2:
-                value = "Weekly - On every Sunday";
-                break;
-            case 3:
-                value = "Weekly - On every Monday";
-                break;
-            case 4:
-                value = "Weekly - On every Tuesday";
-                break;
-            case 5:
-                value = "Weekly - On every Wednesday";
-                break;
-            case 6:
-                value = "Weekly - On every Thursday";
-                break;
-            case 7:
-                value = "Weekly - On every Friday";
-                break;
-            case 8:
-                value = "Weekly - On every Saturday";
-                break;
-            case 9:
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 15:
-            case 16:
-            case 17:
-            case 18:
-            case 19:
-            case 20:
-            case 21:
-            case 22:
-            case 23:
-            case 24:
-            case 25:
-            case 26:
-            case 27:
-            case 28:
-            case 29:
-            case 30:
-            case 31:
-            case 32:
-            case 33:
-            case 34:
-            case 35:
-            case 36:
-
-                value = "Monthly - On " + (fq - 8);
-                break;
-            default:
-                value = "Error !";
-                break;
-        }
-
-        return value;
-    }
-
-%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- HTML Start -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

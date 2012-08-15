@@ -47,6 +47,76 @@
         }
     }
 %>
+<%!
+
+    String getFreq(int fq) {
+
+        String value = "";
+        switch (fq) {
+            case 1:
+                value = "Daily";
+                break;
+            case 2:
+                value = "Weekly - On every Sunday";
+                break;
+            case 3:
+                value = "Weekly - On every Monday";
+                break;
+            case 4:
+                value = "Weekly - On every Tuesday";
+                break;
+            case 5:
+                value = "Weekly - On every Wednesday";
+                break;
+            case 6:
+                value = "Weekly - On every Thursday";
+                break;
+            case 7:
+                value = "Weekly - On every Friday";
+                break;
+            case 8:
+                value = "Weekly - On every Saturday";
+                break;
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+            case 20:
+            case 21:
+            case 22:
+            case 23:
+            case 24:
+            case 25:
+            case 26:
+            case 27:
+            case 28:
+            case 29:
+            case 30:
+            case 31:
+            case 32:
+            case 33:
+            case 34:
+            case 35:
+            case 36:
+
+                value = "Monthly - On " + (fq - 8);
+                break;
+            default:
+                value = "Error !";
+                break;
+        }
+
+        return value;
+    }
+
+%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- HTML Start -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -426,16 +496,16 @@
                         <div id="table-content">
                             <!-- Start of the schedule-->
 
-                            <table id="restore-table" border="4px">
+                            <table id="schedule-table" border="4px">
                                 <tr>
                                     <!-- th>Schedule ID</th -->
                                     <th>Backup Location</th>
                                     <th>Frequency</th>
-                                    <th>Hour</th>
-                                    <th>Min</th>
+                                    <th>Time</th>
+                                    <!-- th>Min</th -->
                                     <th>Compress</th>
                                     <th>Encrypt</th>
-                                    <th>Edit</th>
+                                    <!-- th>Edit</th -->
                                     <th>Delete</th>
                                 </tr>
 
@@ -454,21 +524,53 @@
                                         <!-- td><%=rs.getInt(1)%></td -->
                                         <td><%=rs.getString(2)%>
                                         </td>
-                                        <td><%=rs.getInt(3)%>
+                                        <td><%=getFreq(rs.getInt(3))%>
                                         </td>
-                                        <td><%=rs.getInt(4)%>
+                                        <%!
+                                            String getYesNo(int val) {
+
+                                                String msg = "";
+                                                if (val == 1) {
+                                                    msg = "Yes";
+                                                } else if (val == 0) {
+                                                    msg = "No";
+                                                }
+
+                                                return msg;
+                                            }
+
+                                            String getTime(int hour, int min) {
+
+                                                String msg = "";
+                                                if (hour < 10) {
+                                                    msg = "0" + String.valueOf(hour);
+                                                } else {
+                                                    msg = String.valueOf(hour);
+                                                }
+
+                                                msg += ":";
+                                                if (hour < 10) {
+                                                    msg += "0" + String.valueOf(min);
+                                                } else {
+                                                    msg += String.valueOf(min);
+                                                }
+                                                msg += " h";
+                                                return msg;
+                                            }
+                                        %>
+                                        <td><%= getTime(rs.getInt(4), rs.getInt(5)) %>
                                         </td>
-                                        <td><%=rs.getInt(5)%>
+                                        <!-- td><%=rs.getInt(5)%>
+                                        </td -->
+                                        <td align="center"><%= getYesNo(rs.getInt(6))%>
                                         </td>
-                                        <td><%=rs.getInt(6)%>
-                                        </td>
-                                        <td><%=rs.getInt(7)%>
+                                        <td align="center"><%= getYesNo(rs.getInt(7))%>
                                         </td>
                                         <!-- td><input type="Submit" name="edit" Value="<%=rs.getLong(1)%>"></td -->
-                                        <td>
+                                        <!-- td>
                                             <button height='23px' type='submit' name='edit' value='<%=rs.getLong(1)%>'>
                                                 <img src='/images/table/action_edit.gif'/></button>
-                                        </td>
+                                        </td -->
                                         <td>
                                             <button type="Submit" name="delete" value='<%=rs.getLong(1)%>'><img
                                                     src='/images/table/delete.gif'/></button>
@@ -484,7 +586,7 @@
                                         }
                                     %>
                                     <tr>
-                                        <td colspan="6">
+                                        <td colspan="4">
                                             <%
                                                 if (!msg.equals("")) {
                                                     out.println("<div class='error-left'></div>");
