@@ -15,6 +15,16 @@ body {
     line-height: 0;
 }
 
+#restore-table {
+    border: 2px;
+}
+
+#restore-table  td {
+    margin: 10px;
+    padding: 10px;
+
+}
+
 #page-top-outer {
     background: url(/images/shared/top_bg.jpg) top center repeat-x;
     border-bottom: 1px solid #7e7e7e;
