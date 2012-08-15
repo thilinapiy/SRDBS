@@ -22,7 +22,11 @@ body {
 #restore-table  td {
     margin: 10px;
     padding: 10px;
+}
 
+#restore-table  th {
+    margin: 10px;
+    padding: 10px;
 }
 
 #page-top-outer {
