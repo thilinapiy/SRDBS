@@ -64,7 +64,7 @@ public class Sender implements MessageListener {
 
     public void onMessage(Message message) {
         try {
-            logger.info("Received response for: "
+            logger.info("Received response : "
                     + ((TextMessage) message).getText());
         } catch (JMSException e) {
             logger.error("Error on received message : " + e);

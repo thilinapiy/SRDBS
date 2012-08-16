@@ -47,9 +47,7 @@ public class RunMessageJob implements Job {
 
         while (count <= 5 && !status) {
             try {
-                Thread.sleep(20 * 1000);  // in milliseconds
-                logger.info("trying to resend message to : " + cloudIPAddress + ":"
-                        + messagePort + " attempt : " + count + " after 20 sec.");
+                Thread.sleep(40 * 1000);  // in milliseconds
                 Sender.sendMessage(cloudIPAddress, messagePort, "status");
                 status = true; // if there's no exception, change the status in to true.
             } catch (Exception e) {
