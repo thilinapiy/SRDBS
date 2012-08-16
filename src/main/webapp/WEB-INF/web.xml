@@ -26,4 +26,13 @@
         <servlet-name>AjaxFromDB2</servlet-name>
         <url-pattern>/AjaxFromDB2</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ProgressMonitor</servlet-name>
+        <servlet-class>org.srdbs.web.ProgressMonitor</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ProgressMonitor</servlet-name>
+        <url-pattern>/ProgressMonitor</url-pattern>
+    </servlet-mapping>
 </web-app>

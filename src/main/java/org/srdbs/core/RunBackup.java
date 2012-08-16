@@ -205,10 +205,10 @@ public class RunBackup {
                 try {
                     dbConnect.saveFiles(fzipencrypt, file.getSize(), file.getHash(), file.getcDate());
                     backplogger.info("Save full file details to the database.");
-                    dbConnect.InsertStatus("test1","done","Save Full file details to the database.");
+
                 } catch (Exception e) {
                     backplogger.error("Database connection error : " + e);
-                    dbConnect.InsertStatus("test1","done","Save fail details to the database.");
+
                 }
 
                 backplogger.info("Encrypting the backup files : " + file.getName());
@@ -242,12 +242,12 @@ public class RunBackup {
 
                 try {
                     dbConnect.saveFiles(file.getName(), file.getSize(), file.getHash(), file.getcDate());
-                    dbConnect.deleteStatus();
+
                     backplogger.info("Save full file details to the database.");
-                    dbConnect.deleteStatus();
-                    dbConnect.InsertStatus("test1","done","Save full file details to the database.");
+
+
                 } catch (Exception e) {
-                    dbConnect.InsertStatus("test1","done","Save fail details to the database.");
+
                     backplogger.error("Database connection error : " + e);
                 }
 
@@ -259,7 +259,7 @@ public class RunBackup {
 
             backplogger.info("Raid is done.");
 
-            dbConnect.InsertStatus("test1","done","raid is done for:."+ file.getName());
+
 
             //TODO remove this
             for (int j = 0; j < raidArray.length; ) {
@@ -278,15 +278,12 @@ public class RunBackup {
 
 
                 }
-                dbConnect.InsertStatus("isankatest","isankatest","Save split file details to the db."+ file.getName());
-                dbConnect.InsertStatus("isankatest","isankatest","save to database");
+
 
                 backplogger.info("Save split file details to the database. ");
             } catch (Exception e) {
                 backplogger.error("Database connection error : " + e);
-                dbConnect.deleteStatus();
-                dbConnect.InsertStatus("isankatest","isankatest","fail Save split file details to the db.");
-                dbConnect.InsertStatus("isankatest","isankatest","fail some operations.");
+
             }
 
             date = new Date();
@@ -311,7 +308,7 @@ public class RunBackup {
         }
 
         backplogger.info("Split " + noOfFiles + " Files in the file path of : " + path);
-        dbConnect.InsertStatus("isankatest","isankatest","All operation done.");
+
 
         return 0;
     }

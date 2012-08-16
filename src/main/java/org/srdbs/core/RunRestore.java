@@ -58,7 +58,7 @@ public class RunRestore {
             DbConnect dbconnection = new DbConnect();
             List<MYSpFile> listofFiles = ReadSPFile(Global.restoreLocation);
             List<MyFile> listofrecords = dbconnection.selectFullQuery(FID);
-            dbConnect2.InsertStatus("test2","restore","db connection succeeded");
+
             for (MyFile mylist : listofrecords) {
                 if (HashCheck(listofFiles, FID)) {
 
@@ -81,7 +81,7 @@ public class RunRestore {
                         boolean isFilesDeleted = delete(Global.restoreLocation);
                         System.out.print("All Downloaded parts Are Delete :" + isFilesDeleted);
                         logger.info("All Downloaded parts Are Delete :" + isFilesDeleted);
-                              dbConnect2.deleteStatus();
+
                           dbConnect2.InsertStatus("test2","restore","deleted downloaded parts");
 
                         String rs_fileName = D_Com1 + "/" + FileName;
@@ -107,11 +107,12 @@ public class RunRestore {
 
                             System.out.println("Hashes are matching");
                             logger.info("Hashes are matching");
-                            dbConnect2.InsertStatus("test2","restore","Hashes matched");
+
 
                         } else {
                             System.out.println("Error");
                             logger.error("Error");
+
                         }
 
                     } else if (chking_enc) {
@@ -169,7 +170,7 @@ public class RunRestore {
 
                         Decompress(rs_fileName,D_Com1 , Ori_name);
                         logger.info("File is DeCompressed Successfully :" + FileName);
-                        dbConnect2.InsertStatus("test2","restore","File decompressed");
+
 
                         File zipfile = new File(rs_fileName);
                         boolean isDelete = zipfile.delete();
@@ -199,7 +200,7 @@ public class RunRestore {
                         boolean isFilesDeleted = delete(Global.restoreLocation);
                         System.out.print("All Downloaded parts Are Delete :" + isFilesDeleted);
                         logger.info("All Downloaded parts Are Delete :" + isFilesDeleted);
-                        dbConnect2.InsertStatus("test2","restore","Restoration done :");
+
 
                         List<MyFile> fullfilelist = Read(D_Com1);
 
@@ -222,6 +223,7 @@ public class RunRestore {
             }
         } catch (Exception ex) {
             restoreLog.error("Error : " + ex);
+
         }
 
         return 0;
