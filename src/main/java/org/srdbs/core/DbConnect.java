@@ -34,7 +34,12 @@ public class DbConnect {
                     + Global.dbName, Global.dbUserName, Global.dbPassword);
             //logger.info("Connected to the database");
         } catch (Exception e) {
-            logger.error("Database connection error : " + e);
+
+            logger.error("MySQL database connection error :  Please check the database is running and" +
+                    " the configurations on the \"config/sysconfig.conf\" file is correct. \n More : " + e);
+            System.out.println("MySQL database connection error :  Please check the database is running and" +
+                    " the configurations on the \"config/sysconfig.conf\" file is correct. \n More : " + e);
+            System.exit(-1);
         }
 
         return conn;
