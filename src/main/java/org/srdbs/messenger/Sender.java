@@ -51,7 +51,7 @@ public class Sender implements MessageListener {
     }
 
     public void request(String request) throws JMSException {
-        logger.info("Sending: " + request);
+        logger.debug("Sending: " + request);
         TextMessage txtMessage = session.createTextMessage();
         txtMessage.setText(request);
 
@@ -64,7 +64,7 @@ public class Sender implements MessageListener {
 
     public void onMessage(Message message) {
         try {
-            logger.info("Received response : "
+            logger.debug("Received response : "
                     + ((TextMessage) message).getText());
         } catch (JMSException e) {
             logger.error("Error on received message : " + e);

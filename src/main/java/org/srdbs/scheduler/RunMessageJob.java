@@ -55,10 +55,7 @@ public class RunMessageJob implements Job {
             }
         }
 
-        if (status) {
-            logger.info("Cloud message service on : " + cloudIPAddress + ":"
-                    + messagePort + " is up after " + count + " attempts.");
-        } else {
+        if (!status) {
             logger.error("Cloud message service on : " + cloudIPAddress + ":"
                     + messagePort + " failed after " + (count - 1) + " attempts.");
         }
