@@ -25,181 +25,231 @@
         }
     }
 %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!-- HTML Start -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+         pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>SRDBS</title>
-    <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" title="default"/>
-    <!--[if IE]>
-    <link rel="stylesheet" media="all" type="text/css" href="/css/pro_dropline_ie.css"/>
-    <![endif]-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>SRDBS</title>
+<link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" title="default"/>
+<!--[if IE]>
+<link rel="stylesheet" media="all" type="text/css" href="/css/pro_dropline_ie.css"/>
+<![endif]-->
 
-    <!--  jquery core -->
-    <script src="/js/jquery/jquery-1.4.1.min.js" type="text/javascript"></script>
+<!--  jquery core -->
+<script src="/js/jquery/jquery-1.4.1.min.js" type="text/javascript"></script>
 
-    <!--  checkbox styling script -->
-    <script src="/js/jquery/ui.core.js" type="text/javascript"></script>
-    <script src="/js/jquery/ui.checkbox.js" type="text/javascript"></script>
-    <script src="/js/jquery/jquery.bind.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(function () {
-            $('input').checkBox();
-            $('#toggle-all').click(function () {
-                $('#toggle-all').toggleClass('toggle-checked');
-                $('#mainform input[type=checkbox]').checkBox('toggle');
-                return false;
-            });
+<!--  checkbox styling script -->
+<script src="/js/jquery/ui.core.js" type="text/javascript"></script>
+<script src="/js/jquery/ui.checkbox.js" type="text/javascript"></script>
+<script src="/js/jquery/jquery.bind.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        $('input').checkBox();
+        $('#toggle-all').click(function () {
+            $('#toggle-all').toggleClass('toggle-checked');
+            $('#mainform input[type=checkbox]').checkBox('toggle');
+            return false;
         });
-    </script>
+    });
+</script>
 
-    <![if !IE 7]>
-    <!--  styled select box script version 1 -->
-    <script src="/js/jquery/jquery.selectbox-0.5.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.styledselect').selectbox({ inputClass:"selectbox_styled" });
+<![if !IE 7]>
+<!--  styled select box script version 1 -->
+<script src="/js/jquery/jquery.selectbox-0.5.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.styledselect').selectbox({ inputClass:"selectbox_styled" });
+    });
+</script>
+<![endif]>
+
+<!--  styled select box script version 2 -->
+<script src="/js/jquery/jquery.selectbox-0.5_style_2.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.styledselect_form_1').selectbox({ inputClass:"styledselect_form_1" });
+        $('.styledselect_form_2').selectbox({ inputClass:"styledselect_form_2" });
+    });
+</script>
+
+<!--  styled select box script version 3 -->
+<script src="/js/jquery/jquery.selectbox-0.5_style_2.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.styledselect_pages').selectbox({ inputClass:"styledselect_pages" });
+    });
+</script>
+
+<!--  styled file upload script -->
+<script src="/js/jquery/jquery.filestyle.js" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        $("input.file_1").filestyle({
+            image:"images/forms/upload_file.gif",
+            imageheight:29,
+            imagewidth:78,
+            width:300
         });
-    </script>
-    <![endif]>
+    });
+</script>
 
-    <!--  styled select box script version 2 -->
-    <script src="/js/jquery/jquery.selectbox-0.5_style_2.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.styledselect_form_1').selectbox({ inputClass:"styledselect_form_1" });
-            $('.styledselect_form_2').selectbox({ inputClass:"styledselect_form_2" });
+<!-- Custom jquery scripts -->
+<script src="/js/jquery/custom_jquery.js" type="text/javascript"></script>
+
+<!-- Tooltips -->
+<script src="/js/jquery/jquery.tooltip.js" type="text/javascript"></script>
+<script src="/js/jquery/jquery.dimensions.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        $('a.info-tooltip ').tooltip({
+            track:true,
+            delay:0,
+            fixPNG:true,
+            showURL:false,
+            showBody:" - ",
+            top:-35,
+            left:5
         });
-    </script>
+    });
+</script>
 
-    <!--  styled select box script version 3 -->
-    <script src="/js/jquery/jquery.selectbox-0.5_style_2.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.styledselect_pages').selectbox({ inputClass:"styledselect_pages" });
-        });
-    </script>
-
-    <!--  styled file upload script -->
-    <script src="/js/jquery/jquery.filestyle.js" type="text/javascript"></script>
-    <script type="text/javascript" charset="utf-8">
-        $(function () {
-            $("input.file_1").filestyle({
-                image:"/images/forms/upload_file.gif",
-                imageheight:29,
-                imagewidth:78,
-                width:300
-            });
-        });
-    </script>
-
-    <!-- Custom jquery scripts -->
-    <script src="/js/jquery/custom_jquery.js" type="text/javascript"></script>
-
-    <!-- Tooltips -->
-    <script src="/js/jquery/jquery.tooltip.js" type="text/javascript"></script>
-    <script src="/js/jquery/jquery.dimensions.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(function () {
-            $('a.info-tooltip ').tooltip({
-                track:true,
-                delay:0,
-                fixPNG:true,
-                showURL:false,
-                showBody:" - ",
-                top:-35,
-                left:5
-            });
-        });
-    </script>
-
-    <!--  date picker script -->
-    <link rel="stylesheet" href="css/datePicker.css" type="text/css"/>
-    <script src="/js/jquery/date.js" type="text/javascript"></script>
-    <script src="/js/jquery/jquery.datePicker.js" type="text/javascript"></script>
-    <script type="text/javascript" charset="utf-8">
-        $(function () {
+<!--  date picker script -->
+<link rel="stylesheet" href="css/datePicker.css" type="text/css"/>
+<script src="/js/jquery/date.js" type="text/javascript"></script>
+<script src="/js/jquery/jquery.datePicker.js" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8">
+    $(function () {
 
 // initialise the "Select date" link
-            $('#date-pick')
-                    .datePicker(
-                    // associate the link with a date picker
-                    {
-                        createButton:false,
-                        startDate:'01/01/2005',
-                        endDate:'31/12/2020'
-                    }
-            ).bind(
-                    // when the link is clicked display the date picker
-                    'click',
-                    function () {
-                        updateSelects($(this).dpGetSelected()[0]);
-                        $(this).dpDisplay();
-                        return false;
-                    }
-            ).bind(
-                    // when a date is selected update the SELECTs
-                    'dateSelected',
-                    function (e, selectedDate, $td, state) {
-                        updateSelects(selectedDate);
-                    }
-            ).bind(
-                    'dpClosed',
-                    function (e, selected) {
-                        updateSelects(selected[0]);
-                    }
-            );
+        $('#date-pick')
+                .datePicker(
+                // associate the link with a date picker
+                {
+                    createButton:false,
+                    startDate:'01/01/2005',
+                    endDate:'31/12/2020'
+                }
+        ).bind(
+                // when the link is clicked display the date picker
+                'click',
+                function () {
+                    updateSelects($(this).dpGetSelected()[0]);
+                    $(this).dpDisplay();
+                    return false;
+                }
+        ).bind(
+                // when a date is selected update the SELECTs
+                'dateSelected',
+                function (e, selectedDate, $td, state) {
+                    updateSelects(selectedDate);
+                }
+        ).bind(
+                'dpClosed',
+                function (e, selected) {
+                    updateSelects(selected[0]);
+                }
+        );
 
-            var updateSelects = function (selectedDate) {
-                var selectedDate = new Date(selectedDate);
-                $('#d option[value=' + selectedDate.getDate() + ']').attr('selected', 'selected');
-                $('#m option[value=' + (selectedDate.getMonth() + 1) + ']').attr('selected', 'selected');
-                $('#y option[value=' + (selectedDate.getFullYear()) + ']').attr('selected', 'selected');
-            }
+        var updateSelects = function (selectedDate) {
+            var selectedDate = new Date(selectedDate);
+            $('#d option[value=' + selectedDate.getDate() + ']').attr('selected', 'selected');
+            $('#m option[value=' + (selectedDate.getMonth() + 1) + ']').attr('selected', 'selected');
+            $('#y option[value=' + (selectedDate.getFullYear()) + ']').attr('selected', 'selected');
+        }
 // listen for when the selects are changed and update the picker
-            $('#d, #m, #y')
-                    .bind(
-                    'change',
-                    function () {
-                        var d = new Date(
-                                $('#y').val(),
-                                $('#m').val() - 1,
-                                $('#d').val()
-                        );
-                        $('#date-pick').dpSetSelected(d.asString());
-                    }
-            );
+        $('#d, #m, #y')
+                .bind(
+                'change',
+                function () {
+                    var d = new Date(
+                            $('#y').val(),
+                            $('#m').val() - 1,
+                            $('#d').val()
+                    );
+                    $('#date-pick').dpSetSelected(d.asString());
+                }
+        );
 
 // default the position of the selects to today
-            var today = new Date();
-            updateSelects(today.getTime());
+        var today = new Date();
+        updateSelects(today.getTime());
 
 // and update the datePicker to reflect it...
-            $('#d').trigger('change');
-        });
-    </script>
+        $('#d').trigger('change');
+    });
+</script>
 
-    <!-- MUST BE THE LAST SCRIPT IN <HEAD></HEAD></HEAD> png fix -->
-    <script src="/js/jquery/jquery.pngFix.pack.js" type="text/javascript"></script>
+<!-- MUST BE THE LAST SCRIPT IN <HEAD></HEAD></HEAD> png fix -->
+<script src="/js/jquery/jquery.pngFix.pack.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).pngFix();
+    });
+</script>
+
+
+
+
+
+
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Insert title here</title>
+    <script type="text/javascript" src="js/jquery/jquery-1.4.1.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            $(document).pngFix();
-        });
-        /*
-        function load()
+//        $(document).ready(function(){
+//            $('#getData').click(function(){
+//                $.ajax({
+//                    url:'ProgressMonitor',
+//                    type:'get',
+//                    dataType: 'text',
+//                    success: function(data) {
+//                        $('#name').val(data);
+//                        /* $('#name').val(data.name);
+//                         $('#email').val(data.email);   */
+//
+//                    }
+//                });
+//            });
+//        });
+
+
+var auto_refresh = setInterval(
+        function ()
         {
-            document.getElementById('div4').style.visibility = 'hidden';
-            document.getElementById('div3').style.visibility = 'hidden';
-            document.getElementById('div2').style.visibility = 'hidden';
-            document.getElementById('div1').style.visibility = 'hidden';
-        }
-        */
+            $.ajax({
+                url:'ProgressMonitorRestore',
+                type:'get',
+                dataType: 'json',
+                success: function(data) {
+                    $('#restoreFileName').html(data.restoreFileName);
+                    $('#curentFileNumber').html(data.curentFileNumber);
+                    $('#fullFileCount').html(data.fullFileCount);
+
+                    var  width = ((data.curentFileNumber  / data.fullFileCount) * 200);
+
+
+                    console.log("width " +width);
+
+                    $('#div').animate({
+                        width:width
+                    }, {
+                        duration: 1000,
+                        complete: function() {
+                        }
+                    });
+
+
+
+                }
+            });
+
+//    $('#responsecontainer').load('TestMethord?mode=mode2').fadeIn("slow");
+                }, 5000); // refresh every 10000 milliseconds
     </script>
 </head>
-<!--<body onload="load()">
-<!-- Start: page-top-outer -->
+<body>
 <div id="page-top-outer">
     <!-- Start: page-top -->
     <div id="page-top">
@@ -272,19 +322,6 @@
 
                 <ul class="current">
                     <li><a href="/"><b>Dashboard</b><!--[if IE 7]><!--></a><!--<![endif]-->
-                        <!--[if lte IE 6]>
-                        <table>
-                            <tr>
-                                <td><![endif]-->
-                        <!-- div class="select_sub show">
-                  <ul class="sub">
-                      <li><a href="#nogo">Dashboard Details 1</a></li>
-                      <li class="sub_show"><a href="#nogo">Dashboard Details 2</a></li>
-                      <li><a href="#nogo">Dashboard Details 3</a></li>
-                  </ul>
-              </div -->
-                        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
-                    </li>
                 </ul>
 
                 <div class="nav-divider">&nbsp;</div>
@@ -408,12 +445,12 @@
 
         <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
             <tr>
-                <th rowspan="3" class="sized"><img src="/images/shared/side_shadowleft.jpg" width="20" height="300"
+                <th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300"
                                                    alt=""/></th>
                 <th class="topleft"></th>
                 <td id="tbl-border-top">&nbsp;</td>
                 <th class="topright"></th>
-                <th rowspan="3" class="sized"><img src="/images/shared/side_shadowright.jpg" width="20" height="300"
+                <th rowspan="3" class="sized"><img src="images/shared/side_shadowright.jpg" width="20" height="300"
                                                    alt=""/></th>
             </tr>
             <tr>
@@ -424,40 +461,14 @@
 
                         <!--  start table-content  -->
                         <div id="table-content">
-                            <h2>Sub Heading </h2>
+                            <p id="restoreFileName"></p>
+                            <div id="limit" style="height: 20px;width: 200px;border: 1px solid #000">
 
-                            <h3>Local Heading</h3>
-                            <a href="/restore.jsp">Restore</a>
-                            <a href="/logout.jsp">Logout</a>
-
-                            <form action="index.jsp" method="post">
-                                <input type="submit" name="restartbtn" value="restart">
-                                <input type="submit" name="stopbtn" value="stop">
-                                <a href="/UploadProgress.jsp">Upload Progress</a>
-                            </form>
-
-
-                            <style type="text/css">
-
-                            </style>
-
-                            <script type="text/javascript">
-
-
-
-                            </script>
-
-
-                            <!-- <body onLoad="test()"> -->
-
-
-                            <div id="targetDiv" style="display: none;">
+                                <div id="div" style="float:left;height: 20px;background-color: blue;"></div>    <br>
                             </div>
-
 
                         </div>
                         <!--  end table-content  -->
-
                         <div class="clear"></div>
                     </div>
                     <!--  end content-table-inner ............................................END  -->
@@ -469,6 +480,8 @@
                 <td id="tbl-border-bottom">&nbsp;</td>
                 <th class="sized bottomright"></th>
             </tr>
+
+
         </table>
 
 
@@ -485,13 +498,19 @@
 <!-- start footer -->
 <div id="footer">
     <!--  start footer-left -->
-    <div id="footer-left">Copyright © 2012 Secure and Redundent Data Backup System. All Rights Reserved. This is Free
+    <div id="footer-left">Copyright ? 2012 Secure and Redundent Data Backup System. All Rights Reserved. This is Free
         Software released under the <a href="http://www.gnu.org/licenses/gpl-3.0.html">GNU/GPLv3 License</a>.
     </div>
     <!--  end footer-left -->
     <div class="clear">&nbsp;</div>
 </div>
 <!-- end footer -->
+
+
+
+
+
+<%--cloud1--%>
 
 </body>
 </html>

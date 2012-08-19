@@ -22,6 +22,7 @@
         if (select != null && select.length != 0) {
             for (int i = 0; i < select.length; i++) {
                 RunRestore.runRestore(Integer.valueOf(select[i]));
+                System.out.println("----------------------------------- isanka ---------------------------");
             }
         }
 
@@ -350,7 +351,8 @@
                 <div class="nav-divider">&nbsp;</div>
 
                 <ul class="select">
-                    <li><a href="/help.jsp"><b>Help</b><!--[if IE 7]><!--></a><!--<![endif]-->
+                    <li><a href="/help.jsp"><b>Help</b><!--[if IE 7]><!--></a>
+                        <a href="/downloadProgress.jsp">Download Progress</a><!--<![endif]-->
                         <!--[if lte IE 6]>
                         <table>
                             <tr>

@@ -9,6 +9,7 @@ package org.srdbs.web;
  */
 
 import net.sf.json.JSONObject;
+import org.srdbs.core.RunRestore;
 import org.srdbs.sftp.Sftp;
 
 import java.io.IOException;
@@ -76,6 +77,16 @@ public class ProgressMonitor extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
-    }
+
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+//
+        JSONObject json = new JSONObject();
+        // cloud1
+        json.put("restoreFileName", RunRestore.restoreFileName);
+        json.put("curentFileNumber",  RunRestore.curentFileNumber);
+        json.put("fullFileCount",RunRestore.fullFileCount);
+
+                 }
 
 }

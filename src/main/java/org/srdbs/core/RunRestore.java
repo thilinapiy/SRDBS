@@ -40,13 +40,23 @@ public class RunRestore {
     public static boolean chking_zip;
     public static boolean chking_normal;
 
+    public static String restoreFileName;
+    public static int fullFileCount;
+    public static int curentFileNumber = 0;
+
     public static int runRestore(int FID) {
 
         //Download files
         DbConnect dbConnect2 = new DbConnect();
         List<MYSpFile> getSPFiles = new DbConnect().selectLoadSpQuery(FID);
+        fullFileCount = getSPFiles.size();
         for (MYSpFile spfile : getSPFiles) {
+             restoreFileName =spfile.getCloud() +"-:" + spfile.getName();
+             curentFileNumber = curentFileNumber +1;
 
+            if(curentFileNumber > fullFileCount){
+                curentFileNumber=1;
+            }
             int original = Sftp.download(spfile.getName(), spfile.getCloud(), spfile.getRemotePath());
             if (original != 0) {
                 Sftp.download(spfile.getName(), spfile.getRCloud(), spfile.getRemotePath());
@@ -82,7 +92,7 @@ public class RunRestore {
                         System.out.print("All Downloaded parts Are Delete :" + isFilesDeleted);
                         logger.info("All Downloaded parts Are Delete :" + isFilesDeleted);
 
-                          dbConnect2.InsertStatus("test2","restore","deleted downloaded parts");
+
 
                         String rs_fileName = D_Com1 + "/" + FileName;
                         // String resultFileName=fileName+".dec";
