@@ -88,6 +88,7 @@ public class Global {
     public static String restoreLocation;
 
     public static int noOfBackuplocations;
+    public static int deleteCloudID;
 
 
 }

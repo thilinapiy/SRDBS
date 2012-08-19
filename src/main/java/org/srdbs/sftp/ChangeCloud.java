@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class ChangeCloud {
 
-    public static List ChangeFiles;;
+    public static List ChangeFiles;
 
     public static void ChangeCloud(int cloudID)
     {
@@ -51,46 +51,46 @@ public class ChangeCloud {
 
         if(cloudID == 2)
         {
-            List getChangeFiles =  new DbConnect().ChangeC2();
-            for(int i=0; i<getChangeFiles.size();)
+            List getChangeFiles1 =  new DbConnect().ChangeC2();
+            for(int i=0; i<getChangeFiles1.size();)
             {
-                List ChangeFiles =  new DbConnect().CheckSP(Long.parseLong(getChangeFiles.get(i).toString()),getChangeFiles.get(i+1).toString());
+                List ChangeFiles =  new DbConnect().CheckSP(Long.parseLong(getChangeFiles1.get(i).toString()),getChangeFiles1.get(i+1).toString());
 
                 if(Integer.parseInt(ChangeFiles.get(0).toString())== 2)
                 {
-                    ChangeDownload(getChangeFiles.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(1).toString()),ChangeFiles.get(2).toString());
+                    ChangeDownload(getChangeFiles1.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(1).toString()),ChangeFiles.get(2).toString());
                 }
 
                 if(Integer.parseInt(ChangeFiles.get(1).toString())== 2)
                 {
-                    ChangeDownload(getChangeFiles.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(0).toString()),ChangeFiles.get(2).toString());
+                    ChangeDownload(getChangeFiles1.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(0).toString()),ChangeFiles.get(2).toString());
                 }
 
                 i=i+2;
             }
-            ChangeUpload(getChangeFiles,2,ChangeFiles.get(2).toString());
+            ChangeUpload(getChangeFiles1,2,ChangeFiles.get(2).toString());
         }
 
         if(cloudID == 3)
         {
-            List getChangeFiles =  new DbConnect().ChangeC3();
-            for(int i=0; i<getChangeFiles.size();)
+            List getChangeFiles2 =  new DbConnect().ChangeC3();
+            for(int i=0; i<getChangeFiles2.size();)
             {
-                List ChangeFiles =  new DbConnect().CheckSP(Long.parseLong(getChangeFiles.get(i).toString()),getChangeFiles.get(i+1).toString());
+                List ChangeFiles =  new DbConnect().CheckSP(Long.parseLong(getChangeFiles2.get(i).toString()),getChangeFiles2.get(i+1).toString());
 
                 if(Integer.parseInt(ChangeFiles.get(0).toString())== 3)
                 {
-                    ChangeDownload(getChangeFiles.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(1).toString()),ChangeFiles.get(2).toString());
+                    ChangeDownload(getChangeFiles2.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(1).toString()),ChangeFiles.get(2).toString());
                 }
 
                 if(Integer.parseInt(ChangeFiles.get(1).toString())== 3)
                 {
-                    ChangeDownload(getChangeFiles.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(0).toString()),ChangeFiles.get(2).toString());
+                    ChangeDownload(getChangeFiles2.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(0).toString()),ChangeFiles.get(2).toString());
                 }
 
                 i=i+2;
             }
-            ChangeUpload(getChangeFiles,3,ChangeFiles.get(2).toString());
+            ChangeUpload(getChangeFiles2,3,ChangeFiles.get(2).toString());
         }
 
 
@@ -99,8 +99,6 @@ public class ChangeCloud {
 
     public static int ChangeDownload(String fileName, int cloud, String remotePath)
     {
-
-
         String uName = "";
         String host = "";
         int port = 22;
@@ -156,8 +154,6 @@ public class ChangeCloud {
 
     public static int  ChangeUpload(List fileName, int cloud, String remotePath)
     {
-        System.out.print("=============================");
-        System.out.print(fileName);
         Session session = null;
         Channel channel = null;
         ChannelSftp channelSftp = null;
@@ -210,8 +206,6 @@ public class ChangeCloud {
         {
             File f = new File(Global.restoreLocation + "/" + fileName.get(k+1));
             channelSftp.put(new FileInputStream(f), f.getName());
-            System.out.print(f);
-            f.delete();
             k=k+2;
         }
 
