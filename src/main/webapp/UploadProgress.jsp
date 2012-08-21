@@ -204,8 +204,7 @@
                     dataType: 'text',
                     success: function(data) {
                         $('#name').val(data);
-                        /* $('#name').val(data.name);
-                         $('#email').val(data.email);   */
+
 
                     }
                 });
@@ -236,9 +235,9 @@
                             $('#fileCountcloud3').html(data.fileCountcloud3);
                             $('#currentFileNunbercloud3').html(data.currentFileNunbercloud3);
 
-                            var  width = ((data.currentFileNunber  / data.fileCount) * 200);
-                            var  widthcloud2 = ((data.currentFileNunbercloud2  / data.fileCountcloud2) * 200);
-                            var  widthcloud3 = ((data.currentFileNunbercloud3  / data.fileCountcloud3) * 200);
+                            var  width = ((data.currentFileNunber  / data.fileCount) * 400);
+                            var  widthcloud2 = ((data.currentFileNunbercloud2  / data.fileCountcloud2) * 400);
+                            var  widthcloud3 = ((data.currentFileNunbercloud3  / data.fileCountcloud3) * 400);
 
                             console.log("widthcloud2 " +widthcloud2);
                             console.log("widthcloud3 " +widthcloud3);
@@ -484,19 +483,21 @@
                     <!--  start content-table-inner ...................................................................... START -->
                     <div id="content-table-inner">
                         <p id="filename"></p>
-                        <div id="limit" style="height: 20px;width: 200px;border: 1px solid #000">
+                        <div id="limit" style="height: 20px;width: 400px;border: 1px solid #000">
 
                             <div id="div" style="float:left;height: 20px;background-color: blue;"></div>    <br>
                         </div>
+                        <br>
                         <%--cloud2--%>
                         <p id="filenamecloud2"></p>
-                        <div id="limit" style="height: 20px;width: 200px;border: 1px solid #000">
+                        <div id="limit" style="height: 20px;width: 400px;border: 1px solid #000">
 
                             <div id="divcloud2" style="float:left;height: 20px;background-color: blue;"></div>   <br>
                         </div>
+                        <br>
                         <%--cloud3--%>
                         <p id="filenamecloud3"></p>
-                        <div id="limit" style="height: 20px;width: 200px;border: 1px solid #000">
+                        <div id="limit" style="height: 20px;width: 400px;border: 1px solid #000">
 
                             <div id="divcloud3" style="float:left;height: 20px;background-color: blue;"></div>
                         </div>
