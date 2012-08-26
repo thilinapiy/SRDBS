@@ -53,36 +53,11 @@
 
                         <!--  start table-content  -->
                         <div id="table-content">
-                            <h2>Sub Heading </h2>
 
-                            <h3>Local Heading</h3>
-                            <a href="/restore.jsp">Restore</a>
-                            <a href="/logout.jsp">Logout</a>
-
-                            <form action="index.jsp" method="post">
+                            <!-- form action="index.jsp" method="post">
                                 <input type="submit" name="restartbtn" value="restart">
-                                <input type="submit" name="stopbtn" value="stop">
-                                <a href="/UploadProgress.jsp">Upload Progress</a>
-                            </form>
-
-
-                            <style type="text/css">
-
-                            </style>
-
-                            <script type="text/javascript">
-
-
-                            </script>
-
-
-                            <!-- <body onLoad="test()"> -->
-
-
-                            <div id="targetDiv" style="display: none;">
-                            </div>
-
-
+                                <input type="submit" name="stopbtn" value="stop">                             
+                            </form -->
                         </div>
                         <!--  end table-content  -->
 

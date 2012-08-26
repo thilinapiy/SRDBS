@@ -13,7 +13,8 @@
     <div id="page-top">
         <!-- start logo -->
         <div id="logo">
-            <a href="/"><img src="/images/shared/logo.png" width="156" height="40" alt=""/></a>
+            <a href="/"><h1 style="color:white;">Secure and Redundant Data Backup System</h1>
+                <!--img src="/images/shared/logo.png" width="156" height="40" alt=""/ --></a>
         </div>
         <!-- end logo -->
         <div class="clear"></div>
