@@ -166,8 +166,8 @@
                         out.println(session.getAttribute("c1username"));
                         out.println(session.getAttribute("c1password"));
                         out.println(session.getAttribute("c1messageport"));
-                        out.println(session.getAttribute("c1bandwidth"));
-                        out.println(session.getAttribute("c1cost"));
+                        // out.println(session.getAttribute("c1bandwidth"));
+                        // out.println(session.getAttribute("c1cost"));
 
 
                         out.println("");
@@ -178,8 +178,8 @@
                         out.println(session.getAttribute("c2username"));
                         out.println(session.getAttribute("c2password"));
                         out.println(session.getAttribute("c2messageport"));
-                        out.println(session.getAttribute("c2bandwidth"));
-                        out.println(session.getAttribute("c2cost"));
+                        //  out.println(session.getAttribute("c2bandwidth"));
+                        //  out.println(session.getAttribute("c2cost"));
 
                         out.println("");
                         out.println("Cloud 3");
@@ -189,8 +189,8 @@
                         out.println(session.getAttribute("c3username"));
                         out.println(session.getAttribute("c3password"));
                         out.println(session.getAttribute("c3messageport"));
-                        out.println(session.getAttribute("c3bandwidth"));
-                        out.println(session.getAttribute("c3cost"));
+                        //   out.println(session.getAttribute("c3bandwidth"));
+                        //   out.println(session.getAttribute("c3cost"));
 
                         out.println("");
                         out.println("System Locations");
