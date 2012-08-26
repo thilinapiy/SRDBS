@@ -60,7 +60,7 @@
 <!-- start content -->
 <div id="content">
 
-<div id="page-heading"><h1>Dashboard</h1></div>
+<div id="page-heading"><h1>Cloud 3</h1></div>
 
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
 <tr>
@@ -77,15 +77,9 @@
     <td>
         <!--  start content-table-inner ...................................................................... START -->
         <div id="content-table-inner">
-
             <!--  start table-content  -->
             <div id="table-content">
-
                 <FORM action="cloud3.jsp" method="get">
-                    <H2>
-                        <LEFT>UPDATE CLOUD 3 DETAILS</LEFT>
-                    </H2>
-
                     <table border="1" width="300" height="150">
 
 

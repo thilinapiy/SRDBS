@@ -22,7 +22,7 @@
         if (select != null && select.length != 0) {
             for (int i = 0; i < select.length; i++) {
                 RunRestore.runRestore(Integer.valueOf(select[i]));
-                System.out.println("----------------------------------- isanka ---------------------------");
+                System.out.println("Restoring is done.");
             }
         }
 
@@ -103,7 +103,8 @@
                                     %>
                                     <tr>
                                         <td>
-                                            <input type="submit" value="Submit"/>
+                                            <button type="Submit" name="add" Value="Submit"><img
+                                                    src='/images/forms/restore.gif'/></button>
                                         </td>
                                         <td colspan="5">
                                             <%
