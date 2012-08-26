@@ -127,7 +127,7 @@
         </tr>
         <tr>
             <th valign="top">Password</th>
-            <td><input type="text" class="inp-form" name="password"
+            <td><input type="password" class="inp-form" name="password"
                        value="<% if(session.getAttribute("c2password")!=null) { out.println(session.getAttribute("c2password")); } %>"/>
             </td>
         </tr>
@@ -137,7 +137,8 @@
                        value="<% if(session.getAttribute("c2messageport")!=null) { out.println(session.getAttribute("c2messageport")); } %>"/>
             </td>
         </tr>
-        <tr>
+        <!-- Hidden for future works. -->
+        <!-- tr>
             <th valign="top">Bandwidth (KBPS)</th>
             <td><input type="text" class="inp-form" name="bandwidth"
                        value="<% if(session.getAttribute("c2bandwidth")!=null) { out.println(session.getAttribute("c2bandwidth")); } %>"/>
@@ -148,7 +149,11 @@
             <td><input type="text" class="inp-form" name="cost"
                        value="<% if(session.getAttribute("c2cost")!=null) { out.println(session.getAttribute("c2cost")); } %>"/>
             </td>
-        </tr>
+        </tr -->
+        <input type="hidden" class="inp-form" name="bandwidth" value="0"/>
+        <input type="hidden" class="inp-form" name="cost" value="0"/>
+        <!-- Hidden End. -->
+
         <tr>
             <th>&nbsp;</th>
             <td valign="top">
