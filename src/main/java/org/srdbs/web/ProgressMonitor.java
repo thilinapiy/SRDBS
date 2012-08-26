@@ -39,10 +39,7 @@ public class ProgressMonitor extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        //Cmd cmd = new Cmd();
-        //cmd.contextInitialized();
 
-        //Sftp spm = new Sftp();
         String info="#";
         info = info+ Sftp.processlogg;
         response.setContentType("text/html");

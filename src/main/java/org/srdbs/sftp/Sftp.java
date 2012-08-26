@@ -41,7 +41,7 @@ public class Sftp {
     public static int count2 = 0;
     public static int count3 = 0;
 
-     //cloud1
+    //cloud1
     public static String processlogg = "";
     public static String filename = "";
     public static long bytecount = 0;
@@ -49,7 +49,7 @@ public class Sftp {
     public static int fileCount = 0;
     public static int currentFileNunber = 0;
 
-     //cloud2
+    //cloud2
     public static String filenamecloud2 = "";
     public static long bytecountcloud2 = 0;
     public static int fileCountcloud2 = 0;
@@ -111,7 +111,7 @@ public class Sftp {
             channelSftp.mkdir(Global.c1Remotepath + "/" + rPath);
             channelSftp.cd(Global.c1Remotepath + "/" + rPath);
 
-            fileCount = cloud1.size() - 1;
+            //     fileCount = cloud1.size() - 1;   26/08/12
             for (int i = cloud1.size() - 1; i >= 0; i--) {
                 ftpFileNo = cloud1.get(i);
                 File f = new File(file + Split.createSuffix(ftpFileNo));
@@ -122,8 +122,9 @@ public class Sftp {
                 //channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor1());
                 channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor_new());
                 //filename = "cloud1 :-" + f.getName() + "file no :-" + ftpFileNo + "byte count :-" + cloud1.get(i).byteValue() ;
-                filename ="cloud1 :- "+ f.getName();
-                currentFileNunber = fileCount - cloud1.get(i) + 1;
+                filename = "cloud1 :- " + f.getName();
+                //   currentFileNunber = fileCount - cloud1.get(i) + 1;
+                currentFileNunber = fileCount - cloud1.size() + 1;
 
                 backplogger.info("IP : " + Global.c1IPAddress + ", " + Global.c1Port + ", " + Global.c1UserName + ", "
                         + ", " + file + " upload to " + Global.c1Remotepath + "/" + rPath);
@@ -201,13 +202,14 @@ public class Sftp {
                 ftpFileNo = cloud2.get(i);
                 File f = new File(file + Split.createSuffix(ftpFileNo));
 
-                filenamecloud2 = "cloud2 :- " +f.getName();
-                currentFileNunbercloud2 = fileCountcloud2 - cloud2.get(i) + 1;
+                filenamecloud2 = "cloud2 :- " + f.getName();
+                //  currentFileNunbercloud2 = fileCountcloud2 - cloud2.get(i) + 1;
+                currentFileNunbercloud2 = fileCountcloud2 - cloud2.size() + 1;
 
                 backplogger.info("File name :" + f);
                 FileInputStream F1 = new FileInputStream(f);
 
-                channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor_cloud2());
+                channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor_new());
                 backplogger.info("IP : " + Global.c2IPAddress + ", " + Global.c2Port + ", " + Global.c2UserName + ", "
                         + Global.c2Password + ", " + file + " upload to " + Global.c2Remotepath + "/" + rPath);
                 backplogger.info("Send the file.");
@@ -282,13 +284,14 @@ public class Sftp {
             for (int i = cloud3.size() - 1; i >= 0; i--) {
                 ftpFileNo = cloud3.get(i);
                 File f = new File(file + Split.createSuffix(ftpFileNo));
-                filenamecloud3 ="cloud3 :- " + f.getName();
-                currentFileNunbercloud3 = fileCountcloud3 - cloud3.get(i) + 1;
+                filenamecloud3 = "cloud3 :- " + f.getName();
+                //      currentFileNunbercloud3 = fileCountcloud3 - cloud3.get(i) + 1;
+                currentFileNunbercloud3 = fileCountcloud3 - cloud3.size() + 1;
 
                 backplogger.info("File name :" + f);
                 FileInputStream F1 = new FileInputStream(f);
 
-                channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor_cloud3());
+                channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor_new());
                 backplogger.info("IP : " + Global.c3IPAddress + ", " + Global.c3Port + ", " + Global.c3UserName + ", "
                         + Global.c3Password + ", " + file + " upload to " + Global.c3Remotepath + "/" + rPath);
                 backplogger.info("Send the file.");
@@ -334,9 +337,8 @@ public class Sftp {
 
     }
 
-    
 
-    public static class SystemOutProgressMonitor1 implements   SftpProgressMonitor {
+    public static class SystemOutProgressMonitor1 implements SftpProgressMonitor {
 
         public SystemOutProgressMonitor1() {
         }
@@ -346,10 +348,10 @@ public class Sftp {
         }
 
         public boolean count(long bytes) {
-           // bytecount = bytes;
+            // bytecount = bytes;
             for (int x = 0; x < bytes; ) {
-            //    downByteCount = x;
-             //   processlogg = processlogg + "#";
+                //    downByteCount = x;
+                //   processlogg = processlogg + "#";
                 System.out.print("#");
                 x = x + 5000000;
             }
@@ -361,7 +363,7 @@ public class Sftp {
         }
     }
 
-    public static class SystemOutProgressMonitor_new implements   SftpProgressMonitor {
+    public static class SystemOutProgressMonitor_new implements SftpProgressMonitor {
 
         public SystemOutProgressMonitor_new() {
         }
@@ -387,53 +389,6 @@ public class Sftp {
         }
     }
     //cloud2
-    public static class SystemOutProgressMonitor_cloud2 implements   SftpProgressMonitor {
-
-        public SystemOutProgressMonitor_cloud2() {
-        }
-
-        public void init(int op, java.lang.String src, java.lang.String dest, long max) {
-            System.out.println("STARTING: " + op + " " + src + " -> " + dest + " total: " + max);
-        }
-
-        public boolean count(long bytes) {
-            bytecountcloud2 = bytes;
-            for (int x = 0; x < bytes; ) {
-                System.out.print("#");
-                x = x + 5000000;
-            }
-            return (true);
-        }
-
-        public void end() {
-            System.out.println("\nFINISHED!");
-        }
-    }
-
-    //cloud3
-    public static class SystemOutProgressMonitor_cloud3 implements   SftpProgressMonitor {
-
-        public SystemOutProgressMonitor_cloud3() {
-        }
-
-        public void init(int op, java.lang.String src, java.lang.String dest, long max) {
-            System.out.println("STARTING: " + op + " " + src + " -> " + dest + " total: " + max);
-        }
-
-        public boolean count(long bytes) {
-            bytecountcloud3 = bytes;
-            for (int x = 0; x < bytes; ) {
-
-                System.out.print("#");
-                x = x + 5000000;
-            }
-            return (true);
-        }
-
-        public void end() {
-            System.out.println("\nFINISHED!");
-        }
-    }
 
     public static int download(String fileName, int cloud, String remotePath) {
 
@@ -458,7 +413,6 @@ public class Sftp {
             port = Global.c1Port;
             password = Global.c1Password;
             serverPath = Global.c1Remotepath;
-
 
 
         }
@@ -491,8 +445,7 @@ public class Sftp {
             channel.connect();
             ChannelSftp sftpChannel = (ChannelSftp) channel;
             sftpChannel.get(serverPath + "/" + remotePath + "/" + fileName, Global.restoreLocation, new SystemOutProgressMonitor());
-            filename ="Downloading :- "+ f.getName();
-
+            filename = "Downloading :- " + f.getName();
 
 
             sftpChannel.exit();
@@ -578,7 +531,13 @@ public class Sftp {
         while (i < (pNumber * 2));
         backplogger.info("Raid array completed successfully.");
 
+
+        fileCount = cloud1.size();
+        fileCountcloud2 = cloud2.size();
+        fileCountcloud3 = cloud3.size();
+
         return raidArray;
+
 
     }
 

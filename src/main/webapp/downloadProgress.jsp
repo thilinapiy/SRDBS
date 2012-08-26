@@ -227,7 +227,7 @@ var auto_refresh = setInterval(
                     $('#curentFileNumber').html(data.curentFileNumber);
                     $('#fullFileCount').html(data.fullFileCount);
 
-                    var  width = ((data.curentFileNumber  / data.fullFileCount) * 200);
+                    var  width = ((data.curentFileNumber  / data.fullFileCount) * 400);
 
 
                     console.log("width " +width);
@@ -462,7 +462,7 @@ var auto_refresh = setInterval(
                         <!--  start table-content  -->
                         <div id="table-content">
                             <p id="restoreFileName"></p>
-                            <div id="limit" style="height: 20px;width: 200px;border: 1px solid #000">
+                            <div id="limit" style="height: 20px;width: 400px;border: 1px solid #000">
 
                                 <div id="div" style="float:left;height: 20px;background-color: blue;"></div>    <br>
                             </div>

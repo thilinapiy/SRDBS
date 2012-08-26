@@ -239,6 +239,7 @@
                             var  widthcloud2 = ((data.currentFileNunbercloud2  / data.fileCountcloud2) * 400);
                             var  widthcloud3 = ((data.currentFileNunbercloud3  / data.fileCountcloud3) * 400);
 
+
                             console.log("widthcloud2 " +widthcloud2);
                             console.log("widthcloud3 " +widthcloud3);
 
@@ -501,6 +502,8 @@
 
                             <div id="divcloud3" style="float:left;height: 20px;background-color: blue;"></div>
                         </div>
+
+
                         <!--  start table-content  -->
                         <div id="table-content">
 
