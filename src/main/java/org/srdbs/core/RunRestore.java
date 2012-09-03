@@ -51,7 +51,7 @@ public class RunRestore {
         List<MYSpFile> getSPFiles = new DbConnect().selectLoadSpQuery(FID);
         fullFileCount = getSPFiles.size();
         for (MYSpFile spfile : getSPFiles) {
-             restoreFileName =spfile.getCloud() +"-:" + spfile.getName();
+             restoreFileName =spfile.getCloud() +"-:" + spfile.getName()+"Total Packets:-"+fullFileCount+ "Packets downloaded:-"+curentFileNumber;
              curentFileNumber = curentFileNumber +1;
 
             if(curentFileNumber > fullFileCount){

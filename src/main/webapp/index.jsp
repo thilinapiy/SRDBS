@@ -52,6 +52,7 @@
                     <div id="content-table-inner">
 
                         <!--  start table-content  -->
+                        <%@ include file="UploadProgress.jsp" %>
                         <div id="table-content">
 
                             <!-- form action="index.jsp" method="post">
@@ -80,5 +81,6 @@
     <!--  end content -->
     <div class="clear">&nbsp;</div>
 </div>
+
 <!-- end content-outer -->
 <%@ include file="footer.jsp" %>

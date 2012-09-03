@@ -122,7 +122,7 @@ public class Sftp {
                 //channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor1());
                 channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor_new());
                 //filename = "cloud1 :-" + f.getName() + "file no :-" + ftpFileNo + "byte count :-" + cloud1.get(i).byteValue() ;
-                filename = "cloud1 :- " + f.getName();
+                filename = "cloud1 :- " + f.getName()+ "Total Packets:- " + fileCount   + "Uploaded Packets:- "  + currentFileNunber ;
                 //   currentFileNunber = fileCount - cloud1.get(i) + 1;
                 currentFileNunber = fileCount - cloud1.size() + 1;
 
@@ -202,7 +202,7 @@ public class Sftp {
                 ftpFileNo = cloud2.get(i);
                 File f = new File(file + Split.createSuffix(ftpFileNo));
 
-                filenamecloud2 = "cloud2 :- " + f.getName();
+                filenamecloud2 = "cloud2 :- " + f.getName()+ "Total packets:- " +fileCountcloud2 + "Uploaded Packets:- " + currentFileNunbercloud2  ;
                 //  currentFileNunbercloud2 = fileCountcloud2 - cloud2.get(i) + 1;
                 currentFileNunbercloud2 = fileCountcloud2 - cloud2.size() + 1;
 
@@ -284,7 +284,7 @@ public class Sftp {
             for (int i = cloud3.size() - 1; i >= 0; i--) {
                 ftpFileNo = cloud3.get(i);
                 File f = new File(file + Split.createSuffix(ftpFileNo));
-                filenamecloud3 = "cloud3 :- " + f.getName();
+                filenamecloud3 = "cloud3 :- " + f.getName()+ "Total Packets:- " +fileCountcloud3+ "Uploaded Packets:- " +currentFileNunbercloud3 ;
                 //      currentFileNunbercloud3 = fileCountcloud3 - cloud3.get(i) + 1;
                 currentFileNunbercloud3 = fileCountcloud3 - cloud3.size() + 1;
 
