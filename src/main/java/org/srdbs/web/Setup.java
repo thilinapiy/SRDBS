@@ -60,6 +60,7 @@ public class Setup {
 
         Global.tempLocation = (String) session.getAttribute("templocation");
         Global.restoreLocation = (String) session.getAttribute("restorelocation");
+        Global.failfileLocation = (String) session.getAttribute("failfilelocation");
         Global.noOfBackuplocations = Integer.valueOf(session.getAttribute("noofbackuplocations").toString());
 
         Global.binaryConfigState = "true";

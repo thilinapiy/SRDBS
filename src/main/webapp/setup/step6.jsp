@@ -22,6 +22,7 @@
 
     String templocation = request.getParameter("templocation");
     String restorelocation = request.getParameter("restorelocation");
+	String failfilelocation = request.getParameter("failfilelocation");
 
     if (addbtn != null && addbtn.equalsIgnoreCase("add")) {
 
@@ -35,6 +36,7 @@
         if (!templocation.trim().equals("") && !restorelocation.trim().equals("")) {
             session.setAttribute("templocation", templocation.trim());
             session.setAttribute("restorelocation", restorelocation.trim());
+			session.setAttribute("failfilelocation", failfilelocation.trim());
         }
 
         if (getName != "" && getFrequency != 0) {
@@ -92,12 +94,13 @@
 
     if (nextbtn != null && nextbtn.equalsIgnoreCase("next")) {
 
-        if (templocation != null && restorelocation != null && count != 0) {
+        if (templocation != null && restorelocation != null && && failfilelocation != null count != 0) {
 
-            if (!templocation.trim().equals("") && !restorelocation.trim().equals("")) {
+            if (!templocation.trim().equals("") && !restorelocation.trim().equals("") && !failfilelocation.trim().equals("")) {
 
                 session.setAttribute("templocation", templocation.trim());
                 session.setAttribute("restorelocation", restorelocation.trim());
+				 session.setAttribute("failfilelocation", failfilelocation.trim());
 
                 session.setAttribute("setupstate", "step7");
                 response.sendRedirect("/setup/step7.jsp");
@@ -238,6 +241,12 @@
             <th valign="top">Restore location</th>
             <td><input type="text" class="inp-form" name="restorelocation"
                        value="<% if(session.getAttribute("restorelocation")!=null) { out.println(session.getAttribute("restorelocation")); } %>"/>
+            </td>
+        </tr>
+		<tr>
+            <th valign="top">Restore location</th>
+            <td><input type="text" class="inp-form" name="failfilelocation"
+                       value="<% if(session.getAttribute("failfilelocation")!=null) { out.println(session.getAttribute("failfilelocation")); } %>"/>
             </td>
         </tr>
     </table>

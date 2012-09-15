@@ -196,7 +196,7 @@
                         out.println("System Locations");
                         out.println(session.getAttribute("templocation"));
                         out.println(session.getAttribute("restorelocation"));
-
+						out.println(session.getAttribute("failfilelocation"));
                         out.println("");
                         out.println("Baclup locations");
 

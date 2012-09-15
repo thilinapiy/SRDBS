@@ -850,6 +850,11 @@ public class DbConnect {
             ps.setString(3, Global.restoreLocation);
             ps.addBatch();
 
+            ps.setInt(1, 46);
+            ps.setString(2, Global.failfileLocation);
+            ps.setString(3, Global.failfileLocation);
+            ps.addBatch();
+
             ps.executeBatch();
             ps.close();
             con.close();
@@ -967,6 +972,8 @@ public class DbConnect {
             Global.tempLocation = resultSet.getString(2);
             resultSet.next();
             Global.restoreLocation = resultSet.getString(2);
+            resultSet.next();
+            Global.failfileLocation = resultSet.getString(2);
 
             resultSet.close();
             stmt.close();
