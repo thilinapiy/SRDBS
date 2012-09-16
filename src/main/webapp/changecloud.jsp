@@ -23,7 +23,7 @@
         if (deletebtn != null) {
 
             Global.deleteCloudID = Integer.valueOf(deletebtn);
-            response.sendRedirect("/newcloud.jsp");
+            response.sendRedirect("/changecloud1.jsp");
 
         }
 

@@ -33,7 +33,7 @@
         int Compress = (request.getParameter("Compress") != null) ? 1 : 0;
         int Encrypt = (request.getParameter("Encrypt") != null) ? 1 : 0;
 
-        if (!templocation.trim().equals("") && !restorelocation.trim().equals("")) {
+        if (!templocation.trim().equals("") && !restorelocation.trim().equals("") && !failfilelocation.trim().equals("") ) {
             session.setAttribute("templocation", templocation.trim());
             session.setAttribute("restorelocation", restorelocation.trim());
 			session.setAttribute("failfilelocation", failfilelocation.trim());
@@ -94,7 +94,7 @@
 
     if (nextbtn != null && nextbtn.equalsIgnoreCase("next")) {
 
-        if (templocation != null && restorelocation != null && && failfilelocation != null count != 0) {
+        if (templocation != null && restorelocation != null && failfilelocation != null && count != 0) {
 
             if (!templocation.trim().equals("") && !restorelocation.trim().equals("") && !failfilelocation.trim().equals("")) {
 
