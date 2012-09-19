@@ -281,25 +281,73 @@ public class RunRestore {
     public static boolean HashCheck(List<MYSpFile> listoffiles, int restoreFileID) throws Exception {
 
         boolean Check = true;
+        int count = 0;
         DbConnect dbconnect = new DbConnect();
         List<MYSpFile> listofFileSp = dbconnect.selectQuery(restoreFileID);
+        int SplitCountFile = dbconnect.SplitFileCount(restoreFileID);
 
         for (MYSpFile myfile : listoffiles) {
-            for (MYSpFile dbfile : listofFileSp) {
-                if ((myfile.getName().equalsIgnoreCase(dbfile.getName()))
-                        && (myfile.getHash().equalsIgnoreCase(dbfile.getHash()))) {
-                    Check = true;
-                    restoreLog.info("Pass : " + myfile.getName());
 
-                } else {
-                    Check = false;
-                    //restoreLog.error("Fail");
+            for (MYSpFile dbfile : listofFileSp) {
+
+                if(SplitCountFile<count){
+
+                    if ((myfile.getName().equalsIgnoreCase(dbfile.getName()))){
+
+                        if(myfile.getHash().equalsIgnoreCase(dbfile.getHash())){
+
+                            Check = true;
+                            restoreLog.info("Pass : " + myfile.getName());
+
+                        }   else {
+
+                            Check = false;
+                            restoreLog.error("Fail");
+                            //download the fail data chunk
+                        }
+                    }
                 }
             }
         }
 
         return Check;
     }
+
+    public static boolean Download_HashCheck(List<MYSpFile> listoffiles, int restoreFileID) throws Exception {
+
+        boolean Check = true;
+        int count = 0;
+        DbConnect dbconnect = new DbConnect();
+        List<MYSpFile> listofFileSp = dbconnect.selectQuery(restoreFileID);
+        int SplitCountFile = dbconnect.SplitFileCount(restoreFileID);
+
+        for (MYSpFile myfile : listoffiles) {
+
+            for (MYSpFile dbfile : listofFileSp) {
+
+                if(SplitCountFile<count){
+
+                    if ((myfile.getName().equalsIgnoreCase(dbfile.getName()))){
+
+                        if(myfile.getHash().equalsIgnoreCase(dbfile.getHash())){
+
+                            Check = true;
+                            restoreLog.info("Pass : " + myfile.getName());
+
+                        }   else {
+
+                            Check = false;
+                            restoreLog.error("Fail");
+                        }
+                    }
+                }
+            }
+        }
+
+        return Check;
+    }
+
+
 
     public static boolean FullHashCheck(List<MyFile> listoffiles, int i) throws Exception {
 
