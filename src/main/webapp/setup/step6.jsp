@@ -78,7 +78,6 @@
                 session.setAttribute(StartMin, session.getAttribute(("startmin" + k)));
                 session.setAttribute(comp, session.getAttribute(("compress" + k)));
                 session.setAttribute(encr, session.getAttribute(("encrypt" + k)));
-
             }
         }
 

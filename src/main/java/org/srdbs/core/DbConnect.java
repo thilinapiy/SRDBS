@@ -503,7 +503,7 @@ public class DbConnect {
 
     public List<MYSpFile> selectQuery(int fid) throws Exception {
 
-        String sql = " select SP_FileName,HashValue from sp_file where F_ID=" + fid + "";
+        String sql = " select SP_FileName,HashValue,Remote_path,Ref_Cloud_ID,Raid_Ref  from sp_file where F_ID=" + fid + "";
         Connection connection = connect();
         Statement s = connection.createStatement();
         ResultSet rs = s.executeQuery(sql);
@@ -513,6 +513,10 @@ public class DbConnect {
             MYSpFile myspFile = new MYSpFile();
             myspFile.setName(rs.getString("SP_FileName"));
             myspFile.setHash(rs.getString("HashValue"));
+            myspFile.setRemotePath(rs.getString("Remote_path"));
+            myspFile.setCloud(rs.getInt("Ref_Cloud_ID"));
+            myspFile.setRcloud(rs.getInt("Raid_Ref"));
+
             fileList.add(myspFile);
         }
         return fileList;
