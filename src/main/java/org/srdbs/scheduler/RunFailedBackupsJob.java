@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.srdbs.sftp.FailUpload;
+import org.srdbs.sftp.FailUpload_Download;
 
 /**
  * Secure and Redundant Data Backup System.
@@ -20,6 +20,6 @@ public class RunFailedBackupsJob implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
         logger.info("Retrying to upload failed backups.");
-        FailUpload.getFile();
+        FailUpload_Download.getFile();
     }
 }
