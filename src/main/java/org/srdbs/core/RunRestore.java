@@ -302,7 +302,7 @@ public class RunRestore {
                         }   else {
 
                             Check = false;
-                            restoreLog.error("Fail");
+                            restoreLog.error("Fail" + myfile.getName());
                             //download the fail data chunk
                         }
                     }
