@@ -365,7 +365,6 @@ public class RunRestore {
 
                 if (chking_zipenc) {
 
-
                     if (myfile.getName().equalsIgnoreCase(dbfile.getName().replaceAll(".zip.enc", ""))
                             && myfile.getHash().equalsIgnoreCase(dbfile.getHash())) {
                         pass = true;
