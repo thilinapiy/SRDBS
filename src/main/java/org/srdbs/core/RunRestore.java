@@ -7,7 +7,7 @@ import org.srdbs.split.FileData;
 import org.srdbs.split.Join;
 import org.srdbs.split.MYSpFile;
 import org.srdbs.split.MyFile;
-import org.srdbs.core.DbConnect;
+
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.spec.IvParameterSpec;
@@ -18,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 
@@ -305,9 +304,9 @@ public class RunRestore {
                             Check = false;
                             restoreLog.error("Fail" + myfile.getName());
                             restoreLog.error("Redownloading the file" + myfile.getName());
-                            int  ori = FailUpload_Download.failDownload(restoreFileID, myfile.getName(), myfile.getRemotePath(), myfile.getCloud());
+                            int  ori = FailUpload_Download.failDownload(myfile.getName(), myfile.getRemotePath(), myfile.getCloud());
                             if (ori != 0) {
-                                FailUpload_Download.failDownload(restoreFileID, myfile.getName(), myfile.getRemotePath(), myfile.getRCloud());
+                                FailUpload_Download.failDownload(myfile.getName(), myfile.getRemotePath(), myfile.getRCloud());
                             }
                             HashCheck(listoffiles, restoreFileID);
                             //download the fail data chunk
@@ -319,6 +318,8 @@ public class RunRestore {
 
         return Check;
     }
+
+
 
     public static boolean Download_HashCheck(List<MYSpFile> listoffiles, int restoreFileID) throws Exception {
 

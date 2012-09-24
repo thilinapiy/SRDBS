@@ -182,7 +182,7 @@ public class FailUpload_Download {
 
     }
 
-    public static int failDownload(long fid, String Fname, String Rpath, int Cloud )
+    public static int failDownload(String Fname, String Rpath, int Cloud )
     {
 
         String uName = "";
