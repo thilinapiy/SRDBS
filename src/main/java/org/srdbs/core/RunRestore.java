@@ -304,6 +304,7 @@ public class RunRestore {
                             Check = false;
                             restoreLog.error("Fail" + myfile.getName());
                             restoreLog.error("Redownloading the file" + myfile.getName());
+
                             int  ori = FailUpload_Download.failDownload(myfile.getName(), myfile.getRemotePath(), myfile.getCloud());
                             if (ori != 0) {
                                 FailUpload_Download.failDownload(myfile.getName(), myfile.getRemotePath(), myfile.getRCloud());
