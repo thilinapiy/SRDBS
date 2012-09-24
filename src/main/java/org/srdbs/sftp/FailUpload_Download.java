@@ -29,7 +29,6 @@ public class FailUpload_Download {
     public static void getFile() {
 
 
-
         List getFailFiles = new DbConnect().selectLoadFailQuery();
 
         if (!getFailFiles.isEmpty()) {
