@@ -9,6 +9,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.srdbs.core.DbConnect;
 import org.srdbs.core.Global;
+import org.srdbs.core.RunBackup;
 import org.srdbs.messenger.Sender;
 import org.srdbs.split.MYSpFile;
 import org.srdbs.split.Split;
@@ -563,14 +564,25 @@ public class Sftp {
         List<Integer> Ecloud3 = cloud;
         DbConnect dbconnect = new DbConnect();
         try {
+            
+            
             for (int l = 0; l < cloud.size(); l++) {
                 File source_file = new File(file + Split.createSuffix(Ecloud3.get(l)));
-                dbconnect.ErrorFiles(FID, CloudID, source_file.toString(), path);
+                String temp1[] = source_file.toString().split("\\\\");
+                String newfile = Global.failfileLocation + "\\" + temp1[temp1.length-2] + "\\" + temp1[temp1.length-1];
+                dbconnect.ErrorFiles(FID, CloudID, newfile, path);
             }
             backplogger.info("Save Fail file details to the database. ");
+
+            File src = new File(Global.tempLocation);
+            File dir = new File(Global.failfileLocation);
+            FileUtils.copyDirectory(src,dir);
+
         } catch (Exception ex) {
             backplogger.error("Database Error" + ex);
         }
+
+
 
     }
 

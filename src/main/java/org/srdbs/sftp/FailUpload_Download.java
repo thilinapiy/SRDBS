@@ -4,8 +4,10 @@ import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
+import org.apache.log4j.Logger;
 import org.srdbs.core.DbConnect;
 import org.srdbs.core.Global;
+import org.srdbs.split.Split;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,9 +21,13 @@ import java.util.List;
  * Time: 7:08 PM
  * To change this template use File | Settings | File Templates.
  */
-public class FailUpload {
+public class FailUpload_Download {
+
+            public static Logger logger = Logger.getLogger("systemsLog");
+            public static Logger restoreLog = Logger.getLogger("restoreLog");
 
     public static void getFile() {
+
 
 
         List getFailFiles = new DbConnect().selectLoadFailQuery();
@@ -175,4 +181,70 @@ public class FailUpload {
 
 
     }
+
+    public static int failDownload(String Fname, String Rpath, int Cloud )
+    {
+
+        String uName = "";
+        String host = "";
+        int port = 22;
+        String password = "";
+        String serverPath = "";
+        JSch jsch = new JSch();
+        Session session = null;
+
+
+        if (Cloud == 1) {
+
+
+            host = Global.c1IPAddress;
+            uName = Global.c1UserName;
+            port = Global.c1Port;
+            password = Global.c1Password;
+            serverPath = Global.c1Remotepath;
+
+
+        }
+
+        if (Cloud == 2) {
+            host = Global.c2IPAddress;
+            uName = Global.c2UserName;
+            port = Global.c2Port;
+            password = Global.c2Password;
+            serverPath = Global.c2Remotepath;
+
+        }
+
+        if (Cloud == 3) {
+            host = Global.c3IPAddress;
+            uName = Global.c3UserName;
+            port = Global.c3Port;
+            password = Global.c3Password;
+            serverPath = Global.c3Remotepath;
+
+        }
+
+        try {
+            session = jsch.getSession(uName, host, port);
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.setPassword(password);
+            session.connect();
+
+            Channel channel = session.openChannel("sftp");
+            channel.connect();
+            ChannelSftp sftpChannel = (ChannelSftp) channel;
+            sftpChannel.get(serverPath + "/" + Rpath + "/" + Fname ,Global.restoreLocation);
+
+            sftpChannel.exit();
+            session.disconnect();
+            restoreLog.info("Successfully download the file : " + serverPath + "/" + Rpath + "/" + Fname);
+            return 0;
+
+        } catch (Exception e) {
+            restoreLog.error("Error on downloading file : " + serverPath + "/" + Rpath + "/" + Fname
+                   );
+            return -1;
+        }
+    }
+
 }

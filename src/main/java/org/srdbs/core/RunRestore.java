@@ -1,12 +1,12 @@
 package org.srdbs.core;
 
 import org.apache.log4j.Logger;
+import org.srdbs.sftp.FailUpload_Download;
 import org.srdbs.sftp.Sftp;
 import org.srdbs.split.FileData;
 import org.srdbs.split.Join;
 import org.srdbs.split.MYSpFile;
 import org.srdbs.split.MyFile;
-import org.srdbs.core.DbConnect;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
@@ -18,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 
@@ -52,11 +51,11 @@ public class RunRestore {
         List<MYSpFile> getSPFiles = new DbConnect().selectLoadSpQuery(FID);
         fullFileCount = getSPFiles.size();
         for (MYSpFile spfile : getSPFiles) {
-            restoreFileName = spfile.getCloud() + "-:" + spfile.getName() + "Total Packets:-" + fullFileCount + "Packets downloaded:-" + curentFileNumber;
-            curentFileNumber = curentFileNumber + 1;
+             restoreFileName =spfile.getCloud() +"-:" + spfile.getName()+"Total Packets:-"+fullFileCount+ "Packets downloaded:-"+curentFileNumber;
+             curentFileNumber = curentFileNumber +1;
 
-            if (curentFileNumber > fullFileCount) {
-                curentFileNumber = 1;
+            if(curentFileNumber > fullFileCount){
+                curentFileNumber=1;
             }
             int original = Sftp.download(spfile.getName(), spfile.getCloud(), spfile.getRemotePath());
             if (original != 0) {
@@ -92,6 +91,7 @@ public class RunRestore {
                         boolean isFilesDeleted = delete(Global.restoreLocation);
                         System.out.print("All Downloaded parts Are Delete :" + isFilesDeleted);
                         logger.info("All Downloaded parts Are Delete :" + isFilesDeleted);
+
 
 
                         String rs_fileName = D_Com1 + "/" + FileName;
@@ -178,7 +178,7 @@ public class RunRestore {
                         String rs_fileName = D_Com1 + "/" + FileName;
                         String Ori_name = mylist.getName().replaceAll(".zip", "");
 
-                        Decompress(rs_fileName, D_Com1, Ori_name);
+                        Decompress(rs_fileName,D_Com1 , Ori_name);
                         logger.info("File is DeCompressed Successfully :" + FileName);
 
 
@@ -290,23 +290,26 @@ public class RunRestore {
 
             for (MYSpFile dbfile : listofFileSp) {
 
-                if (SplitCountFile < count) {
+                if(SplitCountFile<count){
 
-                    if ((myfile.getName().equalsIgnoreCase(dbfile.getName()))) {
+                    if ((myfile.getName().equalsIgnoreCase(dbfile.getName()))){
 
-                        System.out.print("Pass" + myfile.getName());
-
-                        if (myfile.getHash().equalsIgnoreCase(dbfile.getHash())) {
+                        if(myfile.getHash().equalsIgnoreCase(dbfile.getHash())){
 
                             Check = true;
                             restoreLog.info("Pass : " + myfile.getName());
-                            System.out.print("Pass : " + myfile.getName());
 
-                        } else {
+                        }   else {
 
                             Check = false;
                             restoreLog.error("Fail" + myfile.getName());
-                            System.out.print("Fail" + myfile.getName());
+                            restoreLog.error("Redownloading the file" + myfile.getName());
+
+                            int  ori = FailUpload_Download.failDownload(myfile.getName(), myfile.getRemotePath(), myfile.getCloud());
+                            if (ori != 0) {
+                                FailUpload_Download.failDownload(myfile.getName(), myfile.getRemotePath(), myfile.getRCloud());
+                            }
+                            HashCheck(listoffiles, restoreFileID);
                             //download the fail data chunk
                         }
                     }
@@ -315,8 +318,9 @@ public class RunRestore {
         }
 
         return Check;
-
     }
+
+
 
     public static boolean Download_HashCheck(List<MYSpFile> listoffiles, int restoreFileID) throws Exception {
 
@@ -330,21 +334,19 @@ public class RunRestore {
 
             for (MYSpFile dbfile : listofFileSp) {
 
-                if (SplitCountFile < count) {
+                if(SplitCountFile<count){
 
-                    if ((myfile.getName().equalsIgnoreCase(dbfile.getName()))) {
+                    if ((myfile.getName().equalsIgnoreCase(dbfile.getName()))){
 
-                        if (myfile.getHash().equalsIgnoreCase(dbfile.getHash())) {
+                        if(myfile.getHash().equalsIgnoreCase(dbfile.getHash())){
 
                             Check = true;
                             restoreLog.info("Pass : " + myfile.getName());
-                            System.out.print("Pass : " + myfile.getName());
 
-                        } else {
+                        }   else {
 
                             Check = false;
-                            restoreLog.error("Fail" + myfile.getName());
-                            System.out.print("Fail" + myfile.getName());
+                            restoreLog.error("Fail");
                         }
                     }
                 }
@@ -355,6 +357,7 @@ public class RunRestore {
     }
 
 
+
     public static boolean FullHashCheck(List<MyFile> listoffiles, int i) throws Exception {
 
         boolean pass = true;
@@ -363,50 +366,58 @@ public class RunRestore {
         for (MyFile myfile : listoffiles) {
             for (MyFile dbfile : list) {
 
-                if (chking_zipenc) {
+                if(chking_zipenc){
 
-                    if (myfile.getName().equalsIgnoreCase(dbfile.getName().replaceAll(".zip.enc", ""))
-                            && myfile.getHash().equalsIgnoreCase(dbfile.getHash())) {
+
+                    if(myfile.getName().equalsIgnoreCase(dbfile.getName().replaceAll(".zip.enc",""))
+                            && myfile.getHash().equalsIgnoreCase(dbfile.getHash())){
                         pass = true;
                         restoreLog.info("Pass : " + myfile.getName());
-                    } else {
+                    }
+                    else{
                         pass = false;
                         restoreLog.info("Fail :" + myfile.getName());
                     }
 
-                } else if (chking_enc) {
+                }
+                else if(chking_enc){
 
-                    if (myfile.getName().equalsIgnoreCase(dbfile.getName().replaceAll(".enc", ""))
-                            && myfile.getHash().equalsIgnoreCase(dbfile.getHash())) {
+                    if(myfile.getName().equalsIgnoreCase(dbfile.getName().replaceAll(".enc",""))
+                            && myfile.getHash().equalsIgnoreCase(dbfile.getHash())){
 
                         pass = true;
                         restoreLog.info("Pass : " + myfile.getName());
-                    } else {
-                        pass = false;
-                        restoreLog.info("Fail :" + myfile.getName());
-
                     }
-
-                } else if (chking_zip) {
-
-                    if (myfile.getName().equalsIgnoreCase(dbfile.getName().replaceAll(".zip", ""))
-                            && myfile.getHash().equalsIgnoreCase(dbfile.getHash())) {
-
-                        pass = true;
-                        restoreLog.info("Pass : " + myfile.getName());
-                    } else {
+                    else{
                         pass = false;
                         restoreLog.info("Fail :" + myfile.getName());
 
                     }
 
-                } else if (chking_normal) {
+                }
+                else if(chking_zip){
 
-                    if (myfile.getName().equalsIgnoreCase(dbfile.getName())
-                            && myfile.getHash().equalsIgnoreCase(dbfile.getHash())) {
+                    if(myfile.getName().equalsIgnoreCase(dbfile.getName().replaceAll(".zip",""))
+                            && myfile.getHash().equalsIgnoreCase(dbfile.getHash())){
+
                         pass = true;
                         restoreLog.info("Pass : " + myfile.getName());
-                    } else {
+                    }
+                    else{
+                        pass = false;
+                        restoreLog.info("Fail :" + myfile.getName());
+
+                    }
+
+                }
+                else if(chking_normal){
+
+                    if(myfile.getName().equalsIgnoreCase(dbfile.getName())
+                            && myfile.getHash().equalsIgnoreCase(dbfile.getHash())){
+                        pass = true;
+                        restoreLog.info("Pass : " + myfile.getName());
+                    }
+                    else{
                         pass = false;
                         restoreLog.info("Fail :" + myfile.getName());
 
@@ -505,7 +516,8 @@ public class RunRestore {
         return strDirectoy;
     }
 
-    public static boolean delete(String path) {
+    public static boolean delete(String path)
+    {
 
         boolean DeleteCheck = false;
 
@@ -513,17 +525,19 @@ public class RunRestore {
         String files1;
 
         File[] listOfFiles = folder.listFiles();
-        for (int i = 0; i < listOfFiles.length; i++) {
+        for (int i = 0; i < listOfFiles.length; i++)
+        {
             files1 = listOfFiles[i].getName();
-            String Full_path = path + "/" + files1;
+            String Full_path = path +"/"+files1;
             File DelFile = new File(Full_path);
             DeleteCheck = DelFile.delete();
 
-            if (!DeleteCheck) {
+            if(!DeleteCheck){
 
                 System.out.println("File is not Deleted :" + files1);
                 logger.error("File is not Deleted :" + files1);
-            } else {
+            }
+            else{
 
                 System.out.println("Delete File :" + files1);
                 logger.info("Delete File :" + files1);

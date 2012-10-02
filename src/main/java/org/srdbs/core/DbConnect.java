@@ -503,7 +503,7 @@ public class DbConnect {
 
     public List<MYSpFile> selectQuery(int fid) throws Exception {
 
-        String sql = " select SP_FileName,HashValue from sp_file where F_ID=" + fid + "";
+        String sql = " select SP_FileName,HashValue,Remote_path,Ref_Cloud_ID,Raid_Ref  from sp_file where F_ID=" + fid + "";
         Connection connection = connect();
         Statement s = connection.createStatement();
         ResultSet rs = s.executeQuery(sql);
@@ -513,6 +513,10 @@ public class DbConnect {
             MYSpFile myspFile = new MYSpFile();
             myspFile.setName(rs.getString("SP_FileName"));
             myspFile.setHash(rs.getString("HashValue"));
+            myspFile.setRemotePath(rs.getString("Remote_path"));
+            myspFile.setCloud(rs.getInt("Ref_Cloud_ID"));
+            myspFile.setRcloud(rs.getInt("Raid_Ref"));
+
             fileList.add(myspFile);
         }
         return fileList;
@@ -850,6 +854,11 @@ public class DbConnect {
             ps.setString(3, Global.restoreLocation);
             ps.addBatch();
 
+            ps.setInt(1, 46);
+            ps.setString(2, Global.failfileLocation);
+            ps.setString(3, Global.failfileLocation);
+            ps.addBatch();
+
             ps.executeBatch();
             ps.close();
             con.close();
@@ -967,6 +976,8 @@ public class DbConnect {
             Global.tempLocation = resultSet.getString(2);
             resultSet.next();
             Global.restoreLocation = resultSet.getString(2);
+            resultSet.next();
+            Global.failfileLocation = resultSet.getString(2);
 
             resultSet.close();
             stmt.close();
@@ -1083,12 +1094,15 @@ public class DbConnect {
 
     public int SplitFileCount(long fid) throws SQLException {
 
-        int Count = 0;
-
-        String sql = "Select count(F_ID) from sp_file where F_ID = '" + fid + "'";
+        int Count =0;
+        //  String sql=("update sp_file set Rpath = '" + Flname +  "' where F_ID = '" + fid + "'");
+        String sql = "Select count(F_ID) from sp_file where F_ID = '" +fid +"'";
         Connection connection = connect();
         PreparedStatement ps = connection.prepareStatement(sql);
 
+
+        //for (MYSpFile mySFile: fileList) {
+        // java.sql.Date sqlDate = new java.sql.Date(myFile.getcDate().getTime());
 
         ResultSet rs = ps.executeQuery();
 
