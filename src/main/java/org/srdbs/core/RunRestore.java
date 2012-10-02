@@ -290,7 +290,7 @@ public class RunRestore {
 
             for (MYSpFile dbfile : listofFileSp) {
 
-                if(SplitCountFile<count){
+                if(SplitCountFile>count){
 
                     if ((myfile.getName().equalsIgnoreCase(dbfile.getName()))){
 
@@ -305,11 +305,8 @@ public class RunRestore {
                             restoreLog.error("Fail" + myfile.getName());
                             restoreLog.error("Redownloading the file" + myfile.getName());
 
-                            int  ori = FailUpload_Download.failDownload(myfile.getName(), myfile.getRemotePath(), myfile.getCloud());
-                            if (ori != 0) {
-                                FailUpload_Download.failDownload(myfile.getName(), myfile.getRemotePath(), myfile.getRCloud());
-                            }
-                            HashCheck(listoffiles, restoreFileID);
+                            int  ori = FailUpload_Download.failDownload(myfile.getName(), dbfile.getRemotePath(), dbfile.getCloud());
+                            Download_HashCheck(listoffiles, restoreFileID);
                             //download the fail data chunk
                         }
                     }
