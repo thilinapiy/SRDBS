@@ -41,6 +41,7 @@ public class RunRestore {
     public static boolean chking_normal;
 
     public static String restoreFileName;
+    public static  String restoreTotal;
     public static int fullFileCount;
     public static int curentFileNumber = 0;
 
@@ -51,8 +52,9 @@ public class RunRestore {
         List<MYSpFile> getSPFiles = new DbConnect().selectLoadSpQuery(FID);
         fullFileCount = getSPFiles.size();
         for (MYSpFile spfile : getSPFiles) {
-             restoreFileName =spfile.getCloud() +"-:" + spfile.getName()+"Total Packets:-"+fullFileCount+ "Packets downloaded:-"+curentFileNumber;
-             curentFileNumber = curentFileNumber +1;
+            curentFileNumber = curentFileNumber +1;
+             restoreFileName =spfile.getCloud() +"-:" + spfile.getName();
+             restoreTotal="Packets Downloaded:-"+curentFileNumber+"/"+fullFileCount;
 
             if(curentFileNumber > fullFileCount){
                 curentFileNumber=1;

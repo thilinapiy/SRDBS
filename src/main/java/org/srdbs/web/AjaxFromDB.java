@@ -2,6 +2,8 @@ package org.srdbs.web;
 
 import net.sf.json.JSONObject;
 import org.srdbs.core.DbConnect;
+import org.srdbs.messenger.Sender;
+import org.srdbs.sftp.Sftp;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +25,6 @@ public class AjaxFromDB extends HttpServlet {
         try {
             JSONObject json = new JSONObject();
             int count = 0;
-
             response.setContentType("application/json");
 
             out = response.getWriter();

@@ -52,18 +52,21 @@ public class ProgressMonitor extends HttpServlet {
             json.put("downByteCount", Sftp.downByteCount);
             json.put("fileCount", Sftp.fileCount);
             json.put("currentFileNunber", Sftp.currentFileNunber);
+            json.put("filenametotal", Sftp.filenametotal);
 
         //cloud2
             json.put("bytecountcloud2",Sftp.bytecountcloud2);
             json.put("filenamecloud2", Sftp.filenamecloud2);
             json.put("fileCountcloud2", Sftp.fileCountcloud2);
             json.put("currentFileNunbercloud2", Sftp.currentFileNunbercloud2);
+            json.put("filenamecloud2total", Sftp.filenamecloud2total);
 
         // cloud3
             json.put("bytecountcloud3",Sftp.bytecountcloud3);
             json.put("filenamecloud3", Sftp.filenamecloud3);
             json.put("fileCountcloud3", Sftp.fileCountcloud3);
             json.put("currentFileNunbercloud3", Sftp.currentFileNunbercloud3);
+            json.put("filenamecloud3total", Sftp.filenamecloud3total);
 	        out.print(json);
             //out.println(info);
 

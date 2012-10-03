@@ -52,6 +52,7 @@ public class ProgressMonitorRestore extends HttpServlet {
         json.put("restoreFileName", RunRestore.restoreFileName);
         json.put("curentFileNumber",  RunRestore.curentFileNumber);
         json.put("fullFileCount",RunRestore.fullFileCount);
+        json.put("restoreTotal",RunRestore.restoreTotal);
         out.print(json);
 
     }
