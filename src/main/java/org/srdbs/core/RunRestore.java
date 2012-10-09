@@ -42,6 +42,7 @@ public class RunRestore {
     public static boolean chking_normal;
 
     public static String restoreFileName;
+    public static  String restoreTotal;
     public static int fullFileCount;
     public static int curentFileNumber = 0;
 
@@ -52,8 +53,9 @@ public class RunRestore {
         List<MYSpFile> getSPFiles = new DbConnect().selectLoadSpQuery(FID);
         fullFileCount = getSPFiles.size();
         for (MYSpFile spfile : getSPFiles) {
-             restoreFileName =spfile.getCloud() +"-:" + spfile.getName()+"Total Packets:-"+fullFileCount+ "Packets downloaded:-"+curentFileNumber;
-             curentFileNumber = curentFileNumber +1;
+            curentFileNumber = curentFileNumber +1;
+             restoreFileName =spfile.getCloud() +"-:" + spfile.getName();
+             restoreTotal="Packets Downloaded:-"+curentFileNumber+"/"+fullFileCount;
 
             if(curentFileNumber > fullFileCount){
                 curentFileNumber=1;
@@ -291,7 +293,7 @@ public class RunRestore {
 
             for (MYSpFile dbfile : listofFileSp) {
 
-                if(SplitCountFile<count){
+                if(SplitCountFile>count){
 
                     if ((myfile.getName().equalsIgnoreCase(dbfile.getName()))){
 
@@ -306,11 +308,8 @@ public class RunRestore {
                             restoreLog.error("Fail" + myfile.getName());
                             restoreLog.error("Redownloading the file" + myfile.getName());
 
-                            int  ori = FailUpload_Download.failDownload(myfile.getName(), myfile.getRemotePath(), myfile.getCloud());
-                            if (ori != 0) {
-                                FailUpload_Download.failDownload(myfile.getName(), myfile.getRemotePath(), myfile.getRCloud());
-                            }
-                            HashCheck(listoffiles, restoreFileID);
+                            int  ori = FailUpload_Download.failDownload(myfile.getName(), dbfile.getRemotePath(), dbfile.getCloud());
+                            Download_HashCheck(listoffiles, restoreFileID);
                             //download the fail data chunk
                         }
                     }

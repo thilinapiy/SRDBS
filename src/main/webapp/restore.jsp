@@ -118,6 +118,7 @@
                                         </td>
                                     </tr>
                                 </form>
+
                             </table>
 
                             <!-- This is the end of the restore table.-->
@@ -135,7 +136,10 @@
                 <td id="tbl-border-bottom">&nbsp;</td>
                 <th class="sized bottomright"></th>
             </tr>
-        </table>
+
+        </table><br>
+
+        </br>
 
         <div class="clear">&nbsp;</div>
     </div>

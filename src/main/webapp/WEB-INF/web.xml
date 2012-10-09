@@ -37,4 +37,14 @@
         <servlet-name>ProgressMonitorRestore</servlet-name>
         <url-pattern>/ProgressMonitorRestore</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CloudStatus</servlet-name>
+        <servlet-class>org.srdbs.web.CloudStatus</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CloudStatus</servlet-name>
+        <url-pattern>/CloudStatus</url-pattern>
+    </servlet-mapping>
 </web-app>
