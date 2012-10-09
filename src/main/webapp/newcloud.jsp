@@ -111,7 +111,7 @@
                         <!--  start table-content  -->
                         <div id="table-content">
 
-                            <FORM action="newcloud.jsp" method="get">
+                            <FORM action="newcloud.jsp" method="post" id="id-form">
                                 <H2>
                                     <LEFT>ADD NEW CLOUD DETAILS</LEFT>
                                 </H2>
@@ -143,14 +143,18 @@
                                         <td> Messageport :</td>
                                         <td><input name="messageport" size=20 type="text"/></td>
                                     </tr>
-                                    <tr>
+                                    <!-- Hidden for future works. -->
+                                    <!-- tr>
                                         <td> Bandwidth :</td>
                                         <td><input name="bandwidth" size=20 type="text"/></td>
                                     </tr>
                                     <tr>
                                         <td> Cost :</td>
                                         <td><input name="cost" size=20 type="text"/></td>
-                                    </tr>
+                                    </tr -->
+                                    <input type="hidden" name="bandwidth" value="0"/>
+                                    <input type="hidden" name="cost" value="0"/>
+                                    <!-- Hidden End. -->
                                     <tr>
                                         <td colspan="2">
                                             <button type="Submit" name="add" Value="add"><img

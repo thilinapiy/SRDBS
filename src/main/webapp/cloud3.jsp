@@ -1,11 +1,8 @@
 <%@ page import="org.srdbs.web.Api" %>
-<%@ page import="org.srdbs.web.Setup" %>
 <%@ page import="org.srdbs.core.DbConnect" %>
 <%@ page import="org.srdbs.core.Global" %>
 <%@ page import="org.srdbs.core.Configs" %>
 <%@ page import="java.sql.*" %>
-<%@ page import="java.io.*" %>
-
 
 <%
     if (!Api.systemState()) {
@@ -80,12 +77,12 @@
             <!--  start table-content  -->
             <div id="table-content">
                 <FORM action="cloud3.jsp" method="get">
-                    <table border="1" width="300" height="150">
+                    <table border="1" width="300" height="150" class="cloud-table">
 
 
                         <%
                             try {
-
+                                //TODO: Prabodha change this SQL statments.
                                 Connection connection = new DbConnect().webDbConnect();
                                 Statement statement = connection.createStatement();
                                 String QueryString = "SELECT sysvalue from sysconfig where sysid='20'";
@@ -219,7 +216,7 @@
                         <br/><br/>
                     </div>
 
-                    <TABLE WIDTH="30%">
+                    <TABLE WIDTH="30%" id="id-form">
                         <tr>
                             <td> IP Address :</td>
                             <td><input name="ipaddress" size=20 type="text"/></td>

@@ -13,7 +13,7 @@
 
     String msg = "";
     String Nobtn = request.getParameter("no");
-	String Yesbtn = request.getParameter("yes");
+    String Yesbtn = request.getParameter("yes");
     if (session.getAttribute("username") == null) {
         response.sendRedirect("/login.jsp");
         return;
@@ -23,11 +23,11 @@
         if (Yesbtn != null) {
             response.sendRedirect("/newcloud.jsp");
         }
-		
-		if (Nobtn != null) {
-			response.sendRedirect("/changecloud.jsp");
-		}
-		
+
+        if (Nobtn != null) {
+            response.sendRedirect("/changecloud.jsp");
+        }
+
     }
 
 %>
@@ -57,7 +57,7 @@
                     <div id="content-table-inner">
                         <!--  start table-content  -->
                         <div id="table-content">
-                            <FORM action="changecloud1.jsp" method="get">
+                            <FORM action="changecloud1.jsp" method="post" id="id-form">
                                 <table border="1" width="300" height="150">
 
                                     <tr>
@@ -143,36 +143,36 @@
                                     %>
 
                                 </table>
-								
-								<br/>
-								<br/>
-								<%
-								if(Global.deleteCloudID == 1)
-								{
-								%>
-								<p>SYSTEM REQUIRES MINIMUM NUMBER OF 3 CLOUDS<br><b>MAKE SURE YOU WANT TO DELETE CLOUD 1</b><br/>IF YOU SUBMIT YOU NEED TO ADD NEW CLOUD</p>
-								<%
-								}
-								if(Global.deleteCloudID == 2)
-								{
-								%>
-								<p>SYSTEM REQUIRES MINIMUM NUMBER OF 3 CLOUDS<br><b>MAKE SURE YOU WANT TO DELETE CLOUD 2</b><br/>IF YOU SUBMIT YOU NEED TO ADD NEW CLOUD</p>
-								<%
-								}
-								if(Global.deleteCloudID == 3)
-								{
-								%>
-								<p>SYSTEM REQUIRES MINIMUM NUMBER OF 3 CLOUDS<br><b>MAKE SURE YOU WANT TO DELETE CLOUD 3</b><br/>IF YOU SUBMIT YOU NEED TO ADD NEW CLOUD</p>
-								<%
-								}
-								%>
-								
-								<br/>
-								<br/>
-								<button type="Submit" name="no" value='no'><img
-                                                    src='/images/forms/form_back.gif'/></button>
-								<button type="Submit" name="yes" value='Yes'><img
-                                                    src='/images/forms/form_submit.gif'/></button>									
+
+                                <br/>
+                                <br/>
+                                <%
+                                    if (Global.deleteCloudID == 1) {
+                                %>
+                                <p>SYSTEM REQUIRES MINIMUM NUMBER OF 3 CLOUDS<br><b>MAKE SURE YOU WANT TO DELETE CLOUD
+                                    1</b><br/>IF YOU SUBMIT YOU NEED TO ADD NEW CLOUD</p>
+                                <%
+                                    }
+                                    if (Global.deleteCloudID == 2) {
+                                %>
+                                <p>SYSTEM REQUIRES MINIMUM NUMBER OF 3 CLOUDS<br><b>MAKE SURE YOU WANT TO DELETE CLOUD
+                                    2</b><br/>IF YOU SUBMIT YOU NEED TO ADD NEW CLOUD</p>
+                                <%
+                                    }
+                                    if (Global.deleteCloudID == 3) {
+                                %>
+                                <p>SYSTEM REQUIRES MINIMUM NUMBER OF 3 CLOUDS<br><b>MAKE SURE YOU WANT TO DELETE CLOUD
+                                    3</b><br/>IF YOU SUBMIT YOU NEED TO ADD NEW CLOUD</p>
+                                <%
+                                    }
+                                %>
+
+                                <br/>
+                                <br/>
+                                <button type="Submit" name="no" value='no'><img
+                                        src='/images/forms/form_back.gif'/></button>
+                                <button type="Submit" name="yes" value='Yes'><img
+                                        src='/images/forms/form_submit.gif'/></button>
                             </form>
 
 

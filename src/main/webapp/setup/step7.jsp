@@ -196,7 +196,7 @@
                         out.println("System Locations");
                         out.println(session.getAttribute("templocation"));
                         out.println(session.getAttribute("restorelocation"));
-						out.println(session.getAttribute("failfilelocation"));
+                        out.println(session.getAttribute("failfilelocation"));
                         out.println("");
                         out.println("Baclup locations");
 
@@ -266,13 +266,7 @@
                 <div class="left"><a href=""><img src="/images/forms/icon_plus.gif" width="21" height="21" alt=""/></a>
                 </div>
                 <div class="right">
-                    <h5></h5>
-                    Lorem ipsum dolor sit amet consectetur
-                    adipisicing elitsed do eiusmod tempor.
-                    <ul class="greyarrow">
-                        <li><a href="">Click here to visit</a></li>
-                        <li><a href="">Click here to visit</a></li>
-                    </ul>
+                    <!-- h5></h5-->
                 </div>
                 <div class="clear"></div>
             </div>
