@@ -300,6 +300,7 @@ public class RunRestore {
 
                             Check = true;
                             restoreLog.info("Pass : " + myfile.getName());
+                            count++;
 
                         }   else {
 
@@ -341,6 +342,7 @@ public class RunRestore {
 
                             Check = true;
                             restoreLog.info("Pass : " + myfile.getName());
+                            count++;
 
                         }   else {
 
