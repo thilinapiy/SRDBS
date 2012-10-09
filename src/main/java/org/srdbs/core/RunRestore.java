@@ -306,10 +306,10 @@ public class RunRestore {
                         }   else {
 
                             Check = false;
-                            restoreLog.error("Fail" + myfile.getName());
-                            restoreLog.error("Redownloading the file" + myfile.getName());
+                            restoreLog.error("Fail : " + myfile.getName());
+                            restoreLog.error("Redownloading the file : " + myfile.getName());
 
-                            int  ori = FailUpload_Download.failDownload(myfile.getName(), dbfile.getRemotePath(), dbfile.getCloud());
+                            FailUpload_Download.failDownload(myfile.getName(), dbfile.getRemotePath(), dbfile.getRCloud());
                             Download_HashCheck(listoffiles, restoreFileID);
                             //download the fail data chunk
                         }
@@ -335,7 +335,7 @@ public class RunRestore {
 
             for (MYSpFile dbfile : listofFileSp) {
 
-                if(SplitCountFile<count){
+                if(SplitCountFile>count){
 
                     if ((myfile.getName().equalsIgnoreCase(dbfile.getName()))){
 
@@ -348,7 +348,49 @@ public class RunRestore {
                         }   else {
 
                             Check = false;
-                            restoreLog.error("Fail");
+                            restoreLog.error("Fail : " + myfile.getName());
+                            restoreLog.error("Redownloading the file : " + myfile.getName());
+
+                            FailUpload_Download.failDownload(myfile.getName(), dbfile.getRemotePath(), dbfile.getCloud());
+                            Download_HashCheck_1(listoffiles, restoreFileID);
+
+                        }
+                    }
+                }
+            }
+        }
+
+        return Check;
+    }
+
+    public static boolean Download_HashCheck_1(List<MYSpFile> listoffiles, int restoreFileID) throws Exception {
+
+        boolean Check = true;
+        int count = 0;
+        DbConnect dbconnect = new DbConnect();
+        List<MYSpFile> listofFileSp = dbconnect.selectQuery(restoreFileID);
+        int SplitCountFile = dbconnect.SplitFileCount(restoreFileID);
+
+        for (MYSpFile myfile : listoffiles) {
+
+            for (MYSpFile dbfile : listofFileSp) {
+
+                if(SplitCountFile>count){
+
+
+                    if ((myfile.getName().equalsIgnoreCase(dbfile.getName()))){
+
+                        if(myfile.getHash().equalsIgnoreCase(dbfile.getHash())){
+
+                            Check = true;
+                            restoreLog.info("Pass : " + myfile.getName());
+                            count++;
+
+                        }   else {
+
+                            Check = false;
+                            restoreLog.error("File : " + myfile.getName() + " is Corrupted ");
+
                         }
                     }
                 }
