@@ -64,7 +64,7 @@
                                 <li><a href="/cloud2.jsp">Cloud 2</a></li>
                                 <li><a href="/cloud3.jsp">Cloud 3</a></li>
                                 <li><a href="/changecloud.jsp">Change a cloud</a></li>
-                                <li><a href="/newcloud.jsp">Add new cloud</a></li>
+                                <!--li><a href="/newcloud.jsp">Add new cloud</a></li -->
                             </ul>
                         </div>
                     </li>

@@ -228,7 +228,7 @@
 
 <div class="clear"></div>
 
-<form action="" method="GET">
+<form action="" method="post">
     <table border="0" cellpadding="0" cellspacing="0" id="id-form">
         <tr>
             <th valign="top">Tempary location</th>
@@ -258,7 +258,7 @@
     <div class="clear"></div>
     <%
         if (count != 0) {
-            out.print("<table padding='2px'>");
+            out.print("<table padding='2px' class='cloud-table'>");
             out.print("<th>Backup Location</th><th>Frequency</th><th>Start Time</th><th>Compress</th><th>Encrypt</th><th>&nbsp;</th>");
             for (int i = 1; i <= count; i++) {
                 String name = "backuplocation" + i;
@@ -393,13 +393,29 @@
                 <div class="left"><a href=""><img src="/images/forms/icon_plus.gif" width="21" height="21" alt=""/></a>
                 </div>
                 <div class="right">
-                    <h5></h5>
-                    Lorem ipsum dolor sit amet consectetur
-                    adipisicing elitsed do eiusmod tempor.
-                    <ul class="greyarrow">
-                        <li><a href="">Click here to visit</a></li>
-                        <li><a href="">Click here to visit</a></li>
-                    </ul>
+                    <h5>The temporary location is use to store split file until the backup process completes.</h5>
+                </div>
+                <div class="left"><a href=""><img src="/images/forms/icon_plus.gif" width="21" height="21" alt=""/></a>
+                </div>
+                <div class="right">
+                    <h5>The restore location is use to store downloading files until the restoreing process ends.</h5>
+                </div>
+                <div class="left"><a href=""><img src="/images/forms/icon_plus.gif" width="21" height="21" alt=""/></a>
+                </div>
+                <div class="right">
+                    <h5>Fail file location is use to store failed upload file temporally until the re-uploading process
+                        complete.</h5>
+                </div>
+                <div class="left"><a href=""><img src="/images/forms/icon_plus.gif" width="21" height="21" alt=""/></a>
+                </div>
+                <div class="right">
+                    <h5>Give the backup source location to get backup file which needed to be uploaded to the
+                        clouds.</h5>
+                </div>
+                <div class="left"><a href=""><img src="/images/forms/icon_plus.gif" width="21" height="21" alt=""/></a>
+                </div>
+                <div class="right">
+                    <h5>At least on backup location required.</h5>
                 </div>
                 <div class="clear"></div>
             </div>

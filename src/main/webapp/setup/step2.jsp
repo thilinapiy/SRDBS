@@ -113,13 +113,13 @@
 <form action="step2.jsp" method="GET">
     <table border="0" cellpadding="0" cellspacing="0" id="id-form">
         <tr>
-            <th valign="top">IP address</th>
+            <th valign="top">Database Host</th>
             <td><input type="text" class="inp-form" name="dbipaddress"
                        value="<% if(session.getAttribute("dbipaddress")!=null) { out.println(session.getAttribute("dbipaddress")); } %>"/>
             </td>
         </tr>
         <tr>
-            <th valign="top">Port</th>
+            <th valign="top">Database Port</th>
             <td><input type="text" class="inp-form" name="dbport"
                        value="<% if(session.getAttribute("dbport")!=null) { out.println(session.getAttribute("dbport")); } %>"/>
             </td>
@@ -131,13 +131,13 @@
             </td>
         </tr>
         <tr>
-            <th valign="top">DB user</th>
+            <th valign="top">Database user</th>
             <td><input type="text" class="inp-form" name="dbuser"
                        value="<% if(session.getAttribute("dbuser")!=null) { out.println(session.getAttribute("dbuser")); } %>"/>
             </td>
         </tr>
         <tr>
-            <th valign="top">DB password</th>
+            <th valign="top">Database password</th>
             <td><input type="password" class="inp-form" name="dbpassword"
                        value="<% if(session.getAttribute("dbpassword")!=null) { out.println(session.getAttribute("dbpassword")); } %>"/>
             </td>
@@ -179,13 +179,17 @@
                 <div class="left"><a href=""><img src="/images/forms/icon_plus.gif" width="21" height="21" alt=""/></a>
                 </div>
                 <div class="right">
-                    <h5></h5>
-                    Lorem ipsum dolor sit amet consectetur
-                    adipisicing elitsed do eiusmod tempor.
-                    <ul class="greyarrow">
-                        <li><a href="">Click here to visit</a></li>
-                        <li><a href="">Click here to visit</a></li>
-                    </ul>
+                    <h5>This is the database configuration unit.</h5>
+                </div>
+                <div class="left"><a href=""><img src="/images/forms/icon_plus.gif" width="21" height="21" alt=""/></a>
+                </div>
+                <div class="right">
+                    <h5>Read the 'README.txt' to create a database on a MSSQL/MySQL database server.</h5>
+                </div>
+                <div class="left"><a href=""><img src="/images/forms/icon_plus.gif" width="21" height="21" alt=""/></a>
+                </div>
+                <div class="right">
+                    <h5>Give correct database connection details and click on 'Next'.</h5>
                 </div>
                 <div class="clear"></div>
             </div>

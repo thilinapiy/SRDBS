@@ -111,31 +111,31 @@
 <form action="step5.jsp" method="GET">
     <table border="0" cellpadding="0" cellspacing="0" id="id-form">
         <tr>
-            <th valign="top">IP address</th>
+            <th valign="top">SFTP Host</th>
             <td><input type="text" class="inp-form" name="ipaddress"
                        value="<% if(session.getAttribute("c3ipaddress")!=null) { out.println(session.getAttribute("c3ipaddress")); } %>"/>
             </td>
         </tr>
         <tr>
-            <th valign="top">Port</th>
+            <th valign="top">SFTP Port</th>
             <td><input type="text" class="inp-form" name="port"
                        value="<% if(session.getAttribute("c3port")!=null) { out.println(session.getAttribute("c3port")); } %>"/>
             </td>
         </tr>
         <tr>
-            <th valign="top">Remote Path</th>
+            <th valign="top">SFTP Root</th>
             <td><input type="text" class="inp-form" name="remotepath"
                        value="<% if(session.getAttribute("c3remotepath")!=null) { out.println(session.getAttribute("c3remotepath")); } %>"/>
             </td>
         </tr>
         <tr>
-            <th valign="top">User Name</th>
+            <th valign="top">SFTP User</th>
             <td><input type="text" class="inp-form" name="username"
                        value="<% if(session.getAttribute("c3username")!=null) { out.println(session.getAttribute("c3username")); } %>"/>
             </td>
         </tr>
         <tr>
-            <th valign="top">Password</th>
+            <th valign="top">SFTP Password</th>
             <td><input type="password" class="inp-form" name="password"
                        value="<% if(session.getAttribute("c3password")!=null) { out.println(session.getAttribute("c3password")); } %>"/>
             </td>
@@ -200,13 +200,17 @@
                 <div class="left"><a href=""><img src="/images/forms/icon_plus.gif" width="21" height="21" alt=""/></a>
                 </div>
                 <div class="right">
-                    <h5></h5>
-                    Lorem ipsum dolor sit amet consectetur
-                    adipisicing elitsed do eiusmod tempor.
-                    <ul class="greyarrow">
-                        <li><a href="">Click here to visit</a></li>
-                        <li><a href="">Click here to visit</a></li>
-                    </ul>
+                    <h5>This is to setup the communication with the third cloud storage.</h5>
+                </div>
+                <div class="left"><a href=""><img src="/images/forms/icon_plus.gif" width="21" height="21" alt=""/></a>
+                </div>
+                <div class="right">
+                    <h5>Check the 'SFTP service' and the 'Messaging service' is running on the respective cloud</h5>
+                </div>
+                <div class="left"><a href=""><img src="/images/forms/icon_plus.gif" width="21" height="21" alt=""/></a>
+                </div>
+                <div class="right">
+                    <h5>If an error occurs check the given message service and SFTP service configurations.</h5>
                 </div>
                 <div class="clear"></div>
             </div>

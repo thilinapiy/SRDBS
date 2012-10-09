@@ -1,73 +1,67 @@
 <%@ page import="org.srdbs.web.Api" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>SRDBS</title>
-    <script type="text/javascript" src="js/jquery/jquery-1.4.1.min.js"></script>
-    <script type="text/javascript">
 
-        var auto_refresh = setInterval(
+<script type="text/javascript">
+    var auto_refresh = setInterval(
 
 
-                function () {
-                    $.ajax({
-                        url:'CloudStatus',
-                        type:'get',
-                        dataType:'json',
-                        success:function (data) {
-                            //$('#restoreFileName').html(data.restoreFileName);
-                            var imgname;
-                            if (data.cloud1 == "live") {
+            function () {
+                $.ajax({
+                    url:'CloudStatus',
+                    type:'get',
+                    dataType:'json',
+                    success:function (data) {
+                        //$('#restoreFileName').html(data.restoreFileName);
+                        var imgname;
+                        if (data.cloud1 == "live") {
 
-                                //   alert("live")
-                                imgname = "cloudblue.jpg";
-                                $("#img1").attr("src", "images/cloudblue.jpg");
-                            }
-                            else {
+                            //   alert("live")
+                            imgname = "cloudblue.jpg";
+                            $("#img1").attr("src", "images/cloudblue.jpg");
+                        }
+                        else {
 
-                                //  alert("down")
-                                imgname = "cloudred.jpg";
-                                $("#img1").attr("src", "images/cloudred.jpg");
-                            }
-
-                            if (data.cloud2 == "live") {
-
-                                //   alert("live")
-                                imgname = "cloudblue.jpg";
-                                $("#img2").attr("src", "images/cloudblue.jpg");
-                            }
-                            else {
-
-                                //  alert("down")
-                                imgname = "cloudred.jpg";
-                                $("#img2").attr("src", "images/cloudred.jpg");
-                            }
-
-                            if (data.cloud3 == "live") {
-
-                                //   alert("live")
-                                imgname = "cloudblue.jpg";
-                                $("#img3").attr("src", "images/cloudblue.jpg");
-                            }
-                            else {
-
-                                //  alert("down")
-                                imgname = "cloudred.jpg";
-                                $("#img3").attr("src", "images/cloudred.jpg");
-                            }
-
-
-                            console.log("width " + width);
-
-
+                            //  alert("down")
+                            imgname = "cloudred.jpg";
+                            $("#img1").attr("src", "images/cloudred.jpg");
                         }
 
-                    });
-                }, 5000);
+                        if (data.cloud2 == "live") {
+
+                            //   alert("live")
+                            imgname = "cloudblue.jpg";
+                            $("#img2").attr("src", "images/cloudblue.jpg");
+                        }
+                        else {
+
+                            //  alert("down")
+                            imgname = "cloudred.jpg";
+                            $("#img2").attr("src", "images/cloudred.jpg");
+                        }
+
+                        if (data.cloud3 == "live") {
+
+                            //   alert("live")
+                            imgname = "cloudblue.jpg";
+                            $("#img3").attr("src", "images/cloudblue.jpg");
+                        }
+                        else {
+
+                            //  alert("down")
+                            imgname = "cloudred.jpg";
+                            $("#img3").attr("src", "images/cloudred.jpg");
+                        }
 
 
-    </script>
+                        console.log("width " + width);
+
+
+                    }
+
+                });
+            }, 5000);
+
+
+</script>
 
 
 <TABLE BORDER="0" WIDTH="50%" CELLPADDING="4" CELLSPACING="3" ALIGN="Center">
@@ -108,4 +102,3 @@
         </TH>
     </TR>
 </TABLE>
-</html>
