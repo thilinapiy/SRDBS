@@ -1,3 +1,4 @@
+<%@ page import="org.srdbs.messenger.Sender" %>
 <%@ page import="org.srdbs.web.Api" %>
 
 <%
@@ -49,9 +50,17 @@
                 session.setAttribute("c2bandwidth", bandwidth.trim());
                 session.setAttribute("c2cost", cost.trim());
 
-                session.setAttribute("setupstate", "step5");
-                response.sendRedirect("/setup/step5.jsp");
-                return;
+                try {
+                    // validating the message service.
+                    Sender.sendMessage(session.getAttribute("c2ipaddress").toString()
+                            , Integer.valueOf(session.getAttribute("c2messageport").toString()), "init");
+
+                    session.setAttribute("setupstate", "step5");
+                    response.sendRedirect("/setup/step5.jsp");
+                    return;
+                } catch (Exception e) {
+                    msg = "Error on message service.";
+                }
             } else {
                 msg = "All fields are required.";
             }

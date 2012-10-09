@@ -38,6 +38,7 @@
             <outputDirectory>config</outputDirectory>
             <excludes>
                 <exclude>dist.xml</exclude>
+                <exclude>database.sql</exclude>
             </excludes>
         </fileSet>
         <fileSet>

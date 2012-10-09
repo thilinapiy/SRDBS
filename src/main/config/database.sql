@@ -2,19 +2,17 @@ CREATE DATABASE srdbsdb;
 CREATE USER srdbs;
 GRANT ALL PRIVILEGES ON srdbsdb.* TO 'srdbs'@'127.0.0.1' IDENTIFIED BY 'password';
 
-CREATE DATABASE srdbsclientdb;
-CREATE USER srdbsclient;
-GRANT ALL PRIVILEGES ON srdbsclientdb.* TO 'srdbsclient'@'127.0.0.1' IDENTIFIED BY 'password';
+USE srdbsdb;
 
-DROP TABLE sysconfig;
-DROP TABLE schedule;
+DROP TABLE IF EXISTS sysconfig;
+DROP TABLE IF EXISTS schedule;
 
-DROP TABLE sp_File;
-DROP TABLE full_File;
-DROP TABLE Cloud1;
-DROP TABLE Cloud2;
-DROP TABLE Cloud3;
-DROP TABLE Fail_Upload;
+DROP TABLE IF EXISTS sp_File;
+DROP TABLE IF EXISTS full_File;
+DROP TABLE IF EXISTS Cloud1;
+DROP TABLE IF EXISTS Cloud2;
+DROP TABLE IF EXISTS Cloud3;
+DROP TABLE IF EXISTS Fail_Upload;
 
 CREATE TABLE sysconfig(
   sysid int NOT NULL PRIMARY KEY,
@@ -81,5 +79,3 @@ Create Table Cloud3(
 );
 
 SELECT  * from Sp_File; SELECT  * from full_file;
-
-update schedule set starthour= , startmin= , compress=0, encrypt=0 where backupid=1;

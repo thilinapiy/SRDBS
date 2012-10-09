@@ -30,7 +30,7 @@
         return;
     }
 
-    if (testbtn != null && testbtn.equalsIgnoreCase("Test DB")) {
+    if (nextbtn != null && nextbtn.equalsIgnoreCase("next")) {
 
         if (dbipaddress != null && dbport != null && dbname != null && dbuser != null && dbpassword != null) {
             if (!dbipaddress.trim().equals("") && !dbport.trim().equals("") && !dbname.trim().equals("") && !dbuser.trim().equals("") && !dbpassword.trim().equals("")) {
@@ -54,30 +54,15 @@
                     msg = "Connected to the database";
                     Setup.initializeDatabase(session);
                     msg = "Database initialized successfully.";
+
+
+                    session.setAttribute("setupstate", "step3");
+                    response.sendRedirect("/setup/step3.jsp");
+                    return;
                 } catch (SQLException e) {
                     msg = "SQL exception : " + e.getErrorCode();
                 }
 
-            } else {
-                msg = "All fields are required.";
-            }
-        }
-    }
-
-    if (nextbtn != null && nextbtn.equalsIgnoreCase("next")) {
-
-        if (dbipaddress != null && dbport != null && dbname != null && dbuser != null && dbpassword != null) {
-            if (!dbipaddress.trim().equals("") && !dbport.trim().equals("") && !dbname.trim().equals("") && !dbuser.trim().equals("") && !dbpassword.trim().equals("")) {
-
-                session.setAttribute("dbipaddress", dbipaddress.toLowerCase().trim());
-                session.setAttribute("dbport", dbport.trim());
-                session.setAttribute("dbname", dbname.trim());
-                session.setAttribute("dbuser", dbuser.trim());
-                session.setAttribute("dbpassword", dbpassword.trim());
-
-                session.setAttribute("setupstate", "step3");
-                response.sendRedirect("/setup/step3.jsp");
-                return;
             } else {
                 msg = "All fields are required.";
             }
@@ -161,7 +146,6 @@
             <th>&nbsp;</th>
             <td valign="top">
                 <input type="submit" class="form-back" name="back" value="Back"/>
-                <input type="submit" class="form-btn" name="testdb" value="Test DB"/>
                 <input type="submit" class="form-next" name="next" value="Next"/>
             </td>
             <td>
