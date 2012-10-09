@@ -1,4 +1,4 @@
-# Secure and Redundant Data Backup System
+# Secure and Redundant Data Backup System - Main System
 
 ## Description
 
@@ -48,6 +48,9 @@
                 - GRANT ALL PRIVILEGES ON SRDBSDB.* TO 'SRDBS'@'127.0.0.1' IDENTIFIED BY 'password';
 
 ### Run the server
+
+        Check all the SRDBS-Clients are running on respective clouds.
+        If not, run all the SRDBS-Clients and try to start the main system.
 
         > srdbsstart.bat
         or
