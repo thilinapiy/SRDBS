@@ -525,7 +525,7 @@ public class RunRestore {
         in.read(iv);
         //System.out.println(">>>>>>>>red"+Arrays.toString(iv));
 
-        Cipher cipher = Cipher.getInstance("AES/CFB8/NoPadding"); //"DES/ECB/PKCS5Padding";"AES/CBC/PKCS5Padding"
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding"); //"DES/ECB/PKCS5Padding";"AES/CBC/PKCS5Padding";"AES/CFB8/NoPadding";
         SecretKeySpec keySpec = new SecretKeySpec(password.getBytes(), "AES");
         IvParameterSpec ivSpec = new IvParameterSpec(iv);
         cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
