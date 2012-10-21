@@ -21,6 +21,7 @@ public class RunMessageJob implements Job {
     public static String cloud1 = "";
     public static String cloud2 = "";
     public static String cloud3 = "";
+    public static String cloud4 = "CL1";
 
 
     public void execute(JobExecutionContext context) throws JobExecutionException {

@@ -45,6 +45,7 @@ public class Sftp {
     //cloud1
     public static String processlogg = "";
     public static String filename = "";
+    public static String filename1 = "";
     public static String filenametotal = "";
     public static long bytecount = 0;
     public static int downByteCount = 0;
@@ -451,7 +452,7 @@ public class Sftp {
             channel.connect();
             ChannelSftp sftpChannel = (ChannelSftp) channel;
             sftpChannel.get(serverPath + "/" + remotePath + "/" + fileName, Global.restoreLocation, new SystemOutProgressMonitor());
-            filename = "Downloading :- " + f.getName();
+            filename1 = "Downloading :- " + f.getName();
 
 
             sftpChannel.exit();

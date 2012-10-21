@@ -28,14 +28,13 @@
 
 
                         if(data.curentFileNumber != 0){
-                            //alert("fffff");
-                            //$('#limit').show();
+
                             $('#limit4').show();
 
 
                         }
 
-                        var  width = ((data.curentFileNumber  / data.fullFileCount) * 400);
+                        var  width = ((data.curentFileNumber  / data.fullFileCount) * 300);
 
 
 
@@ -77,7 +76,7 @@
                  <br>
                 <p id="restoreTotal"></p>
                 </tr>
-                <div id="limit4" style="height: 20px;width: 400px;border: 1px solid #000; display:none; ">
+                <div id="limit4" style="height: 20px;width: 300px;border: 1px solid #000; display:none; ">
 
                     <div id="div" style="float:left;height: 20px;background-color: blue" ></div>    <br>
                 </div>

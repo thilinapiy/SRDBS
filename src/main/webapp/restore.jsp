@@ -124,6 +124,8 @@
                             <!-- This is the end of the restore table.-->
 
                         </div>
+
+
                         <!--  end table-content  -->
                         <div class="clear"></div>
                     </div>
@@ -138,6 +140,10 @@
             </tr>
 
         </table><br>
+
+        <div style="width: 300px ;height:300px; ">
+            <%@ include file="downloadProgress.jsp" %>
+        </div>
 
         </br>
 

@@ -47,20 +47,24 @@
                             $('#outer').show();
                         }
 
+
                         if (data.currentFileNunber != 0) {
                             $('#limit').show();
                         }
+
                         if (data.currentFileNunbercloud2 != 0) {
                             $('#limit2').show();
                         }
+
                         if (data.currentFileNunbercloud3 != 0) {
                             $('#limit3').show();
                         }
 
 
-                        var width = ((data.currentFileNunber / data.fileCount) * 400);
-                        var widthcloud2 = ((data.currentFileNunbercloud2 / data.fileCountcloud2) * 400);
-                        var widthcloud3 = ((data.currentFileNunbercloud3 / data.fileCountcloud3) * 400);
+
+                        var width = ((data.currentFileNunber / data.fileCount) * 300);
+                        var widthcloud2 = ((data.currentFileNunbercloud2 / data.fileCountcloud2) * 300);
+                        var widthcloud3 = ((data.currentFileNunbercloud3 / data.fileCountcloud3) * 300);
 
 
                         console.log("widthcloud2 " + widthcloud2);
@@ -98,7 +102,7 @@
 </script>
 
 <div id="outer"
-     style="border: 3px ; width: 430px; height: 400px ;padding: 5px ; margin: 5px ; border: 1px solid rgb(0, 0, 0) ; display:none;">
+     style="border: 3px ; width: 330px; height: 400px ;padding: 5px ; margin: 5px ; border: 1px solid rgb(0, 0, 0) ; display:none;">
 
     <tr>
         <td id="tbl-border-left"></td>
@@ -117,7 +121,7 @@
 
             <br>
 
-            <div id="limit" style="height: 20px;width: 400px;border: 1px solid #000 ;display:none;">
+            <div id="limit" style="height: 20px;width: 300px;border: 1px solid #000 ;display:none;">
 
                 <div id="div" style="float:left;height: 20px;background-color: blue;"></div>
                 <br>
@@ -136,7 +140,7 @@
             </div>
             <br>
 
-            <div id="limit2" style="height: 20px;width: 400px;border: 1px solid #000 ; display:none;">
+            <div id="limit2" style="height: 20px;width: 300px;border: 1px solid #000 ; display:none;">
 
                 <div id="divcloud2" style="float:left;height: 20px;background-color: blue;"></div>
                 <br>
@@ -155,7 +159,7 @@
             </div>
             <br>
 
-            <div id="limit3" style="height: 20px;width: 400px;border: 1px solid #000 ; display:none;">
+            <div id="limit3" style="height: 20px;width: 300px;border: 1px solid #000 ; display:none;">
 
                 <div id="divcloud3" style="float:left;height: 20px;background-color: blue;"></div>
             </div>

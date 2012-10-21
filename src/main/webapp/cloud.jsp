@@ -58,7 +58,7 @@
                     }
 
                 });
-            }, 5000);
+            },5000);
 
 
 </script>
@@ -73,32 +73,40 @@
     </TR>
 
     <TR ALIGN="CENTER">
-        <div id="cloud1">
-            <TD><img src="images/cloudgreen.jpg" id="img1" title="SRDBS" alt="SRDBS" width="150" height="130"
+        <div id="cloud11">
+            <TD><img src="images/cloudblue.jpg" id="img1" title="SRDBS" alt="SRDBS" width="110" height="100"
                      border="0"/></TD>
         </div>
-        <div id="cloud2">
-            <TD><img src="images/cloudgreen.jpg" id="img2" title="SRDBS" alt="SRDBS" width="150" height="130"
+        <div id="cloud22">
+            <TD><img src="images/cloudblue.jpg" id="img2" title="SRDBS" alt="SRDBS" width="110" height="100"
                      border="0"/></TD>
         </div>
-        <div id="cloud3">
-            <TD><img src="images/cloudgreen.jpg" id="img3" title="SRDBS" alt="SRDBS" width="150" height="130"
+        <div id="cloud33">
+            <TD><img src="images/cloudblue.jpg" id="img3" title="SRDBS" alt="SRDBS" width="110" height="100"
                      border="0"/></TD>
         </div>
     </TR>
     <TR ALIGN="CENTER">
-        <div id="arrow1">
-            <TD><img src="images/up.JPG" title="SRDBS" alt="SRDBS" width="150" height="130" border="0"/></TD>
-        </div>
-        <div id="arrow2">
-            <TD><img src="images/up.JPG" title="SRDBS" alt="SRDBS" width="150" height="130" border="0"/></TD>
-        </div>
-        <div id="arrow3">
-            <TD><img src="images/up.JPG" title="SRDBS" alt="SRDBS" width="150" height="130" border="0"/></TD>
-        </div>
+
+
+            <TD><div style="font-weight:bold;font-style:oblique;font-size:20">
+                <tr>
+                    <p id="cloud4"></p>
+
+                </tr>
+            </div>
+                </TD>
+
+
+            <TD><p id= cloud2></p></TD>
+
+
+            <TD><p id= cloud3></p></TD>
+
+
     </TR>
     <TR>
-        <TH COLSPAN="3"><BR><img src="images/user.jpg" title="SRDBS" alt="SRDBS" width="150" height="130" border="0"/>
+        <TH COLSPAN="3"><BR><img src="images/user.jpg" title="SRDBS" alt="SRDBS" width="110" height="100" border="0"/>
         </TH>
     </TR>
 </TABLE>
