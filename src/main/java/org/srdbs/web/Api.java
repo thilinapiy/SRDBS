@@ -50,4 +50,40 @@ public class Api {
             return false;
         }
     }
+
+    public static String getCloud1size() {
+
+        String val = "123.23";
+
+        return val;
+    }
+
+    public static String getCloud2size() {
+
+        String val = "234.56";
+
+        return val;
+    }
+
+    public static String getCloud3size() {
+
+        String val = "345.67";
+
+        return val;
+    }
+
+    public static String getCloud1Name() {
+
+        return Global.c1IPAddress;
+    }
+
+    public static String getCloud2Name() {
+
+        return Global.c2IPAddress;
+    }
+
+    public static String getCloud3Name() {
+
+        return Global.c3IPAddress;
+    }
 }
