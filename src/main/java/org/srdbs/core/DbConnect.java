@@ -204,9 +204,9 @@ public class DbConnect {
     }
 
 
-    public int SaveCloud1(long fid, String Fname, String R_Path) throws SQLException {
+    public int SaveCloud1(long fid, String Fname, String R_Path, long fileSize) throws SQLException {
 
-        String sql = "insert into Cloud1 (f_ID,FileName,Remote_Path) values (?,?,?)";
+        String sql = "insert into Cloud1 (f_ID,FileName,Remote_Path,fileSize) values (?,?,?,?)";
         Connection connection = connect();
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -215,6 +215,7 @@ public class DbConnect {
             ps.setLong(1, fid);
             ps.setString(2, Fname);
             ps.setString(3, R_Path);
+            ps.setLong(4, fileSize);
             ps.addBatch();
 
             ps.executeBatch();
@@ -226,9 +227,9 @@ public class DbConnect {
         return 1;
     }
 
-    public int SaveCloud2(long fid, String Fname, String R_Path) throws SQLException {
+    public int SaveCloud2(long fid, String Fname, String R_Path, long fileSize) throws SQLException {
 
-        String sql = "insert into Cloud2 (f_ID,FileName,Remote_Path) values (?,?,?)";
+        String sql = "insert into Cloud2 (f_ID,FileName,Remote_Path,fileSize) values (?,?,?,?)";
         Connection connection = connect();
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -237,6 +238,7 @@ public class DbConnect {
             ps.setLong(1, fid);
             ps.setString(2, Fname);
             ps.setString(3, R_Path);
+            ps.setLong(4, fileSize);
             ps.addBatch();
 
             ps.executeBatch();
@@ -248,9 +250,9 @@ public class DbConnect {
         return 1;
     }
 
-    public int SaveCloud3(long fid, String Fname, String R_Path) throws SQLException {
+    public int SaveCloud3(long fid, String Fname, String R_Path, long fileSize) throws SQLException {
 
-        String sql = "insert into Cloud3 (f_ID,FileName,Remote_Path) values (?,?,?)";
+        String sql = "insert into Cloud3 (f_ID,FileName,Remote_Path,fileSize) values (?,?,?,?)";
         Connection connection = connect();
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -259,6 +261,7 @@ public class DbConnect {
             ps.setLong(1, fid);
             ps.setString(2, Fname);
             ps.setString(3, R_Path);
+            ps.setLong(4, fileSize);
             ps.addBatch();
 
             ps.executeBatch();
@@ -268,6 +271,80 @@ public class DbConnect {
             System.out.print(e);
         }
         return 1;
+    }
+
+    //get packet size
+    public long pSize(long f_id, String file) throws SQLException {
+
+        String sql = " select F_SIZE from sp_file where F_ID = '" + f_id + "' and SP_FileName ='" + file + "'";
+        Connection connection = connect();
+        long size = 0;
+
+        try {
+            Statement s = connection.createStatement();
+            ResultSet rs = s.executeQuery(sql);
+
+            while (rs.next()) {
+                size = rs.getLong(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return size;
+    }
+
+    public Double count(int Cid) throws SQLException {
+
+        Double size = 0.0;
+
+        if (Cid == 1) {
+            String sql = " select fileSize from cloud1";
+            Connection connection = connect();
+
+            try {
+                Statement s = connection.createStatement();
+                ResultSet rs = s.executeQuery(sql);
+
+                while (rs.next()) {
+                    size += rs.getDouble(1);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (Cid == 2) {
+            String sql = " select fileSize from cloud2";
+            Connection connection = connect();
+
+            try {
+                Statement s = connection.createStatement();
+                ResultSet rs = s.executeQuery(sql);
+
+                while (rs.next()) {
+                    size += rs.getDouble(1);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (Cid == 3) {
+            String sql = " select fileSize from cloud3";
+            Connection connection = connect();
+
+            try {
+                Statement s = connection.createStatement();
+                ResultSet rs = s.executeQuery(sql);
+
+                while (rs.next()) {
+                    size += rs.getDouble(1);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return size;
     }
 
 
@@ -1094,9 +1171,9 @@ public class DbConnect {
 
     public int SplitFileCount(long fid) throws SQLException {
 
-        int Count =0;
+        int Count = 0;
         //  String sql=("update sp_file set Rpath = '" + Flname +  "' where F_ID = '" + fid + "'");
-        String sql = "Select count(F_ID) from sp_file where F_ID = '" +fid +"'";
+        String sql = "Select count(F_ID) from sp_file where F_ID = '" + fid + "'";
         Connection connection = connect();
         PreparedStatement ps = connection.prepareStatement(sql);
 

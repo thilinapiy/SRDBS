@@ -23,8 +23,8 @@ import java.util.List;
  */
 public class FailUpload_Download {
 
-            public static Logger logger = Logger.getLogger("systemsLog");
-            public static Logger restoreLog = Logger.getLogger("restoreLog");
+    public static Logger logger = Logger.getLogger("systemsLog");
+    public static Logger restoreLog = Logger.getLogger("restoreLog");
 
     public static void getFile() {
 
@@ -85,7 +85,7 @@ public class FailUpload_Download {
 
             DbConnect dbconnect = new DbConnect();
             dbconnect.saveUploadSPFiles(Fid, temp[temp.length - 1], path, 1);
-            dbconnect.SaveCloud1(Fid,temp[temp.length-1],Global.c1Remotepath /*+ "/" + path*/);
+            // dbconnect.SaveCloud1(Fid,temp[temp.length-1],Global.c1Remotepath /*+ "/" + path*/);
             dbconnect.deleteFile(Fid, file);
 
             channelSftp.exit();
@@ -126,7 +126,7 @@ public class FailUpload_Download {
 
             DbConnect dbconnect = new DbConnect();
             dbconnect.saveUploadSPFiles(Fid, temp[temp.length - 1], path, 2);
-            dbconnect.SaveCloud2(Fid,temp[temp.length-1],Global.c2Remotepath /*+ "/" + path*/);
+            // dbconnect.SaveCloud2(Fid,temp[temp.length-1],Global.c2Remotepath /*+ "/" + path*/);
             dbconnect.deleteFile(Fid, file);
 
             channelSftp.exit();
@@ -165,7 +165,7 @@ public class FailUpload_Download {
 
             DbConnect dbconnect = new DbConnect();
             //dbconnect.saveUploadSPFiles(Fid, temp[temp.length - 1], path, 3);
-            dbconnect.SaveCloud1(Fid,temp[temp.length-1],Global.c3Remotepath /*+ "/" + path*/);
+            // dbconnect.SaveCloud1(Fid,temp[temp.length-1],Global.c3Remotepath /*+ "/" + path*/);
             dbconnect.deleteFile(Fid, file);
 
             channelSftp.exit();
@@ -181,8 +181,7 @@ public class FailUpload_Download {
 
     }
 
-    public static int failDownload(String Fname, String Rpath, int Cloud )
-    {
+    public static int failDownload(String Fname, String Rpath, int Cloud) {
 
         String uName = "";
         String host = "";
@@ -232,7 +231,7 @@ public class FailUpload_Download {
             Channel channel = session.openChannel("sftp");
             channel.connect();
             ChannelSftp sftpChannel = (ChannelSftp) channel;
-            sftpChannel.get(serverPath + "/" + Rpath + "/" + Fname ,Global.restoreLocation);
+            sftpChannel.get(serverPath + "/" + Rpath + "/" + Fname, Global.restoreLocation);
 
             sftpChannel.exit();
             session.disconnect();
@@ -240,8 +239,7 @@ public class FailUpload_Download {
             return 0;
 
         } catch (Exception e) {
-            restoreLog.error("Error on downloading file : " + serverPath + "/" + Rpath + "/" + Fname
-                   );
+            restoreLog.error("Error on downloading file : " + serverPath + "/" + Rpath + "/" + Fname);
             return -1;
         }
     }

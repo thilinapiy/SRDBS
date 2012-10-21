@@ -101,6 +101,7 @@ public class Sftp {
         ChannelSftp channelSftp = null;
         int ftpFileNo = 0;
         long fid = fID;
+        long fsize;
 
         try {
             JSch jsch = new JSch();
@@ -141,8 +142,9 @@ public class Sftp {
 
                 String temp[] = f.toString().split("\\\\");
                 DbConnect dbconnect = new DbConnect();
+                fsize= dbconnect.pSize(fid, f.getName());
                 dbconnect.saveUploadSPFiles(fid, temp[temp.length - 1], rPath, 1);
-                dbconnect.SaveCloud1(fid, temp[temp.length - 1], Global.c1Remotepath + "/" + rPath);
+                dbconnect.SaveCloud1(fid, temp[temp.length - 1], Global.c1Remotepath + "/" + rPath,fsize);
 
                 F1.close();
 
@@ -188,7 +190,7 @@ public class Sftp {
         ChannelSftp channelSftp = null;
         int ftpFileNo = 0;
         long fid = fID;
-
+        long fsize;
         try {
             JSch jsch = new JSch();
             session = jsch.getSession(Global.c2UserName, Global.c2IPAddress, Global.c2Port);
@@ -225,8 +227,9 @@ public class Sftp {
 
                 String temp[] = f.toString().split("\\\\");
                 DbConnect dbconnect = new DbConnect();
+                fsize= dbconnect.pSize(fid, f.getName());
                 dbconnect.saveUploadSPFiles(fid, temp[temp.length - 1], rPath, 2);
-                dbconnect.SaveCloud2(fid, temp[temp.length - 1], Global.c2Remotepath + "/" + rPath);
+                dbconnect.SaveCloud2(fid, temp[temp.length - 1], Global.c2Remotepath + "/" + rPath,fsize);
 
                 F1.close();
             }
@@ -271,6 +274,7 @@ public class Sftp {
         ChannelSftp channelSftp = null;
         int ftpFileNo = 0;
         long fid = fID;
+        long fsize;
 
         try {
             JSch jsch = new JSch();
@@ -308,8 +312,9 @@ public class Sftp {
 
                 String temp[] = f.toString().split("\\\\");
                 DbConnect dbconnect = new DbConnect();
+                fsize= dbconnect.pSize(fid, f.getName());
                 dbconnect.saveUploadSPFiles(fid, temp[temp.length - 1], rPath, 3);
-                dbconnect.SaveCloud3(fid, temp[temp.length - 1], Global.c3Remotepath + "/" + rPath);
+                dbconnect.SaveCloud3(fid, temp[temp.length - 1], Global.c3Remotepath + "/" + rPath, fsize);
 
                 F1.close();
             }
@@ -386,7 +391,7 @@ public class Sftp {
                 processlogg = processlogg + "#";
                 System.out.print("#");
                 downByteCount = x;
-                x = x + 5000000;
+                x = x + 900000000;
             }
             return (true);
         }
@@ -480,7 +485,7 @@ public class Sftp {
             for (int x = 0; x < bytes; ) {
                 processlogg = processlogg + "#";
                 System.out.print("#");
-                x = x + 5000000;
+                x = x + 900000000;
             }
             return (true);
         }

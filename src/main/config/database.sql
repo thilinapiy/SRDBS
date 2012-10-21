@@ -63,19 +63,22 @@ Create Table Fail_Upload(
 Create Table Cloud1(
   f_ID int,
   FileName varchar(400),
-  Remote_Path varchar(400)
+  Remote_Path varchar(400),
+  fileSize bigint
 );
 
 Create Table Cloud2(
   f_ID int,
   FileName varchar(400),
-  Remote_Path varchar(400)
+  Remote_Path varchar(400),
+  fileSize bigint
 );
 
 Create Table Cloud3(
   f_ID int,
   FileName varchar(400),
-  Remote_Path varchar(400)
+  Remote_Path varchar(400),
+  fileSize bigint
 );
 
 SELECT  * from Sp_File; SELECT  * from full_file;

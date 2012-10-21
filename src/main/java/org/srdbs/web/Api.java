@@ -3,6 +3,7 @@ package org.srdbs.web;
 import org.apache.log4j.Logger;
 import org.srdbs.core.Core;
 import org.srdbs.core.Global;
+import org.srdbs.core.DbConnect;
 
 /**
  * Api class of the core
@@ -53,23 +54,40 @@ public class Api {
 
     public static String getCloud1size() {
 
-        String val = "123.23";
-
-        return val;
+        String c1 = "";
+        DbConnect dbconnect = new DbConnect();
+        try {
+            double val = dbconnect.count(1) / (1024 * 1024 * 1024);
+            c1 = Double.toString(Math.round(val * 1000.0) / 1000.0);
+        } catch (Exception e) {
+            logger.error("error on cloud usage capacity");
+        }
+        return c1;
     }
 
     public static String getCloud2size() {
 
-        String val = "234.56";
-
-        return val;
+        String c2 = "";
+        DbConnect dbconnect = new DbConnect();
+        try {
+            double val = dbconnect.count(2) / (1024 * 1024 * 1024);
+            c2 = Double.toString(Math.round(val * 1000.0) / 1000.0);
+        } catch (Exception e) {
+            logger.error("error on cloud usage capacity");
+        }
+        return c2;
     }
 
     public static String getCloud3size() {
-
-        String val = "345.67";
-
-        return val;
+        String c3 = "";
+        DbConnect dbconnect = new DbConnect();
+        try {
+            double val = dbconnect.count(3) / (1024 * 1024 * 1024);
+            c3 = Double.toString(Math.round(val * 1000.0) / 1000.0);
+        } catch (Exception e) {
+            logger.error("error on cloud usage capacity");
+        }
+        return c3;
     }
 
     public static String getCloud1Name() {
