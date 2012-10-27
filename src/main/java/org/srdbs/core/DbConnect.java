@@ -287,9 +287,12 @@ public class DbConnect {
             while (rs.next()) {
                 size = rs.getLong(1);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        connection.close();
         return size;
     }
 
@@ -311,6 +314,7 @@ public class DbConnect {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            connection.close();
         }
 
         if (Cid == 2) {
@@ -327,6 +331,7 @@ public class DbConnect {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            connection.close();
         }
 
         if (Cid == 3) {
@@ -343,6 +348,7 @@ public class DbConnect {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            connection.close();
         }
         return size;
     }

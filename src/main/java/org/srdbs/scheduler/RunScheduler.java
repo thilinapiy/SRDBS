@@ -56,7 +56,7 @@ public class RunScheduler {
             Trigger failedBackupsTrigger = newTrigger().withIdentity("Run Failed Backups Trigger", "Daily backup group")
                     .startNow()
                     .withSchedule(simpleSchedule()
-                            .withIntervalInHours(6)
+                            .withIntervalInMinutes(10)
                             .repeatForever())
                     .build();
 
