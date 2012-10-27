@@ -32,7 +32,12 @@ public class CloudStatus extends HttpServlet {
             json.put("cloud1", RunMessageJob.cloud1);
             json.put("cloud2", RunMessageJob.cloud2);
             json.put("cloud3", RunMessageJob.cloud3);
-            json.put("cloud4", RunMessageJob.cloud4);
+            json.put("c1ip", Api.getCloud1Name() );
+            json.put("c2ip",Api.getCloud2Name());
+            json.put("c3ip",Api.getCloud3Name());
+            json.put("c1",Api.getCloud1size());
+            json.put("c2",Api.getCloud2size());
+            json.put("c3",Api.getCloud3size());
 
 
             out.print(json);

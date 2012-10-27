@@ -143,15 +143,18 @@ public class Setup {
         dbCon.updateQuery("Create Table Cloud1(" +
                 "f_ID int," +
                 "FileName varchar(400)," +
-                "Remote_Path varchar(400))");
+                "Remote_Path varchar(400)," +
+                "fileSize bigint)");
         dbCon.updateQuery("Create Table Cloud2(" +
                 "f_ID int," +
                 "FileName varchar(400)," +
-                "Remote_Path varchar(400))");
+                "Remote_Path varchar(400)," +
+                "fileSize bigint)");
         dbCon.updateQuery("Create Table Cloud3(" +
                 "f_ID int," +
                 "FileName varchar(400)," +
-                "Remote_Path varchar(400))");
+                "Remote_Path varchar(400)," +
+                "fileSize bigint)");
         //dbCon.updateQuery("");
     }
 }

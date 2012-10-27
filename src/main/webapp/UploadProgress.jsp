@@ -43,9 +43,9 @@
                         $('#currentFileNunbercloud3').html(data.currentFileNunbercloud3);
                         $('#filenamecloud3total').html(data.filenamecloud3total);
 
-                        if (data.currentFileNunber != 0) {
-                            $('#outer').show();
-                        }
+                       // if (data.currentFileNunber != 0) {
+                         //   $('#outer').show();
+                       // }
 
 
                         if (data.currentFileNunber != 0) {
@@ -101,8 +101,6 @@
             }, 5000); // refresh every 10000 milliseconds
 </script>
 
-<div id="outer"
-     style="border: 3px ; width: 330px; height: 400px ;padding: 5px ; margin: 5px ; border: 1px solid rgb(0, 0, 0) ; display:none;">
 
     <tr>
         <td id="tbl-border-left"></td>

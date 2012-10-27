@@ -1,5 +1,6 @@
 package org.srdbs.web;
 
+import org.apache.activemq.usage.Usage;
 import org.apache.log4j.Logger;
 import org.srdbs.core.Core;
 import org.srdbs.core.Global;
@@ -12,6 +13,10 @@ import org.srdbs.core.DbConnect;
  * @version 0.1
  */
 public class Api {
+
+    public  static String  c1ip="";
+    public  static String  c2ip="";
+    public  static String  c3ip="";
 
     public static Logger logger = Logger.getLogger("systemsLog");
 
@@ -58,7 +63,7 @@ public class Api {
         DbConnect dbconnect = new DbConnect();
         try {
             double val = dbconnect.count(1) / (1024 * 1024 * 1024);
-            c1 = Double.toString(Math.round(val * 1000.0) / 1000.0);
+            c1 ="Usage : "+ Double.toString(Math.round(val * 1000.0) / 1000.0) +"GB";;
         } catch (Exception e) {
             logger.error("error on cloud usage capacity");
         }
@@ -71,7 +76,7 @@ public class Api {
         DbConnect dbconnect = new DbConnect();
         try {
             double val = dbconnect.count(2) / (1024 * 1024 * 1024);
-            c2 = Double.toString(Math.round(val * 1000.0) / 1000.0);
+            c2 ="Usage : "+ Double.toString(Math.round(val * 1000.0) / 1000.0) +"GB";
         } catch (Exception e) {
             logger.error("error on cloud usage capacity");
         }
@@ -83,7 +88,7 @@ public class Api {
         DbConnect dbconnect = new DbConnect();
         try {
             double val = dbconnect.count(3) / (1024 * 1024 * 1024);
-            c3 = Double.toString(Math.round(val * 1000.0) / 1000.0);
+            c3 ="Usage : "+ Double.toString(Math.round(val * 1000.0) / 1000.0) +"GB";;
         } catch (Exception e) {
             logger.error("error on cloud usage capacity");
         }
@@ -91,17 +96,21 @@ public class Api {
     }
 
     public static String getCloud1Name() {
+           c1ip= "IP :"+Global.c1IPAddress;
 
-        return Global.c1IPAddress;
+        return  c1ip;
+                //Global.c1IPAddress;
     }
 
     public static String getCloud2Name() {
+        c2ip= "IP : "+Global.c2IPAddress;
 
-        return Global.c2IPAddress;
+        return c2ip;
     }
 
     public static String getCloud3Name() {
 
-        return Global.c3IPAddress;
+        c3ip= "IP : "+Global.c3IPAddress;
+        return c3ip;
     }
 }
