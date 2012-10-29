@@ -22,41 +22,39 @@ public class RunMessageJob implements Job {
     public static String cloud2 = "";
     public static String cloud3 = "";
 
-
-
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
         logger.info("Sending periodic message to check the availability of the messaging service on clouds.");
         try {
             Sender.sendMessage(Global.c1IPAddress, Global.c1MessagePort, "status");
             cloud1 = "live";
-            logger.info("cloud1 live ");
+            //logger.info("cloud 1 : " + Global.c1IPAddress + " live.");
 
         } catch (Exception e) {
             cloud1 = "down";
-            logger.info("cloud1 down ");
+            logger.info("cloud 1 : " + Global.c1IPAddress + " down.");
             retryStatus(Global.c1IPAddress, Global.c1MessagePort);
         }
 
         try {
             Sender.sendMessage(Global.c2IPAddress, Global.c2MessagePort, "status");
             cloud2 = "live";
-            logger.info("cloud2 live ");
+            //logger.info("cloud 2 : " + Global.c2IPAddress + " live ");
 
         } catch (Exception e) {
             cloud2 = "down";
-            logger.info("cloud2 down ");
+            logger.info("cloud 2 : " + Global.c2IPAddress + " down ");
             retryStatus(Global.c2IPAddress, Global.c2MessagePort);
         }
 
         try {
             Sender.sendMessage(Global.c3IPAddress, Global.c3MessagePort, "status");
             cloud3 = "live";
-            logger.info("cloud3 live ");
+            //logger.info("cloud 3 " + Global.c3IPAddress + " live ");
 
         } catch (Exception e) {
             cloud3 = "down";
-            logger.info("cloud3 down ");
+            logger.info("cloud 3 " + Global.c3IPAddress + " down ");
             retryStatus(Global.c3IPAddress, Global.c3MessagePort);
         }
     }
@@ -68,7 +66,7 @@ public class RunMessageJob implements Job {
 
         while (count <= 5 && !status) {
             try {
-                Thread.sleep(40 * 1000);  // in milliseconds
+                Thread.sleep(10 * 1000);  // in milliseconds
                 Sender.sendMessage(cloudIPAddress, messagePort, "status");
                 status = true; // if there's no exception, change the status in to true.
             } catch (Exception e) {

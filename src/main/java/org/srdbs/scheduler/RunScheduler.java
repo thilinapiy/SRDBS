@@ -42,12 +42,12 @@ public class RunScheduler {
             Trigger messengerTrigger = newTrigger().withIdentity("Messenger Trigger", "Daily backup group")
                     .startNow()
                     .withSchedule(simpleSchedule()
-                            .withIntervalInMinutes(5)
+                            .withIntervalInMinutes(1)
                             .repeatForever())
                     .build();
 
             scheduler.scheduleJob(messengerJob, messengerTrigger);
-            backplogger.info("Create messenger schedule to run in every 2 min.");
+            backplogger.info("Create messenger schedule to run in every 1 min.");
 
             //schedule for failed backups
             JobDetail failedBackupsJob = newJob(RunFailedBackupsJob.class)
