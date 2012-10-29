@@ -7,7 +7,7 @@ import com.jcraft.jsch.Session;
 import org.apache.log4j.Logger;
 import org.srdbs.core.DbConnect;
 import org.srdbs.core.Global;
-import org.srdbs.split.Split;
+import org.srdbs.core.RunBackup;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,6 +24,7 @@ import java.util.List;
 public class FailUpload_Download {
 
     public static Logger logger = Logger.getLogger("systemsLog");
+    public static Logger backplogger = Logger.getLogger("backupLog");
     public static Logger restoreLog = Logger.getLogger("restoreLog");
 
     public static void getFile() {
@@ -37,17 +38,16 @@ public class FailUpload_Download {
                     boolean up = Sftp.ping(Global.c1IPAddress, Global.c1Port);
                     if (up == true) {
                         failUploadC1(getFailFiles.get(i).toString(), getFailFiles.get(i + 2).toString(), getFailFiles.get(i + 3).toString());
-                        System.out.println("Upload Done");
                     }
                 }
 
-                if (getFailFiles.get(i + 1).toString() == "2") {
+                if (Integer.parseInt(getFailFiles.get(i + 1).toString()) == 2) {
                     boolean up1 = Sftp.ping(Global.c2IPAddress, Global.c2Port);
                     if (up1 == true) {
                         failUploadC2(getFailFiles.get(i).toString(), getFailFiles.get(i + 2).toString(), getFailFiles.get(i + 3).toString());
                     }
                 }
-                if (getFailFiles.get(i + 1).toString() == "3") {
+                if (Integer.parseInt(getFailFiles.get(i + 1).toString()) == 3) {
                     boolean up2 = Sftp.ping(Global.c3IPAddress, Global.c3Port);
                     if (up2 == true) {
                         failUploadC3(getFailFiles.get(i).toString(), getFailFiles.get(i + 2).toString(), getFailFiles.get(i + 3).toString());
@@ -56,7 +56,16 @@ public class FailUpload_Download {
                 i = i + 4;
             }
         } else
-            System.out.print("No files in data base");
+
+            if(!Global.failfileLocation.isEmpty())
+            {
+                 boolean FolDel= deleteDir(new File(Global.failfileLocation)) ;
+                 backplogger.info("Folder Deletion : " + FolDel);
+
+            }
+            else
+                System.out.print("No Fail files in Database");
+                backplogger.info("No Fail files in Database");
 
     }
 
@@ -65,6 +74,7 @@ public class FailUpload_Download {
         Channel channel = null;
         ChannelSftp channelSftp = null;
         long Fid = Long.parseLong(fid);
+        long fsize;
 
         try {
             JSch jsch = new JSch();
@@ -77,25 +87,39 @@ public class FailUpload_Download {
             channel = session.openChannel("sftp");
             channel.connect();
             channelSftp = (ChannelSftp) channel;
-            channelSftp.cd(Global.c1Remotepath /*+ "/" + path*/);
+            channelSftp.cd(Global.c1Remotepath + "/" + path);
 
             File f = new File(file);
-            channelSftp.put(new FileInputStream(f), f.getName());
+            FileInputStream F1 = new FileInputStream(f);
+            channelSftp.put(F1, f.getName());
             String temp[] = f.toString().split("\\\\");
 
             DbConnect dbconnect = new DbConnect();
+            fsize= dbconnect.pSize(Fid, f.getName());
             dbconnect.saveUploadSPFiles(Fid, temp[temp.length - 1], path, 1);
-            // dbconnect.SaveCloud1(Fid,temp[temp.length-1],Global.c1Remotepath /*+ "/" + path*/);
+            dbconnect.SaveCloud1(Fid,temp[temp.length-1],Global.c1Remotepath + "/" + path,fsize);
             dbconnect.deleteFile(Fid, file);
 
+            backplogger.info("Upload file: "+ f.getName() +" Completed");
             channelSftp.exit();
             session.disconnect();
-
+            F1.close();
             return 0;
-        } catch (Exception ex) {
+        }
+
+        catch (Exception ex) {
 
             ex.printStackTrace();
             System.out.println("ERROR-----------");
+            try{
+                channelSftp.mkdir(Global.c1Remotepath + "/" + path);
+                channelSftp.cd(Global.c1Remotepath + "/" + path);
+                failUploadC1(fid, file, path);
+            }
+            catch(Exception e1){
+                e1.printStackTrace();
+                backplogger.error("Error in fail upload ");
+            }
 
             return 10;
         }
@@ -106,7 +130,7 @@ public class FailUpload_Download {
         Channel channel = null;
         ChannelSftp channelSftp = null;
         long Fid = Long.parseLong(fid);
-
+        long fsize;
         try {
             JSch jsch = new JSch();
             session = jsch.getSession(Global.c2UserName, Global.c2IPAddress, Global.c2Port);
@@ -118,24 +142,40 @@ public class FailUpload_Download {
             channel = session.openChannel("sftp");
             channel.connect();
             channelSftp = (ChannelSftp) channel;
-            channelSftp.cd(Global.c2Remotepath /*+ "/" + path*/);
+            channelSftp.cd(Global.c2Remotepath + "/" + path);
 
             File f = new File(file);
-            channelSftp.put(new FileInputStream(f), f.getName());
+            FileInputStream F1 = new FileInputStream(f);
+            channelSftp.put(F1, f.getName());
             String temp[] = f.toString().split("\\\\");
 
             DbConnect dbconnect = new DbConnect();
+            fsize= dbconnect.pSize(Fid, f.getName());
             dbconnect.saveUploadSPFiles(Fid, temp[temp.length - 1], path, 2);
-            // dbconnect.SaveCloud2(Fid,temp[temp.length-1],Global.c2Remotepath /*+ "/" + path*/);
+            dbconnect.SaveCloud2(Fid,temp[temp.length-1],Global.c2Remotepath + "/" + path, fsize);
             dbconnect.deleteFile(Fid, file);
 
+            backplogger.info("Upload file: "+ f.getName() +" Completed");
             channelSftp.exit();
             session.disconnect();
-
+            F1.close();
             return 0;
+
         } catch (Exception ex) {
 
             ex.printStackTrace();
+            System.out.println("ERROR-----------");
+            backplogger.error("Error in fail upload ");
+            
+            try{
+                channelSftp.mkdir(Global.c2Remotepath + "/" + path);
+                channelSftp.cd(Global.c2Remotepath + "/" + path);
+                failUploadC2(fid, file, path);
+            }
+            catch(Exception e1){
+                e1.printStackTrace();
+                backplogger.error("Error in fail upload ");
+            }
             return 10;
         }
     }
@@ -145,6 +185,7 @@ public class FailUpload_Download {
         Channel channel = null;
         ChannelSftp channelSftp = null;
         long Fid = Long.parseLong(fid);
+        long fsize;
 
         try {
             JSch jsch = new JSch();
@@ -157,24 +198,39 @@ public class FailUpload_Download {
             channel = session.openChannel("sftp");
             channel.connect();
             channelSftp = (ChannelSftp) channel;
-            channelSftp.cd(Global.c3Remotepath /*+ "/" + path*/);
+            channelSftp.cd(Global.c3Remotepath + "/" + path);
 
             File f = new File(file);
-            channelSftp.put(new FileInputStream(f), f.getName());
+            FileInputStream F1 = new FileInputStream(f);
+            channelSftp.put(F1, f.getName());
             String temp[] = f.toString().split("\\\\");
 
             DbConnect dbconnect = new DbConnect();
-            //dbconnect.saveUploadSPFiles(Fid, temp[temp.length - 1], path, 3);
-            // dbconnect.SaveCloud1(Fid,temp[temp.length-1],Global.c3Remotepath /*+ "/" + path*/);
+            fsize= dbconnect.pSize(Fid, f.getName());
+            dbconnect.saveUploadSPFiles(Fid, temp[temp.length - 1], path, 3);
+            dbconnect.SaveCloud3(Fid,temp[temp.length-1],Global.c3Remotepath + "/" + path, fsize);
             dbconnect.deleteFile(Fid, file);
 
+            backplogger.info("Upload file: "+ f.getName() +" Completed");
             channelSftp.exit();
             session.disconnect();
-
+            F1.close();
             return 0;
+
         } catch (Exception ex) {
 
             ex.printStackTrace();
+            System.out.println("ERROR-----------");
+            backplogger.error("Error in fail upload ");
+            try{
+                channelSftp.mkdir(Global.c3Remotepath + "/" + path);
+                channelSftp.cd(Global.c3Remotepath + "/" + path);
+                failUploadC3(fid, file, path);
+            }
+            catch(Exception e1){
+                e1.printStackTrace();
+                backplogger.error("Error in fail upload ");
+            }
             return 10;
         }
 
@@ -242,6 +298,29 @@ public class FailUpload_Download {
             restoreLog.error("Error on downloading file : " + serverPath + "/" + Rpath + "/" + Fname);
             return -1;
         }
+    }
+
+    public static boolean deleteDir(File directory) {
+        if(directory.exists()){
+            File[] files = directory.listFiles();
+            if(null!=files){
+                for(int i=0; i<files.length; i++) {
+                    if(files[i].isDirectory()) {
+                        File[] files1 = files[i].listFiles();
+                        for(int j=0; j<files1.length;j++)
+                        {
+                            files1[j].delete();
+                        }
+                            files[i].delete();
+                    }
+
+                    else {
+                        files[i].delete();
+                    }
+                }
+            }
+        }
+        return true;
     }
 
 }
