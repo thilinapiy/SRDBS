@@ -55,18 +55,15 @@ public class FailUpload_Download {
                 }
                 i = i + 4;
             }
-        } else
 
-            if(!Global.failfileLocation.isEmpty())
-            {
-                 boolean FolDel= deleteDir(new File(Global.failfileLocation)) ;
-                 backplogger.info("Folder Deletion : " + FolDel);
+            boolean FolDel= deleteDir(new File(Global.failfileLocation)) ;
+            backplogger.info("Folder Deletion : " + FolDel);
+        }
 
-            }
-            else
-                System.out.print("No Fail files in Database");
-                backplogger.info("No Fail files in Database");
+        else {
+                 backplogger.info("No Fail files in Database");
 
+        }
     }
 
     public static int failUploadC1(String fid, String file, String path) {
@@ -165,8 +162,7 @@ public class FailUpload_Download {
 
             ex.printStackTrace();
             System.out.println("ERROR-----------");
-            backplogger.error("Error in fail upload ");
-            
+
             try{
                 channelSftp.mkdir(Global.c2Remotepath + "/" + path);
                 channelSftp.cd(Global.c2Remotepath + "/" + path);
@@ -221,7 +217,7 @@ public class FailUpload_Download {
 
             ex.printStackTrace();
             System.out.println("ERROR-----------");
-            backplogger.error("Error in fail upload ");
+
             try{
                 channelSftp.mkdir(Global.c3Remotepath + "/" + path);
                 channelSftp.cd(Global.c3Remotepath + "/" + path);
