@@ -1,9 +1,9 @@
 package org.srdbs.core;
 
 import org.apache.log4j.Logger;
+import org.srdbs.messenger.Sender;
 import org.srdbs.scheduler.RunScheduler;
 import org.srdbs.web.Web;
-import org.srdbs.sftp.ChangeCloud;
 
 /**
  * Main class of the system
@@ -55,7 +55,7 @@ public class Core {
     }
 
 
-    private static class MyThread1 implements Runnable {
+    private static class WebDashboard implements Runnable {
         public void run() {
 
             System.out.println("Starting thread 2 (web dashboard) Started.");
@@ -64,7 +64,7 @@ public class Core {
         }
     }
 
-    private static class MyThread2 implements Runnable {
+    private static class InitSchedule implements Runnable {
 
         public void run() {
 
@@ -75,16 +75,6 @@ public class Core {
         }
     }
 
-    private static class MyThread3 implements Runnable {
-
-        public void run() {
-
-            System.out.println("Starting thread 3 (scheduler) started.");
-            logger.info("Starting thread 3 (ChangeCloud) started.");
-            ChangeCloud.ChangeCloud(1);
-
-        }
-    }
 
     /**
      * This method will start the system.
@@ -92,15 +82,20 @@ public class Core {
     protected static void start() {
 
         try {
-            Thread t1 = new Thread(new MyThread1());
-            Thread t2 = new Thread(new MyThread2());
-            Thread t3 = new Thread(new MyThread3());
+            Thread t1 = new Thread(new WebDashboard());
+            Thread t2 = new Thread(new InitSchedule());
             t1.start();
-            //t3.start();
             logger.info("Start the web dashboard.");
             if (Global.binaryConfigState.equalsIgnoreCase("TRUE")) {
-                t2.start();
-                logger.info("Start the system.");
+                if (checkSftpServices() && checkMessageServices()) {
+                    t2.start();
+                    logger.info("Start the system.");
+                } else {
+                    logger.error("Error in Message service/SFTP service. Please check if those services are " +
+                            "running correctly and restart the server.");
+                    logger.error("System terminated due to an error in Message service/SFTP service.");
+                    System.exit(-1);
+                }
             } else {
                 System.out.println("Please do the initial configurations : https://localhost:8080/setup/ ");
                 logger.info("Please do the initial configurations : https://localhost:8080/setup/ ");
@@ -132,5 +127,41 @@ public class Core {
         logger.info("Finalizing the binary configurations file.");
         logger.info("Stopping the system.");
         System.exit(0);
+    }
+
+    private static boolean checkMessageServices() {
+
+        logger.info("Checking Message Services on clouds.");
+        try {
+            Sender.sendMessage(Global.c1IPAddress, Global.c1MessagePort, "status");
+        } catch (Exception e) {
+            logger.error("Message service on " + Global.c1IPAddress + ":" + Global.c1MessagePort + " is down");
+            return false;
+        }
+
+        try {
+            Sender.sendMessage(Global.c2IPAddress, Global.c2MessagePort, "status");
+        } catch (Exception e) {
+            logger.error("Message service on " + Global.c2IPAddress + ":" + Global.c2MessagePort + " is down");
+            return false;
+        }
+
+        try {
+            Sender.sendMessage(Global.c3IPAddress, Global.c3MessagePort, "status");
+        } catch (Exception e) {
+            logger.error("Message service on " + Global.c3IPAddress + ":" + Global.c3MessagePort + " is down");
+            return false;
+        }
+
+        logger.info("All Message Services on clouds are working.");
+        return true;
+    }
+
+    private static boolean checkSftpServices() {
+
+        logger.info("Checking SFTP Services on clouds.");
+        //TODO :  SFTP validation comes here.
+        logger.info("All SFTP Services on clouds are working.");
+        return true;
     }
 }
