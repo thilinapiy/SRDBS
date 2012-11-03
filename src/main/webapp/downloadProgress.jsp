@@ -30,8 +30,10 @@
                         if(data.curentFileNumber != 0){
 
                             $('#limit4').show();
+                        }
+                        if(data.curentFileNumber=data.fullFileCount)  {
 
-
+                            $('limit4').hide();
                         }
 
                         var  width = ((data.curentFileNumber  / data.fullFileCount) * 300);

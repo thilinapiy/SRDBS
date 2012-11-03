@@ -234,6 +234,7 @@ public class RunRestore {
                     restoreLog.error("Error in split part hash.");
                 }
             }
+            clearcloud();
         } catch (Exception ex) {
             restoreLog.error("Error : " + ex);
 
@@ -591,6 +592,14 @@ public class RunRestore {
         }
 
         return DeleteCheck;
+    }
+
+    public static void clearcloud(){
+
+         restoreFileName="";
+         restoreTotal ="";
+         fullFileCount=0;
+       curentFileNumber = 0;
     }
 
 }
