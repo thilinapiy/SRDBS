@@ -54,7 +54,7 @@ public class RunRestore {
         fullFileCount = getSPFiles.size();
         for (MYSpFile spfile : getSPFiles) {
             curentFileNumber = curentFileNumber +1;
-             restoreFileName =spfile.getCloud() +"-:" + spfile.getName();
+             restoreFileName ="From Cloud"+spfile.getCloud() +"-:" + spfile.getName();
              restoreTotal="Packets Downloaded:-"+curentFileNumber+"/"+fullFileCount;
 
             if(curentFileNumber > fullFileCount){
@@ -63,8 +63,10 @@ public class RunRestore {
             int original = Sftp.download(spfile.getName(), spfile.getCloud(), spfile.getRemotePath());
             if (original != 0) {
                 Sftp.download(spfile.getName(), spfile.getRCloud(), spfile.getRemotePath());
+
             }
         }
+        clearcloud();
 
 
         try {
@@ -234,7 +236,7 @@ public class RunRestore {
                     restoreLog.error("Error in split part hash.");
                 }
             }
-            clearcloud();
+
         } catch (Exception ex) {
             restoreLog.error("Error : " + ex);
 
