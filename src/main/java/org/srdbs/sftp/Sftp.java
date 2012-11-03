@@ -52,6 +52,8 @@ public class Sftp {
     public static int fileCount = 0;
     public static int currentFileNunber = 0;
 
+
+
     //cloud2
     public static String filenamecloud2 = "";
     public static String filenamecloud2total = "";
@@ -119,6 +121,8 @@ public class Sftp {
 
             fileCount = cloud1.size();
             for (int i = cloud1.size() - 1; i >= 0; i--) {
+
+
                 ftpFileNo = cloud1.get(i);
                 File f = new File(file + Split.createSuffix(ftpFileNo));
                 backplogger.info("File name :" + f);
@@ -133,6 +137,9 @@ public class Sftp {
                 currentFileNunber = fileCount - cloud1.size() + 1;
                 filename = "cloud1 " ;
                 filenametotal = "Uploaded Packets:- " + currentFileNunber + "/" +  + fileCount;
+                          if(currentFileNunber >fileCount)  {
+                              currentFileNunber=currentFileNunber-fileCount;
+                          }
                 backplogger.info("IP : " + Global.c1IPAddress + ", " + Global.c1Port + ", " + Global.c1UserName + ", "
                         + ", " + file + " upload to " + Global.c1Remotepath + "/" + rPath);
                 backplogger.info("Send the file.");
@@ -149,6 +156,7 @@ public class Sftp {
                 F1.close();
 
             }
+            clearcloud1();
 
             channelSftp.disconnect();
             session.disconnect();
@@ -207,12 +215,15 @@ public class Sftp {
 
             fileCountcloud2 = cloud2.size();
             for (int i = cloud2.size() - 1; i >= 0; i--) {
+
                 ftpFileNo = cloud2.get(i);
                 File f = new File(file + Split.createSuffix(ftpFileNo));
                 currentFileNunbercloud2 = fileCountcloud2 - cloud2.size() + 1;
                 filenamecloud2 = "cloud2 " ;
                 filenamecloud2total = "Uploaded Packets:- " + currentFileNunbercloud2 + "/" +  fileCountcloud2;
-
+                         if(currentFileNunbercloud2>fileCountcloud2){
+                             currentFileNunbercloud2=currentFileNunbercloud2-fileCountcloud2;
+                         }
 
                 backplogger.info("File name :" + f);
                 FileInputStream F1 = new FileInputStream(f);
@@ -235,6 +246,7 @@ public class Sftp {
             }
             channelSftp.disconnect();
             session.disconnect();
+            clearcloud2();
 
             // sending the message.
             sendUploadDetails(fid, Global.c2IPAddress, Global.c2MessagePort);
@@ -292,12 +304,15 @@ public class Sftp {
 
             fileCountcloud3 = cloud3.size();
             for (int i = cloud3.size() - 1; i >= 0; i--) {
+
                 ftpFileNo = cloud3.get(i);
                 File f = new File(file + Split.createSuffix(ftpFileNo));
                 currentFileNunbercloud3 = fileCountcloud3 - cloud3.size() + 1;
                 filenamecloud3 = "cloud3 ";
                 filenamecloud3total = "Uploaded Packets:- " + currentFileNunbercloud3 + "/"  + fileCountcloud3;
-
+                           if(currentFileNunbercloud3>fileCountcloud3){
+                               currentFileNunbercloud3=currentFileNunbercloud3-fileCountcloud3;
+                           }
 
                 backplogger.info("File name :" + f);
                 FileInputStream F1 = new FileInputStream(f);
@@ -318,6 +333,7 @@ public class Sftp {
 
                 F1.close();
             }
+            clearcloud3();
             channelSftp.disconnect();
             session.disconnect();
 
@@ -641,6 +657,38 @@ public class Sftp {
                     + cloudIPAddress + ":" + messagePort);
             // todo : retry.
         }
+    }
+
+    public static void clearcloud1(){
+
+        processlogg   = "";
+        filename  = "";
+        filename1  = "";
+        filenametotal   = "";
+        bytecount  = 0;
+        downByteCount  = 0;
+        fileCount   = 0;
+        currentFileNunber = 0;
+    }
+
+    public  static  void  clearcloud2(){
+
+        filenamecloud2 = "";
+        filenamecloud2total = "";
+        bytecountcloud2 = 0;
+        fileCountcloud2 = 0;
+        currentFileNunbercloud2 = 0;
+
+
+    }
+
+    public static  void  clearcloud3(){
+
+        filenamecloud3 = "";
+        filenamecloud3total = "";
+        bytecountcloud3 = 0;
+        fileCountcloud3 = 0;
+        currentFileNunbercloud3 = 0;
     }
 
 }

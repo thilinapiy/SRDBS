@@ -349,10 +349,10 @@ public class RunRestore {
 
                             Check = false;
                             restoreLog.error("Fail : " + myfile.getName());
-                            restoreLog.error("Redownloading the file : " + myfile.getName());
+                            restoreLog.error("file : " + myfile.getName() + "is Corrupted");
 
-                            FailUpload_Download.failDownload(myfile.getName(), dbfile.getRemotePath(), dbfile.getCloud());
-                            Download_HashCheck_1(listoffiles, restoreFileID);
+                           // FailUpload_Download.failDownload(myfile.getName(), dbfile.getRemotePath(), dbfile.getCloud());
+                            //Download_HashCheck_1(listoffiles, restoreFileID);
 
                         }
                     }

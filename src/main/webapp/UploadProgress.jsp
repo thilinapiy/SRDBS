@@ -51,13 +51,24 @@
                         if (data.currentFileNunber != 0) {
                             $('#limit').show();
                         }
+                        if (data.fileCount == data.currentFileNunber) {
+                            $('#limit').hide();
+                        }
 
                         if (data.currentFileNunbercloud2 != 0) {
                             $('#limit2').show();
                         }
 
+                        if (data.fileCountcloud2 == data.currentFileNunbercloud2) {
+                            $('#limit2').hide();
+                        }
+
                         if (data.currentFileNunbercloud3 != 0) {
                             $('#limit3').show();
+                        }
+
+                        if (data.fileCountcloud3 == data.currentFileNunbercloud3) {
+                            $('#limit3').hide();
                         }
 
 
