@@ -106,15 +106,15 @@ public class FailUpload_Download {
 
         catch (Exception ex) {
 
-            ex.printStackTrace();
-            System.out.println("ERROR-----------");
+           // ex.printStackTrace();
+            //System.out.println("ERROR-----------");
             try{
                 channelSftp.mkdir(Global.c1Remotepath + "/" + path);
                 channelSftp.cd(Global.c1Remotepath + "/" + path);
                 failUploadC1(fid, file, path);
             }
             catch(Exception e1){
-                e1.printStackTrace();
+                //e1.printStackTrace();
                 backplogger.error("Error in fail upload ");
             }
 
@@ -160,8 +160,8 @@ public class FailUpload_Download {
 
         } catch (Exception ex) {
 
-            ex.printStackTrace();
-            System.out.println("ERROR-----------");
+            //ex.printStackTrace();
+            //System.out.println("ERROR-----------");
 
             try{
                 channelSftp.mkdir(Global.c2Remotepath + "/" + path);
@@ -169,7 +169,7 @@ public class FailUpload_Download {
                 failUploadC2(fid, file, path);
             }
             catch(Exception e1){
-                e1.printStackTrace();
+                //e1.printStackTrace();
                 backplogger.error("Error in fail upload ");
             }
             return 10;
@@ -215,8 +215,8 @@ public class FailUpload_Download {
 
         } catch (Exception ex) {
 
-            ex.printStackTrace();
-            System.out.println("ERROR-----------");
+            //ex.printStackTrace();
+            //System.out.println("ERROR-----------");
 
             try{
                 channelSftp.mkdir(Global.c3Remotepath + "/" + path);
@@ -224,7 +224,7 @@ public class FailUpload_Download {
                 failUploadC3(fid, file, path);
             }
             catch(Exception e1){
-                e1.printStackTrace();
+                //e1.printStackTrace();
                 backplogger.error("Error in fail upload ");
             }
             return 10;

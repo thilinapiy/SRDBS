@@ -169,7 +169,7 @@
     <div id="page-top">
         <!-- start logo -->
         <div id="logo">
-            <a href="/"><img src="/images/shared/logo.png" width="156" height="40" alt=""/></a>
+            <a href="/"><img src="/images/shared/logo_new.png" alt="" /></a>
         </div>
         <!-- end logo -->
         <div class="clear"></div>
