@@ -43,32 +43,39 @@
                         $('#currentFileNunbercloud3').html(data.currentFileNunbercloud3);
                         $('#filenamecloud3total').html(data.filenamecloud3total);
 
-                       // if (data.currentFileNunber != 0) {
-                         //   $('#outer').show();
-                       // }
+                        // if (data.currentFileNunber != 0) {
+                        //   $('#outer').show();
+                        // }
 
 
                         if (data.currentFileNunber != 0) {
                             $('#limit').show();
+                            $('#cloud1').show();
                         }
                         if (data.fileCount == data.currentFileNunber) {
                             $('#limit').hide();
+                            $('#cloud1').hide();
                         }
 
                         if (data.currentFileNunbercloud2 != 0) {
                             $('#limit2').show();
+                            $('#cloud2').show();
+
                         }
 
                         if (data.fileCountcloud2 == data.currentFileNunbercloud2) {
                             $('#limit2').hide();
+                            $('#cloud2 ').hide();
                         }
 
                         if (data.currentFileNunbercloud3 != 0) {
                             $('#limit3').show();
+                            $('#cloud3').show();
                         }
 
                         if (data.fileCountcloud3 == data.currentFileNunbercloud3) {
                             $('#limit3').hide();
+                            $('#cloud3').hide();
                         }
 
 
@@ -113,73 +120,73 @@
 </script>
 
 
-    <tr>
-        <td id="tbl-border-left"></td>
+<tr>
+    <td id="tbl-border-left"></td>
 
-        <!--  start content-table-inner ...................................................................... START -->
-        <td>
-            <div style="font-weight:bold;font-style:oblique;font-size:20;border:#008888 ">
-                <tr>
-                    <p id="filename"></p>
-                    <br>
-
-                    <p id="filenametotal"></p>
-                </tr>
-
-            </div>
-
-            <br>
-
-            <div id="limit" style="height: 20px;width: 300px;border: 1px solid #000 ;display:none;">
-
-                <div id="div" style="float:left;height: 20px;background-color: blue;"></div>
+    <!--  start content-table-inner ...................................................................... START -->
+    <td>
+        <div id="cloud1" style="font-weight:bold;font-style:oblique;font-size:20;border:#008888; display:none;">
+            <tr>
+                <p id="filename"></p>
                 <br>
-            </div>
+
+                <p id="filenametotal"></p>
+            </tr>
+
+        </div>
+
+        <br>
+
+        <div id="limit" style="height: 20px;width: 300px;border: 1px solid #000 ;display:none;">
+
+            <div id="div" style="float:left;height: 20px;background-color: blue;"></div>
             <br>
-        </td>
-        <%--cloud2--%>
-        <td>
-            <div style="font-weight:bold;font-style:oblique;font-size:20">
-                <tr>
-                    <p id="filenamecloud2"></p>
-                    <br>
-
-                    <p id="filenamecloud2total"></p>
-                </tr>
-            </div>
-            <br>
-
-            <div id="limit2" style="height: 20px;width: 300px;border: 1px solid #000 ; display:none;">
-
-                <div id="divcloud2" style="float:left;height: 20px;background-color: blue;"></div>
+        </div>
+        <br>
+    </td>
+    <%--cloud2--%>
+    <td>
+        <div id="cloud2" style="font-weight:bold;font-style:oblique;font-size:20 ;display:none;">
+            <tr>
+                <p id="filenamecloud2"></p>
                 <br>
-            </div>
+
+                <p id="filenamecloud2total"></p>
+            </tr>
+        </div>
+        <br>
+
+        <div id="limit2" style="height: 20px;width: 300px;border: 1px solid #000 ; display:none;">
+
+            <div id="divcloud2" style="float:left;height: 20px;background-color: blue;"></div>
             <br>
-        </td>
-        <%--cloud3--%>
-        <td>
-            <div style="font-weight:bold;font-style:oblique;font-size:20">
-                <tr>
-                    <p id="filenamecloud3"></p>
-                    <br>
+        </div>
+        <br>
+    </td>
+    <%--cloud3--%>
+    <td>
+        <div id="cloud3" style="font-weight:bold;font-style:oblique;font-size:20 ;display:none;">
+            <tr>
+                <p id="filenamecloud3"></p>
+                <br>
 
-                    <p id="filenamecloud3total"></p>
-                </tr>
-            </div>
-            <br>
+                <p id="filenamecloud3total"></p>
+            </tr>
+        </div>
+        <br>
 
-            <div id="limit3" style="height: 20px;width: 300px;border: 1px solid #000 ; display:none;">
+        <div id="limit3" style="height: 20px;width: 300px;border: 1px solid #000 ; display:none;">
 
-                <div id="divcloud3" style="float:left;height: 20px;background-color: blue;"></div>
-            </div>
+            <div id="divcloud3" style="float:left;height: 20px;background-color: blue;"></div>
+        </div>
 
-        </td>
-        <!--  start table-content  -->
-    <div id="table-content">
+    </td>
+    <!--  start table-content  -->
+<div id="table-content">
 
 
-    </div>
-    <!--  end table-content  -->
+</div>
+<!--  end table-content  -->
 
 
 </div>

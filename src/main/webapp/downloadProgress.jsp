@@ -69,7 +69,7 @@
     <td id="tbl-border-left"></td>
     <td>
         <!--  start content-table-inner ...................................................................... START -->
-        <div id="content-table-inner">
+        <div id="content-table-inner" >
 
             <!--  start table-content  -->
             <div id="table-content">
