@@ -1,12 +1,9 @@
 package org.srdbs.sftp;
 
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
+import com.jcraft.jsch.*;
+import org.apache.log4j.Logger;
 import org.srdbs.core.DbConnect;
 import org.srdbs.core.Global;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
@@ -20,6 +17,8 @@ import java.util.List;
  */
 public class ChangeCloud {
 
+    public static Logger logger = Logger.getLogger("systemsLog");
+    public static Logger backplogger  = Logger.getLogger("backupLog");
     public static List ChangeFiles;
 
     public static void ChangeCloud(int cloudID)
@@ -35,16 +34,19 @@ public class ChangeCloud {
                 if(Integer.parseInt(ChangeFiles.get(0).toString())== 1)
                 {
                     ChangeDownload(getChangeFiles.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(1).toString()),ChangeFiles.get(2).toString());
+                    backplogger.info("Download Completed from Cloud " + Integer.parseInt(ChangeFiles.get(1).toString()));
                 }
 
                 if(Integer.parseInt(ChangeFiles.get(1).toString())== 1)
                 {
                     ChangeDownload(getChangeFiles.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(0).toString()),ChangeFiles.get(2).toString());
+                    backplogger.info("Download Completed from Cloud " + Integer.parseInt(ChangeFiles.get(0).toString()));
                 }
 
                  i=i+2;
             }
             ChangeUpload(getChangeFiles,1,ChangeFiles.get(2).toString());
+            backplogger.info("Upload Completed to the Cloud 1");
 
 
         }
@@ -59,16 +61,19 @@ public class ChangeCloud {
                 if(Integer.parseInt(ChangeFiles.get(0).toString())== 2)
                 {
                     ChangeDownload(getChangeFiles1.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(1).toString()),ChangeFiles.get(2).toString());
+                    backplogger.info("Download Completed from Cloud " + Integer.parseInt(ChangeFiles.get(1).toString()));
                 }
 
                 if(Integer.parseInt(ChangeFiles.get(1).toString())== 2)
                 {
                     ChangeDownload(getChangeFiles1.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(0).toString()),ChangeFiles.get(2).toString());
+                    backplogger.info("Download Completed from Cloud " + Integer.parseInt(ChangeFiles.get(0).toString())) ;
                 }
 
                 i=i+2;
             }
             ChangeUpload(getChangeFiles1,2,ChangeFiles.get(2).toString());
+            backplogger.info("Upload Completed to the Cloud 2");
         }
 
         if(cloudID == 3)
@@ -81,16 +86,19 @@ public class ChangeCloud {
                 if(Integer.parseInt(ChangeFiles.get(0).toString())== 3)
                 {
                     ChangeDownload(getChangeFiles2.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(1).toString()),ChangeFiles.get(2).toString());
+                    backplogger.info("Download Completed from Cloud " + Integer.parseInt(ChangeFiles.get(1).toString()));
                 }
 
                 if(Integer.parseInt(ChangeFiles.get(1).toString())== 3)
                 {
                     ChangeDownload(getChangeFiles2.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(0).toString()),ChangeFiles.get(2).toString());
+                    backplogger.info("Download Completed from Cloud " + Integer.parseInt(ChangeFiles.get(0).toString()));
                 }
 
                 i=i+2;
             }
             ChangeUpload(getChangeFiles2,3,ChangeFiles.get(2).toString());
+            backplogger.info("Upload Completed to the Cloud 3");
         }
 
 
@@ -141,12 +149,14 @@ public class ChangeCloud {
             Channel channel = session.openChannel("sftp");
             channel.connect();
             ChannelSftp sftpChannel = (ChannelSftp) channel;
-            sftpChannel.get(serverPath + "/" + remotePath + "/" + fileName, Global.restoreLocation);
+            sftpChannel.get(serverPath + "/" + remotePath + "/" + fileName, Global.restoreLocation, new SystemOutProgressMonitor());
+            backplogger.info(fileName +"Download Completed");
             sftpChannel.exit();
             session.disconnect();
             return 0;
 
         } catch (Exception e) {
+            backplogger.error(fileName +"Download Failed");
             return -1;
         }
     }
@@ -205,16 +215,44 @@ public class ChangeCloud {
         for(int k=0; k<fileName.size();)
         {
             File f = new File(Global.restoreLocation + "/" + fileName.get(k+1));
-            channelSftp.put(new FileInputStream(f), f.getName());
+            FileInputStream F1 = new FileInputStream(f);
+            channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor());
             k=k+2;
+            backplogger.info(f.getName()+ "Upload Completed");
+            F1.close();
+            f.delete();
         }
 
             channelSftp.exit();
             session.disconnect();
-
+            
             return 0;
         } catch (Exception ex) {
+            backplogger.info("Upload Failed");
             return 10;
+        }
+
+    }
+
+    public static class SystemOutProgressMonitor implements SftpProgressMonitor {
+        public SystemOutProgressMonitor() {
+            ;
+        }
+
+        public void init(int op, java.lang.String src, java.lang.String dest, long max) {
+            System.out.println("STARTING: " + op + " " + src + " -> " + dest + " total: " + max);
+        }
+
+        public boolean count(long bytes) {
+            for (int x = 0; x < bytes; ) {
+                System.out.print("#");
+                x = x + 5000000;
+            }
+            return (true);
+        }
+
+        public void end() {
+            System.out.println("\nFINISHED!");
         }
 
     }

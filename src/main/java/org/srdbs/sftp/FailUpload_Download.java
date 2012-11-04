@@ -1,9 +1,6 @@
 package org.srdbs.sftp;
 
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
+import com.jcraft.jsch.*;
 import org.apache.log4j.Logger;
 import org.srdbs.core.DbConnect;
 import org.srdbs.core.Global;
@@ -88,7 +85,7 @@ public class FailUpload_Download {
 
             File f = new File(file);
             FileInputStream F1 = new FileInputStream(f);
-            channelSftp.put(F1, f.getName());
+            channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor());
             String temp[] = f.toString().split("\\\\");
 
             DbConnect dbconnect = new DbConnect();
@@ -106,15 +103,14 @@ public class FailUpload_Download {
 
         catch (Exception ex) {
 
-           // ex.printStackTrace();
-            //System.out.println("ERROR-----------");
+    
             try{
                 channelSftp.mkdir(Global.c1Remotepath + "/" + path);
                 channelSftp.cd(Global.c1Remotepath + "/" + path);
                 failUploadC1(fid, file, path);
             }
             catch(Exception e1){
-                //e1.printStackTrace();
+                
                 backplogger.error("Error in fail upload ");
             }
 
@@ -143,7 +139,7 @@ public class FailUpload_Download {
 
             File f = new File(file);
             FileInputStream F1 = new FileInputStream(f);
-            channelSftp.put(F1, f.getName());
+            channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor());
             String temp[] = f.toString().split("\\\\");
 
             DbConnect dbconnect = new DbConnect();
@@ -198,7 +194,7 @@ public class FailUpload_Download {
 
             File f = new File(file);
             FileInputStream F1 = new FileInputStream(f);
-            channelSftp.put(F1, f.getName());
+            channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor());
             String temp[] = f.toString().split("\\\\");
 
             DbConnect dbconnect = new DbConnect();
@@ -317,6 +313,30 @@ public class FailUpload_Download {
             }
         }
         return true;
+    }
+
+
+    public static class SystemOutProgressMonitor implements SftpProgressMonitor {
+        public SystemOutProgressMonitor() {
+            ;
+        }
+
+        public void init(int op, java.lang.String src, java.lang.String dest, long max) {
+            System.out.println("STARTING: " + op + " " + src + " -> " + dest + " total: " + max);
+        }
+
+        public boolean count(long bytes) {
+            for (int x = 0; x < bytes; ) {
+                System.out.print("#");
+                x = x + 5000000;
+            }
+            return (true);
+        }
+
+        public void end() {
+            System.out.println("\nFINISHED!");
+        }
+
     }
 
 }

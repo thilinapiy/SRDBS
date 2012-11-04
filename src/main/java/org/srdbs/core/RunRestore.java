@@ -392,7 +392,7 @@ public class RunRestore {
                         }   else {
 
                             Check = false;
-                            restoreLog.error("File : " + myfile.getName() + " is Corrupted ");
+                           // restoreLog.error("File : " + myfile.getName() + " is Corrupted ");
 
                         }
                     }
