@@ -29,6 +29,7 @@ public class ChangeCloud {
 
             for(int i=0; i<getChangeFiles.size();)
             {
+
                 ChangeFiles =  new DbConnect().CheckSP(Long.parseLong(getChangeFiles.get(i).toString()),getChangeFiles.get(i+1).toString());
 
                 if(Integer.parseInt(ChangeFiles.get(0).toString())== 1)
@@ -43,10 +44,9 @@ public class ChangeCloud {
                     backplogger.info("Download Completed from Cloud " + Integer.parseInt(ChangeFiles.get(0).toString()));
                 }
 
-                 i=i+2;
+                ChangeUpload(getChangeFiles.get(i+1).toString(),1,ChangeFiles.get(2).toString());
+                i=i+2;
             }
-            ChangeUpload(getChangeFiles,1,ChangeFiles.get(2).toString());
-            backplogger.info("Upload Completed to the Cloud 1");
 
 
         }
@@ -69,11 +69,10 @@ public class ChangeCloud {
                     ChangeDownload(getChangeFiles1.get(i+1).toString(),Integer.parseInt(ChangeFiles.get(0).toString()),ChangeFiles.get(2).toString());
                     backplogger.info("Download Completed from Cloud " + Integer.parseInt(ChangeFiles.get(0).toString())) ;
                 }
-
+                ChangeUpload(getChangeFiles1.get(i+1).toString(),2,ChangeFiles.get(2).toString());
                 i=i+2;
             }
-            ChangeUpload(getChangeFiles1,2,ChangeFiles.get(2).toString());
-            backplogger.info("Upload Completed to the Cloud 2");
+
         }
 
         if(cloudID == 3)
@@ -95,10 +94,10 @@ public class ChangeCloud {
                     backplogger.info("Download Completed from Cloud " + Integer.parseInt(ChangeFiles.get(0).toString()));
                 }
 
+                ChangeUpload(getChangeFiles2.get(i+1).toString(),3,ChangeFiles.get(2).toString());
                 i=i+2;
             }
-            ChangeUpload(getChangeFiles2,3,ChangeFiles.get(2).toString());
-            backplogger.info("Upload Completed to the Cloud 3");
+
         }
 
 
@@ -162,7 +161,7 @@ public class ChangeCloud {
     }
 
 
-    public static int  ChangeUpload(List fileName, int cloud, String remotePath)
+    public static int  ChangeUpload(String fileName, int cloud, String remotePath)
     {
         Session session = null;
         Channel channel = null;
@@ -209,23 +208,28 @@ public class ChangeCloud {
             channel = session.openChannel("sftp");
             channel.connect();
             channelSftp = (ChannelSftp) channel;
-            channelSftp.mkdir(serverPath + "/" + remotePath);
-            channelSftp.cd(serverPath + "/" + remotePath);
 
-        for(int k=0; k<fileName.size();)
-        {
-            File f = new File(Global.restoreLocation + "/" + fileName.get(k+1));
-            FileInputStream F1 = new FileInputStream(f);
-            channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor());
-            k=k+2;
-            backplogger.info(f.getName()+ "Upload Completed");
-            F1.close();
-            f.delete();
-        }
+            try{
+                channelSftp.cd(serverPath + "/" + remotePath);
+
+            }
+            catch (Exception e)
+            {
+                channelSftp.mkdir(serverPath + "/" + remotePath);
+                channelSftp.cd(serverPath + "/" + remotePath);
+            }
+                File f = new File(Global.restoreLocation + "/" + fileName);
+                FileInputStream F1 = new FileInputStream(f);
+                channelSftp.put(F1, f.getName(), new SystemOutProgressMonitor());
+
+                backplogger.info(f.getName()+ "Upload Completed");
+                F1.close();
+                f.delete();
+
 
             channelSftp.exit();
             session.disconnect();
-            
+
             return 0;
         } catch (Exception ex) {
             backplogger.info("Upload Failed");
