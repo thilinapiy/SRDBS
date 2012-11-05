@@ -53,7 +53,6 @@ public class Sftp {
     public static int currentFileNunber = 0;
 
 
-
     //cloud2
     public static String filenamecloud2 = "";
     public static String filenamecloud2total = "";
@@ -135,11 +134,11 @@ public class Sftp {
 
                 //   currentFileNunber = fileCount - cloud1.get(i) + 1;
                 currentFileNunber = fileCount - cloud1.size() + 1;
-                filename = "cloud1 " ;
-                filenametotal = "Uploaded Packets:- " + currentFileNunber + "/" +  + fileCount;
-                          if(currentFileNunber >fileCount)  {
-                              currentFileNunber=currentFileNunber-fileCount;
-                          }
+                filename = "cloud1 ";
+                filenametotal = "Uploaded Packets:- " + currentFileNunber + "/" + +fileCount;
+                if (currentFileNunber > fileCount) {
+                    currentFileNunber = currentFileNunber - fileCount;
+                }
                 backplogger.info("IP : " + Global.c1IPAddress + ", " + Global.c1Port + ", " + Global.c1UserName + ", "
                         + ", " + file + " upload to " + Global.c1Remotepath + "/" + rPath);
                 backplogger.info("Send the file.");
@@ -149,15 +148,13 @@ public class Sftp {
 
                 String temp[] = f.toString().split("\\\\");
                 DbConnect dbconnect = new DbConnect();
-                fsize= dbconnect.pSize(fid, f.getName());
+                fsize = dbconnect.pSize(fid, f.getName());
                 dbconnect.saveUploadSPFiles(fid, temp[temp.length - 1], rPath, 1);
-                dbconnect.SaveCloud1(fid, temp[temp.length - 1], Global.c1Remotepath + "/" + rPath,fsize);
+                dbconnect.SaveCloud1(fid, temp[temp.length - 1], Global.c1Remotepath + "/" + rPath, fsize);
 
                 F1.close();
 
             }
-            clearcloud1();
-
             channelSftp.disconnect();
             session.disconnect();
 
@@ -219,11 +216,11 @@ public class Sftp {
                 ftpFileNo = cloud2.get(i);
                 File f = new File(file + Split.createSuffix(ftpFileNo));
                 currentFileNunbercloud2 = fileCountcloud2 - cloud2.size() + 1;
-                filenamecloud2 = "cloud2 " ;
-                filenamecloud2total = "Uploaded Packets:- " + currentFileNunbercloud2 + "/" +  fileCountcloud2;
-                         if(currentFileNunbercloud2>fileCountcloud2){
-                             currentFileNunbercloud2=currentFileNunbercloud2-fileCountcloud2;
-                         }
+                filenamecloud2 = "cloud2 ";
+                filenamecloud2total = "Uploaded Packets:- " + currentFileNunbercloud2 + "/" + fileCountcloud2;
+                if (currentFileNunbercloud2 > fileCountcloud2) {
+                    currentFileNunbercloud2 = currentFileNunbercloud2 - fileCountcloud2;
+                }
 
                 backplogger.info("File name :" + f);
                 FileInputStream F1 = new FileInputStream(f);
@@ -238,15 +235,15 @@ public class Sftp {
 
                 String temp[] = f.toString().split("\\\\");
                 DbConnect dbconnect = new DbConnect();
-                fsize= dbconnect.pSize(fid, f.getName());
+                fsize = dbconnect.pSize(fid, f.getName());
                 dbconnect.saveUploadSPFiles(fid, temp[temp.length - 1], rPath, 2);
-                dbconnect.SaveCloud2(fid, temp[temp.length - 1], Global.c2Remotepath + "/" + rPath,fsize);
+                dbconnect.SaveCloud2(fid, temp[temp.length - 1], Global.c2Remotepath + "/" + rPath, fsize);
 
                 F1.close();
             }
             channelSftp.disconnect();
             session.disconnect();
-            clearcloud2();
+
 
             // sending the message.
             sendUploadDetails(fid, Global.c2IPAddress, Global.c2MessagePort);
@@ -309,10 +306,10 @@ public class Sftp {
                 File f = new File(file + Split.createSuffix(ftpFileNo));
                 currentFileNunbercloud3 = fileCountcloud3 - cloud3.size() + 1;
                 filenamecloud3 = "cloud3 ";
-                filenamecloud3total = "Uploaded Packets:- " + currentFileNunbercloud3 + "/"  + fileCountcloud3;
-                           if(currentFileNunbercloud3>fileCountcloud3){
-                               currentFileNunbercloud3=currentFileNunbercloud3-fileCountcloud3;
-                           }
+                filenamecloud3total = "Uploaded Packets:- " + currentFileNunbercloud3 + "/" + fileCountcloud3;
+                if (currentFileNunbercloud3 > fileCountcloud3) {
+                    currentFileNunbercloud3 = currentFileNunbercloud3 - fileCountcloud3;
+                }
 
                 backplogger.info("File name :" + f);
                 FileInputStream F1 = new FileInputStream(f);
@@ -327,13 +324,12 @@ public class Sftp {
 
                 String temp[] = f.toString().split("\\\\");
                 DbConnect dbconnect = new DbConnect();
-                fsize= dbconnect.pSize(fid, f.getName());
+                fsize = dbconnect.pSize(fid, f.getName());
                 dbconnect.saveUploadSPFiles(fid, temp[temp.length - 1], rPath, 3);
                 dbconnect.SaveCloud3(fid, temp[temp.length - 1], Global.c3Remotepath + "/" + rPath, fsize);
 
                 F1.close();
             }
-            clearcloud3();
             channelSftp.disconnect();
             session.disconnect();
 
@@ -591,24 +587,23 @@ public class Sftp {
         List<Integer> Ecloud3 = cloud;
         DbConnect dbconnect = new DbConnect();
         try {
-            
-            
+
+
             for (int l = 0; l < cloud.size(); l++) {
                 File source_file = new File(file + Split.createSuffix(Ecloud3.get(l)));
                 String temp1[] = source_file.toString().split("\\\\");
-                String newfile = Global.failfileLocation + "\\" + temp1[temp1.length-2] + "\\" + temp1[temp1.length-1];
+                String newfile = Global.failfileLocation + "\\" + temp1[temp1.length - 2] + "\\" + temp1[temp1.length - 1];
                 dbconnect.ErrorFiles(FID, CloudID, newfile, path);
             }
             backplogger.info("Save Fail file details to the database. ");
 
             File src = new File(Global.tempLocation);
             File dir = new File(Global.failfileLocation);
-            FileUtils.copyDirectory(src,dir);
+            FileUtils.copyDirectory(src, dir);
 
         } catch (Exception ex) {
             backplogger.error("Database Error" + ex);
         }
-
 
 
     }
@@ -659,19 +654,18 @@ public class Sftp {
         }
     }
 
-    public static void clearcloud1(){
+    public static void clearcloud1() {
 
-        processlogg   = "";
-        filename  = "";
-        filename1  = "";
-        filenametotal   = "";
-        bytecount  = 0;
-        downByteCount  = 0;
-        fileCount   = 0;
+        filename = "";
+        filename1 = "";
+        filenametotal = "";
+        bytecount = 0;
+        downByteCount = 0;
+        fileCount = 0;
         currentFileNunber = 0;
     }
 
-    public  static  void  clearcloud2(){
+    public static void clearcloud2() {
 
         filenamecloud2 = "";
         filenamecloud2total = "";
@@ -682,7 +676,7 @@ public class Sftp {
 
     }
 
-    public static  void  clearcloud3(){
+    public static void clearcloud3() {
 
         filenamecloud3 = "";
         filenamecloud3total = "";

@@ -298,6 +298,10 @@ public class RunBackup {
             backplogger.info("Uploading " + newFileName + " to cloud 3.");
             Sftp.upload2(Despath + Global.fs + newFileName, fid, datef.format(date));
 
+            Sftp.clearcloud1();
+            Sftp.clearcloud2();
+            Sftp.clearcloud3();
+
             File delfol = new File(Despath);
             boolean isDeleted = deleteDir(delfol);
             dbConnect.InsertStatus("isankatest","isankatest","upload done");

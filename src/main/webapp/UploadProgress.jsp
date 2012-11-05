@@ -52,7 +52,7 @@
                             $('#limit').show();
                             $('#cloud1').show();
                         }
-                        if (data.fileCount == data.currentFileNunber) {
+                        if( data.currentFileNunber==0) {
                             $('#limit').hide();
                             $('#cloud1').hide();
                         }
@@ -63,7 +63,7 @@
 
                         }
 
-                        if (data.fileCountcloud2 == data.currentFileNunbercloud2) {
+                        if (data.currentFileNunbercloud2==0) {
                             $('#limit2').hide();
                             $('#cloud2 ').hide();
                         }
@@ -73,7 +73,7 @@
                             $('#cloud3').show();
                         }
 
-                        if (data.fileCountcloud3 == data.currentFileNunbercloud3) {
+                        if ( data.currentFileNunbercloud3==0) {
                             $('#limit3').hide();
                             $('#cloud3').hide();
                         }
