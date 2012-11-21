@@ -22,12 +22,12 @@
             <filtered>true</filtered>
         </file>
         <file>
-            <source>/src/main/bin/srdbsstart</source>
+            <source>src/main/bin/srdbsstart</source>
             <outputDirectory>bin</outputDirectory>
             <filtered>true</filtered>
         </file>
         <file>
-            <source>/src/main/bin/srdbsstart.bat</source>
+            <source>src/main/bin/srdbsstart.bat</source>
             <outputDirectory>bin</outputDirectory>
             <filtered>true</filtered>
         </file>
